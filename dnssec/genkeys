@@ -1,0 +1,73 @@
+#!/bin/bash
+
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+
+WORKINGDIR=/usr/local/cronjobs/dnssec
+INTERVAL=13
+DOMAKE='yes'
+
+while getopts "d:Mt:" arg; do
+    case "$arg" in
+	d) WORKINGDIR="$OPTARG";;
+	M) DOMAKE='';;
+	t) INTERVAL="$OPTARG";;
+	*) echo "Usage: $0 [-M] [-t #days] [-d dir] [domain]"
+	   exit 255 
+	   ;;
+    esac	
+done
+
+KDIR=$WORKINGDIR/keys
+BDIR=$WORKINGDIR/zones
+if [[ ! ( -d "$KDIR" && -f "$BDIR/Makefile" ) ]]; then
+    echo $WORKINGDIR is not a valid working directory
+    exit 255
+fi
+
+if [ "$1" ]; then
+    DOMAINS=$1
+    DOMAKE=''
+else
+    DOMAINS=$(find $KDIR -name \*.curr.key -mtime +$INTERVAL | \
+	                                      sed 's/.*K\(.*\).curr.key/\1/')
+fi
+
+if [ ! "$DOMAINS" ]; then
+#    echo 'No domains to update... exiting!'
+    exit 255
+fi
+
+cd $KDIR
+for dom in $DOMAINS; do
+    if [ ! -f K$dom.ksk.key ]; then
+	echo -n ${dom}: No KSK, generating...
+	key=$(dnssec-keygen -r/dev/urandom -a RSASHA1 -b 2048 -f KSK $dom)
+	mv $key.key ${key/%.+*/}.ksk.key
+	mv $key.private ${key/%.+*/}.ksk.private
+	echo ' done!'
+    fi
+
+    [ -f K$dom.curr.key ] && mv K$dom.curr.key K$dom.old.key
+    [ -f K$dom.curr.private ] && mv K$dom.curr.private K$dom.old.private
+    [ -f K$dom.next.key ] && mv K$dom.next.key K$dom.curr.key
+    [ -f K$dom.next.private ] && mv K$dom.next.private K$dom.curr.private
+
+    key=$(dnssec-keygen -r/dev/urandom -a RSASHA1 -b 2048 $dom)
+    mv $key.key ${key/%.+*/}.next.key
+    mv $key.private ${key/%.+*/}.next.private
+
+    if [ ! -f K$dom.curr.key ]; then
+	key=$(dnssec-keygen -r/dev/urandom -a RSASHA1 -b 2048 $dom)
+	mv $key.key ${key/%.+*/}.curr.key
+	mv $key.private ${key/%.+*/}.curr.private
+    fi
+
+    for i in curr next old; do
+	touch K$dom.$i.key K$dom.$i.private
+    done
+done
+
+if [ "$DOMAKE" ]; then
+    cd $BDIR
+    make install
+fi
