@@ -1,2 +1,2 @@
 # Configs
-This is where I store reference configuration files which may be handy in the future.  
+This is where I store reference configuration files or scripts which generate/manage configs which may be handy in the future.  
