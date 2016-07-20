@@ -1,3 +1,8 @@
+#	Contents from Hal Pomeranz (hal@deer-run.com)
+#	No warranty expressed or implied.
+#	Distributed under the Creative Commons "Attribution" (CC BY) License
+#	See https://creativecommons.org/licenses/
+
 GENKEYS         = /usr/local/cronjobs/dnssec/genkeys
 DNSSEC_SIGNZONE = /usr/local/sbin/dnssec-signzone
 DLV             =
