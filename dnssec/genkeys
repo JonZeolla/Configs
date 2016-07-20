@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#	Contents from Hal Pomeranz (hal@deer-run.com)
+#	No warranty expressed or implied.
+#	Distributed under the Creative Commons "Attribution" (CC BY) License
+#	See https://creativecommons.org/licenses/
+
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
 WORKINGDIR=/usr/local/cronjobs/dnssec
