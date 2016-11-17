@@ -11,6 +11,7 @@
         <key>ProgramArguments</key>
         <array>
                 <string>open</string>
+                <string>-W</string>
                 <string>/Applications/CHANGEME.app</string>
         </array>
         <key>RunAtLoad</key>
