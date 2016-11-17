@@ -1,1 +1,4 @@
-There's some good information about launchd at http://launchd.info/
+# Good reference materials
+ * http://launchd.info/
+ * `man launchd.plist`
+ * trial and error
