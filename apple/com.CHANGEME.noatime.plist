@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!--
+ Place this in /Library/LaunchDaemons/ and it will update the mount options for /Volumes/CHANGEME every time a filesystem is mounted
+ This is a bit more complicated because it isn't affecting the primary/OS filesystem (which can just be a simple login script)
+ It may make sense to add WatchPaths to only remount for changes to /Volumes/CHANGEME, but it wasn't necessary in my situation
+-->
+<dict>
+	<key>Label</key>
+	<string>com.CHANGEME.noatime</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>mount</string>
+		<string>-uwo</string>
+		<string>noatime</string>
+		<string>/Volumes/CHANGEME</string>
+	</array>
+	<key>UserName</key>
+	<string>root</string>
+	<key>StartOnMount</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>/tmp/com.CHANGEME.noatime.stdout</string>
+	<key>StandardErrorPath</key>
+	<string>/tmp/com.CHANGEME.noatime.stderr</string>
+</dict>
+</plist>
