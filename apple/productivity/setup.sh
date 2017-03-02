@@ -3,13 +3,13 @@
 ## Always update first
 sudo softwareupdate -i -a
 
-## Set some defaults
+## Set some macOS settings
 defaults write com.apple.finder AppleShowAllFiles YES
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 sudo fdesetup enable
 
-## Configure individual settings
-if ! grep -q "source ~/.bash_prompt" "~/.bash_profile"; then
+## Configure the environment
+if ! grep -q "source ~/.bash_prompt" "/Users/${USER}/.bash_profile"; then
   echo -e "if [ -r ~/.bash_prompt ]; then\n  source ~/.bash_prompt\nfi\n" >> ~/.bash_profile
 fi
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
@@ -74,4 +74,5 @@ cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
+defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
 
