@@ -20,7 +20,7 @@ mkdir ~/bin ~/dev
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew install python python3 go maven git wget
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 pip install --upgrade distribute pip
 brew install homebrew/python/numpy homebrew/python/scipy ansible docker-machine
@@ -75,4 +75,26 @@ cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.
 mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
 defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
+wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
+
+## Setup weechat
+mkdir -p ~/.weechat/certs/
+# Update the ca-bundle
+curl https://curl.haxx.se/ca/cacert.pem > ~/.weechat/certs/ca-bundle.crt
+# Setup weechat.conf
+sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
+# Setup irc.conf
+sed -i '' 's#freenode.addresses.*#freenode.addresses = "chat.freenode.net/7000"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.sasl_username.*#freenode.sasl_username = "jzeolla"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.autoconnect.*#freenode.autoconnect = on#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.nicks.*#freenode.nicks = "jzeolla,jzeolla_"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.username.*#freenode.username = "jzeolla"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.realname.*#freenode.realname = "jzeolla"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.autojoin.*#freenode.autojoin = "\#apache-metron"#' ~/.weechat/irc.conf
+sed -i '' 's#freenode.ssl.*#freenode.ssl = on#' ~/.weechat/irc.conf
+# Set your password
+#while [ -z "${secret}" && -z "${weechatsecret}" ]; do
+#  read -sp "What is your freenode password for jzeolla?  " secret
+#  read -sp "What is your weechat password?  " weechatsecret
+#done
 
