@@ -20,7 +20,7 @@ mkdir ~/bin ~/dev
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew install python python3 go maven git wget
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 pip install --upgrade distribute pip
 brew install homebrew/python/numpy homebrew/python/scipy ansible docker-machine
