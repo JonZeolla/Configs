@@ -6,6 +6,7 @@
   1.  [Evernote](https://itunes.apple.com/us/app/evernote-stay-organized/id406056744)
   1.  [Wire](https://itunes.apple.com/us/app/wire-private-messenger/id931134707)
   1.  Microsoft Office
+  1.  [Magnet](https://itunes.apple.com/us/app/magnet/id441258766?mt=12)
 1.  Restore the following from backup (if applicable):
   1.  ~/.ssh/
   1.  Printers (Relevant post [here](https://discussions.apple.com/thread/2775350?tstart=0))

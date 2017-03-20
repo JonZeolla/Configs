@@ -8,6 +8,18 @@ defaults write com.apple.finder AppleShowAllFiles YES
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 sudo fdesetup enable
 
+## Install some basic tools
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+brew install python python3 go maven git wget gnupg2
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools
+brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
+pip install --upgrade distribute pip
+pip3 install jupyter
+brew install homebrew/python/numpy homebrew/python/scipy ansible
+brew tap samueljohn/python homebrew/science
+brew cleanup
+
 ## Configure the environment
 if ! grep -q "source ~/.bash_prompt" "/Users/${USER}/.bash_profile"; then
   echo -e "if [ -r ~/.bash_prompt ]; then\n  source ~/.bash_prompt\nfi\n" >> ~/.bash_profile
@@ -16,20 +28,29 @@ wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/maste
 source ~/.bash_prompt
 mkdir ~/bin ~/dev
 
-## Install some basic tools
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
-brew install python python3 go maven git wget
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam
-brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
-pip install --upgrade distribute pip
-brew install homebrew/python/numpy homebrew/python/scipy ansible docker-machine
-brew tap samueljohn/python homebrew/science
-brew cleanup
-
 ## Start some things up
 open /Applications/RescueTime.app
-brew services start docker-machine
+
+## Setup Docker
+# Hopefully the next time I look at this script there's a simple `brew cask install docker` or similar.
+# Looked into brew cask install and brew install of docker-machine, docker-compose, docker, etc.
+wget -O ~/Downloads/Docker.dmg https://download.docker.com/mac/stable/Docker.dmg
+open ~/Downloads/Docker.dmg
+while [ -z "${prompt}" ]; do
+  read -p "Did you copy docker into Applications yet? [Y/n]" prompt
+  case "${prompt}" in
+    ""|[yY]|[yY][eE][sS])
+      : ;;
+    [nN]|[nN][oO])
+      echo "Get your act together, copy it over"
+      ;;
+    *)
+      echo "Get your act together, copy it over"
+      ;;
+  esac
+done
+open /Applications/Docker.app
+rm -f ~/Downloads/Docker.dmg
 
 ## Setup vagrant
 # Install the hostmanager
@@ -61,6 +82,10 @@ done
 ## Setup git
 wget -O ~/.gitconfig https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.gitconfig
 
+## Setup GnuPG
+mkdir ~/.gnupg
+echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
+
 ## Setup vim
 # Setup pathogen
 mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
@@ -84,17 +109,22 @@ curl https://curl.haxx.se/ca/cacert.pem > ~/.weechat/certs/ca-bundle.crt
 # Setup weechat.conf
 sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
 # Setup irc.conf
-sed -i '' 's#freenode.addresses.*#freenode.addresses = "chat.freenode.net/7000"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.sasl_username.*#freenode.sasl_username = "jzeolla"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.autoconnect.*#freenode.autoconnect = on#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.nicks.*#freenode.nicks = "jzeolla,jzeolla_"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.username.*#freenode.username = "jzeolla"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.realname.*#freenode.realname = "jzeolla"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.autojoin.*#freenode.autojoin = "\#apache-metron"#' ~/.weechat/irc.conf
-sed -i '' 's#freenode.ssl.*#freenode.ssl = on#' ~/.weechat/irc.conf
-# Set your password
-#while [ -z "${secret}" && -z "${weechatsecret}" ]; do
-#  read -sp "What is your freenode password for jzeolla?  " secret
-#  read -sp "What is your weechat password?  " weechatsecret
-#done
+# Freenode
+sed -i '' 's%freenode.addresses.*%freenode.addresses = "chat.freenode.net/7000"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.sasl_username.*%freenode.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#pwning,#bro"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
+# OFTC
+sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.sasl_username.*%oftc.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.autoconnect.*%oftc.autoconnect = on%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.nicks.*%oftc.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.username.*%oftc.username = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.realname.*%oftc.realname = "jzeolla"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.autojoin.*%oftc.autojoin = "#ocmdev"%' ~/.weechat/irc.conf
+sed -i '' 's%oftc.ssl.*%oftc.ssl = on%' ~/.weechat/irc.conf
 
