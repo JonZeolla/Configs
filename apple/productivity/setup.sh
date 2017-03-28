@@ -21,9 +21,8 @@ brew tap samueljohn/python homebrew/science
 brew cleanup
 
 ## Configure the environment
-if ! grep -q "source ~/.bash_prompt" "/Users/${USER}/.bash_profile"; then
-  echo -e "if [ -r ~/.bash_prompt ]; then\n  source ~/.bash_prompt\nfi\n" >> ~/.bash_profile
-fi
+wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_profile
+source ~/.bash_profile
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
 source ~/.bash_prompt
 mkdir ~/bin ~/dev
