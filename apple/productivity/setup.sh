@@ -11,21 +11,24 @@ sudo fdesetup enable
 ## Install some basic tools
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
-brew install python python3 go maven git wget gnupg2
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools
+brew install python python3 go maven git wget gnupg2 ant
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
+pip install virtualenv
 pip install --upgrade distribute pip
 pip3 install jupyter
 brew install homebrew/python/numpy homebrew/python/scipy ansible
 brew tap samueljohn/python homebrew/science
 brew cleanup
+sudo gem install bundler
+sudo gem install jekyll
 
 ## Configure the environment
 wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_profile
 source ~/.bash_profile
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
 source ~/.bash_prompt
-mkdir ~/bin ~/dev
+mkdir -p ~/bin ~/dev/testing
 
 ## Start some things up
 open /Applications/RescueTime.app
@@ -115,7 +118,7 @@ sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.c
 sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#pwning,#bro"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
 # OFTC
 sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
