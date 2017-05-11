@@ -12,7 +12,7 @@ sudo fdesetup enable
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew install python python3 go maven git wget gnupg2 ant
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 pip install virtualenv
 pip install --upgrade distribute pip
@@ -32,27 +32,7 @@ mkdir -p ~/bin ~/dev/testing
 
 ## Start some things up
 open /Applications/RescueTime.app
-
-## Setup Docker
-# Hopefully the next time I look at this script there's a simple `brew cask install docker` or similar.
-# Looked into brew cask install and brew install of docker-machine, docker-compose, docker, etc.
-wget -O ~/Downloads/Docker.dmg https://download.docker.com/mac/stable/Docker.dmg
-open ~/Downloads/Docker.dmg
-while [ -z "${prompt}" ]; do
-  read -p "Did you copy docker into Applications yet? [Y/n]" prompt
-  case "${prompt}" in
-    ""|[yY]|[yY][eE][sS])
-      : ;;
-    [nN]|[nN][oO])
-      echo "Get your act together, copy it over"
-      ;;
-    *)
-      echo "Get your act together, copy it over"
-      ;;
-  esac
-done
 open /Applications/Docker.app
-rm -f ~/Downloads/Docker.dmg
 
 ## Setup vagrant
 # Install the hostmanager
