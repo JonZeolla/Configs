@@ -12,9 +12,11 @@ sudo fdesetup enable
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew install python python3 go maven git wget gnupg2 ant
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite
+brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
-pip install virtualenv boto boto3
+pip install virtualenv boto
+pip3 install boto3 paramiko
+pip install --upgrade --user awscli
 pip install --upgrade distribute pip
 pip3 install jupyter
 brew install homebrew/python/numpy homebrew/python/scipy ansible
