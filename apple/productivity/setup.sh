@@ -11,7 +11,7 @@ sudo fdesetup enable
 ## Install some basic tools
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
-brew install python python3 go maven git wget gnupg2 ant npm nmap
+brew install python python3 go maven git wget gnupg2 ant npm nmap bro swig cmake openssl
 brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 pip install virtualenv boto
@@ -100,7 +100,7 @@ sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.c
 sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
 # OFTC
 sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
