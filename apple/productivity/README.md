@@ -24,6 +24,25 @@
     1.  Add seconds display to the clock
     1.  Require password immediately after sleep or screen saver begins ([details](https://support.apple.com/kb/PH18669?locale=en_US))
     1.  Uncheck "Displays have separate spaces" ([details](http://www.imore.com/how-span-window-between-two-displays-mavericks))
+1.  Install `eapol_test`:
+    1. `mkdir ~/src/`
+    1. `cd ~/src/`
+    1. `wget http://w1.fi/releases/wpa_supplicant-2.6.tar.gz`
+    1. `tar -xvf wpa_supplicant-2.6.tar.gz`
+    1. `cd wpa_supplicant-*/wpa_supplicant/`
+    1. `cp defconfig .config`
+    1. Do the following:
+    ```
+    cat >> .config << EOF
+CFLAGS += -I/usr/local/opt/openssl/include
+LIBS += -L/usr/local/opt/openssl/lib
+CONFIG_EAPOL_TEST=y
+CONFIG_L2_PACKET=freebsd
+CONFIG_OSX=y
+EOF
+    ```
+    1. `make eapol_test`
+    1. `cp eapol_test ~/bin/`
 
 \* Modified comments from [here](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized).
 
