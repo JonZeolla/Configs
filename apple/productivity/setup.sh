@@ -7,6 +7,7 @@ sudo softwareupdate -i -a
 defaults write com.apple.finder AppleShowAllFiles YES
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 sudo fdesetup enable
+defaults write -g KeyRepeat -int 1
 
 ## Install some basic tools
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -100,7 +101,7 @@ sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.c
 sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible"%' ~/.weechat/irc.conf
+sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"%' ~/.weechat/irc.conf
 sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
 # OFTC
 sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
