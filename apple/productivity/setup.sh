@@ -12,16 +12,17 @@ defaults write -g KeyRepeat -int 1
 ## Install some basic tools
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
-brew install python python3 go maven git wget gnupg2 ant npm nmap bro swig cmake openssl
-brew cask install vagrant virtualbox java google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher
+brew cask install java
+brew install python python3 go maven git wget gnupg2 ant npm nmap bro swig cmake openssl jq azure-cli
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
-pip install virtualenv boto
+sudo easy_install pip
+sudo pip install virtualenv boto
 pip3 install boto3 paramiko
-pip install --upgrade --user awscli
-pip install --upgrade distribute pip
+sudo pip install --upgrade --user awscli
 pip3 install jupyter
-brew install homebrew/python/numpy homebrew/python/scipy ansible
-brew tap samueljohn/python homebrew/science
+brew install numpy scipy ansible
+brew tap samueljohn/python
 brew cleanup
 sudo gem install bundler
 sudo gem install jekyll
@@ -91,7 +92,25 @@ wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubuser
 mkdir -p ~/.weechat/certs/
 # Update the ca-bundle
 curl https://curl.haxx.se/ca/cacert.pem > ~/.weechat/certs/ca-bundle.crt
-# Setup weechat.conf
+
+# Setup weechat
+while [ -z "${prompt}" ]; do
+  read -p "Open and then close weechat before moving forward.  Enter Yes to this prompt when you are done."
+  case "${prompt}" in
+    ""|[yY]|[yY][eE][sS])
+      echo -e "Continuing..."
+      ;;
+    [nN]|[nN][oO])
+      echo -e "Negative response, exiting..."
+      exit
+      ;;
+    *)
+      echo -e "Unknown response, exiting..."
+      exit
+      ;;
+  esac
+done
+
 sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
 # Setup irc.conf
 # Freenode

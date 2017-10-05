@@ -1,5 +1,5 @@
 # Productivity configurations for macOS
-1.  Install `git` (via the developer tools) and clone this repo.
+1.  Install `git` (via developer tools if you have plenty of disk space, otherwise use brew) and clone this repo.
   1.  If you attempt to run a `git` command without having the developer tools installed, it should prompt you to install them appropriately.
 1.  Run `setup.sh`
   1.  After completion, open iTerm 2, open Preferences, click on the "Profiles" icon in the preferences toolbar, then select the "colors" tab. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
@@ -9,6 +9,9 @@
     1.  [Wire](https://itunes.apple.com/us/app/wire-private-messenger/id931134707)
     1.  Microsoft Office
     1.  [Magnet](https://itunes.apple.com/us/app/magnet/id441258766?mt=12)
+        - Don't forget to set start at login
+1.  Open the App Store and install purchased/desirable apps under "Purchased"
+1.  Open finder, hit Shift+Cmd+A, and uninstall unwanted Applications
 1.  Restore the following from backup (if applicable):
     1.  ~/.ssh/
     1.  Printers (Relevant post [here](https://discussions.apple.com/thread/2775350?tstart=0))
@@ -34,12 +37,12 @@
     1. Do the following:
     ```
     cat >> .config << EOF
-CFLAGS += -I/usr/local/opt/openssl/include
-LIBS += -L/usr/local/opt/openssl/lib
-CONFIG_EAPOL_TEST=y
-CONFIG_L2_PACKET=freebsd
-CONFIG_OSX=y
-EOF
+    CFLAGS += -I/usr/local/opt/openssl/include
+    LIBS += -L/usr/local/opt/openssl/lib
+    CONFIG_EAPOL_TEST=y
+    CONFIG_L2_PACKET=freebsd
+    CONFIG_OSX=y
+    EOF
     ```
     1. `make eapol_test`
     1. `cp eapol_test ~/bin/`
