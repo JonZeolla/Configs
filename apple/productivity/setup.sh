@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO:  Configure NVM
+
 ## Always update first
 sudo softwareupdate -i -a
 
@@ -13,9 +15,8 @@ defaults write -g KeyRepeat -int 1
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli
-npm install -g @angular/cli
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli nvm
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 sudo easy_install pip
 sudo pip install virtualenv boto
