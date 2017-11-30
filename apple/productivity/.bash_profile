@@ -19,5 +19,5 @@ alias vi=vim
 alias headers="curl -I"
 # Docker
 alias dps="docker ps"
-alias happiness="while true; do fortune | cowsay -f `find $COWPATH -type f | sort -R | head -n1` | lolcat -a -s 75; sleep 2; done"
+alias happiness="while true; do fortune | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
 
