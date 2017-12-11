@@ -18,7 +18,7 @@ brew cask install java
 brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm
 npm install -g @angular/cli
 brew install fortune cowsay lolcat
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 sudo easy_install pip
 sudo pip install virtualenv boto
