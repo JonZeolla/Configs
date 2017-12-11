@@ -37,6 +37,7 @@ wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/mast
 source ~/.bash_profile
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
 source ~/.bash_prompt
+wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/dev/testing
 
 ## Start some things up

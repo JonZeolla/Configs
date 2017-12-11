@@ -1,0 +1,14 @@
+# Caption the screen sessions
+caption always "%{= Wk}%-w%{= Bw}%n %t%{-}%+w %-="
+
+# Allow bold
+attrcolor b ".I"
+
+# Set an initial screen session named "default"
+screen -t "default" 1
+
+# Set background color
+defbce "on"
+
+# Set scrollback to 20k
+defscrollback 20000
