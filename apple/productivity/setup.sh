@@ -22,9 +22,8 @@ brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion re
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 sudo easy_install pip
 sudo pip install virtualenv boto
-pip3 install boto3 paramiko
+sudo pip3 install boto3 paramiko selenium jupyter
 sudo pip install --upgrade --user awscli
-pip3 install jupyter
 brew install numpy scipy ansible
 brew tap samueljohn/python
 brew cleanup
