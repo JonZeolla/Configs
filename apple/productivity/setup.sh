@@ -10,18 +10,19 @@ defaults write com.apple.finder AppleShowAllFiles YES
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 sudo fdesetup enable
 defaults write -g KeyRepeat -int 1
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 
 ## Install some basic tools
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl
 npm install -g @angular/cli
 brew install fortune cowsay lolcat
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 sudo easy_install pip
-sudo pip install virtualenv boto
+sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress 
 sudo pip3 install boto3 paramiko selenium jupyter
 sudo pip install --upgrade --user awscli
 brew install numpy scipy ansible

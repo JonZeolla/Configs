@@ -5,6 +5,7 @@ fi
 
 # Env Vars
 export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
+export PATH=$PATH:/usr/local/Cellar/*/*/bin/
 
 ## Configure some aliases
 # OS
