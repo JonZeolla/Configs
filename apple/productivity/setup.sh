@@ -122,21 +122,32 @@ done
 sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
 # Setup irc.conf
 # Freenode
-sed -i '' 's%freenode.addresses.*%freenode.addresses = "chat.freenode.net/7000"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.sasl_username.*%freenode.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
-# OFTC
-sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.sasl_username.*%oftc.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.autoconnect.*%oftc.autoconnect = on%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.nicks.*%oftc.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.username.*%oftc.username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.realname.*%oftc.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.autojoin.*%oftc.autojoin = "#ocmdev"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.ssl.*%oftc.ssl = on%' ~/.weechat/irc.conf
+echo << EOF >> ~/.weechat/irc.conf
+[server]
+freenode.addresses = "chat.freenode.net/7000"
+freenode.sasl_username = "jzeolla"
+freenode.autoconnect = on
+freenode.nicks = "jzeolla,jzeolla_"
+freenode.username = "jzeolla"
+freenode.realname = "jzeolla"
+freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"
+freenode.ssl = on
+EOF
+#sed -i '' 's%freenode.addresses.*%freenode.addresses = "chat.freenode.net/7000"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.sasl_username.*%freenode.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
+## OFTC
+#sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.sasl_username.*%oftc.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.autoconnect.*%oftc.autoconnect = on%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.nicks.*%oftc.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.username.*%oftc.username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.realname.*%oftc.realname = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.autojoin.*%oftc.autojoin = "#ocmdev"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.ssl.*%oftc.ssl = on%' ~/.weechat/irc.conf
 
