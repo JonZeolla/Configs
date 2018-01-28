@@ -16,14 +16,14 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim
 npm install -g @angular/cli
 brew install fortune cowsay lolcat
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 sudo easy_install pip
 # Twisted version is for sslstrip
-sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress 
+sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi
 pip3 install boto3 paramiko
 sudo pip install --upgrade --user awscli
 pip3 install jupyter
@@ -89,6 +89,8 @@ wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/appl
 cd ~/.vim/bundle && git clone https://github.com/tpope/vim-sensible.git
 # Set up vim-colors-solarized
 cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.git
+# Set up jedi-vim
+cd ~/.vim/bundle && git clone --recursive https://github.com/davidhalter/jedi-vim.git
 
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
