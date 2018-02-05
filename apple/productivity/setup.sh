@@ -16,13 +16,14 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl imagemagick
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick
 npm install -g @angular/cli
 brew install fortune cowsay lolcat
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio
-brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code
+brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua
 sudo easy_install pip
-sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress 
+# Twisted version is for sslstrip
+sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi
 sudo pip3 install boto3 paramiko selenium jupyter
 sudo pip install --upgrade --user awscli
 brew install numpy scipy ansible
@@ -87,6 +88,8 @@ wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/appl
 cd ~/.vim/bundle && git clone https://github.com/tpope/vim-sensible.git
 # Set up vim-colors-solarized
 cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.git
+# Set up jedi-vim
+cd ~/.vim/bundle && git clone --recursive https://github.com/davidhalter/jedi-vim.git
 
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
@@ -120,21 +123,32 @@ done
 sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
 # Setup irc.conf
 # Freenode
-sed -i '' 's%freenode.addresses.*%freenode.addresses = "chat.freenode.net/7000"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.sasl_username.*%freenode.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"%' ~/.weechat/irc.conf
-sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
-# OFTC
-sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.sasl_username.*%oftc.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.autoconnect.*%oftc.autoconnect = on%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.nicks.*%oftc.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.username.*%oftc.username = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.realname.*%oftc.realname = "jzeolla"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.autojoin.*%oftc.autojoin = "#ocmdev"%' ~/.weechat/irc.conf
-sed -i '' 's%oftc.ssl.*%oftc.ssl = on%' ~/.weechat/irc.conf
+echo << EOF >> ~/.weechat/irc.conf
+[server]
+freenode.addresses = "chat.freenode.net/7000"
+freenode.sasl_username = "jzeolla"
+freenode.autoconnect = on
+freenode.nicks = "jzeolla,jzeolla_"
+freenode.username = "jzeolla"
+freenode.realname = "jzeolla"
+freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"
+freenode.ssl = on
+EOF
+#sed -i '' 's%freenode.addresses.*%freenode.addresses = "chat.freenode.net/7000"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.sasl_username.*%freenode.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.autoconnect.*%freenode.autoconnect = on%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.nicks.*%freenode.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.username.*%freenode.username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.realname.*%freenode.realname = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.autojoin.*%freenode.autojoin = "#apache-metron,#bro,#pwning,#ansible,##machinelearning"%' ~/.weechat/irc.conf
+#sed -i '' 's%freenode.ssl.*%freenode.ssl = on%' ~/.weechat/irc.conf
+## OFTC
+#sed -i '' 's%oftc.addresses.*%oftc.addresses = "irc.oftc.net/6697"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.sasl_username.*%oftc.sasl_username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.autoconnect.*%oftc.autoconnect = on%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.nicks.*%oftc.nicks = "jzeolla,jzeolla_"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.username.*%oftc.username = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.realname.*%oftc.realname = "jzeolla"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.autojoin.*%oftc.autojoin = "#ocmdev"%' ~/.weechat/irc.conf
+#sed -i '' 's%oftc.ssl.*%oftc.ssl = on%' ~/.weechat/irc.conf
 
