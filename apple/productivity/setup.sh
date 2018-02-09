@@ -23,7 +23,7 @@ brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion re
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua
 sudo easy_install pip
 # Twisted version is for sslstrip
-sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi
+sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt
 pip3 install boto3 paramiko
 sudo pip install --upgrade --user awscli
 pip3 install jupyter
