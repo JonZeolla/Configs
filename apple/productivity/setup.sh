@@ -16,7 +16,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool
 npm install -g @angular/cli
 brew install fortune cowsay lolcat
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code
@@ -24,9 +24,8 @@ brew install weechat --with-aspell --with-curl --with-python --with-perl --with-
 sudo easy_install pip
 # Twisted version is for sslstrip
 sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt
-pip3 install boto3 paramiko
+sudo pip3 install boto3 paramiko selenium jupyter
 sudo pip install --upgrade --user awscli
-pip3 install jupyter
 brew install numpy scipy ansible
 brew tap samueljohn/python
 brew cleanup
