@@ -15,7 +15,7 @@ alias calc="bc -l"
 alias sha1="openssl sha1"
 #alias md5="openssl md5" # Native on macOS
 alias thetime="date +\"%T\""
-alias thedate="date +\"%d-%m-%Y\""
+alias thedate="date +\"%Y-%m-%d\""
 alias vi="/usr/local/Cellar/vim/*/bin/vim"
 alias headers="curl -I"
 # Docker
