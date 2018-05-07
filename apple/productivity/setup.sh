@@ -73,8 +73,8 @@ while [ -z "${prompt}" ]; do
 done
 
 ## Setup git
-wget -O ~/.gitconfig https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.gitconfig
-wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.seisogitconfig
+wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
 
 ## Setup GnuPG
 mkdir ~/.gnupg
