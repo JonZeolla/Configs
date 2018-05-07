@@ -39,7 +39,7 @@ source ~/.bash_profile
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
 source ~/.bash_prompt
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
-mkdir -p ~/bin ~/dev/testing
+mkdir -p ~/bin ~/src/testing ~/src/seiso
 
 ## Start some things up
 open /Applications/RescueTime.app
@@ -73,7 +73,8 @@ while [ -z "${prompt}" ]; do
 done
 
 ## Setup git
-wget -O ~/.gitconfig https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.gitconfig
+wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
 
 ## Setup GnuPG
 mkdir ~/.gnupg

@@ -1,10 +1,13 @@
 [user]
 	name = Jon Zeolla
 	email = zeolla@gmail.com
+	signingkey = 0DAE181D0BEEC85E
 [alias]
 	tags = tag -l
 	branches = branch -a
 	remotes = remote -v
 	hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+[includeIf "gitdir:~/src/seiso/**"]
+	path = ~/src/seiso/.gitconfig
 [color]
 	ui = auto
