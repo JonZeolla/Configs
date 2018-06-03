@@ -16,7 +16,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool pandoc aircrack-ng bash libextractor homebrew/cask-drivers/yubico-authenticator fortune cowsay lolcat
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor homebrew/cask-drivers/yubico-authenticator fortune cowsay lolcat
 npm install -g @angular/cli
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua
@@ -44,6 +44,20 @@ sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Curre
 ## Start some things up
 open /Applications/RescueTime.app
 open /Applications/Docker.app
+
+## Clone some good repos
+cd ~/src
+git clone https://github.com/jordansissel/fpm
+git clone https://github.com/apache/metron
+git clone https://github.com/apache/metron-bro-plugin-kafka
+git clone https://github.com/bro/bro
+git clone https://github.com/jonzeolla/configs
+git clone https://github.com/jonzeolla/development
+
+## Setup fpm
+cd ~/src/fpm
+git checkout v1.9.3
+gem install --no-ri --no-rdoc fpm
 
 ## Setup vagrant
 # Install the hostmanager
