@@ -16,9 +16,9 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor homebrew/cask-drivers/yubico-authenticator fortune cowsay lolcat
+brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor homebrew/cask-drivers/yubico-authenticator fortune cowsay lolcat wine winetricks
 npm install -g @angular/cli
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua
 sudo easy_install pip
 # Twisted version is for sslstrip
