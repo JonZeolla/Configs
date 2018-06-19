@@ -140,6 +140,7 @@ echo << EOF >> ~/.weechat/irc.conf
 [server]
 freenode.addresses = "chat.freenode.net/7000"
 freenode.sasl_username = "jzeolla"
+freenode.sasl_password "\${sec.data.freenode}"
 freenode.autoconnect = on
 freenode.nicks = "jzeolla,jzeolla_"
 freenode.username = "jzeolla"

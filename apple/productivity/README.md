@@ -21,7 +21,6 @@
     1.  `weechat`
         1.  `/secure passphrase <Insert your passphrase here>`
         1.  `/secure set freenode <Insert your freenode password here>`
-        1.  `/set irc.server.freenode.sasl_password "${sec.data.freenode}"`
     1.  `visual studio code`
         1.  Install the `powershell` and `vscodevim` extensions (Hit `F1` then type "Extension")
 1.  Configure the following system settings:
