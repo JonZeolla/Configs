@@ -18,7 +18,7 @@ brew update
 brew cask install java caskroom/versions/java8
 brew install python python3 go maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor homebrew/cask-drivers/yubico-authenticator fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget
 npm install -g @angular/cli
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion rescuetime wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpgtools skype docker burp-suite etcher playonmac microsoft-teams atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
 sudo pip install virtualenv boto twisted=16.4.1 service_identity pyasn1-modules cryptography
@@ -43,7 +43,6 @@ mkdir -p ~/bin ~/src/testing ~/src/seiso
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
 
 ## Start some things up
-open /Applications/RescueTime.app
 open /Applications/Docker.app
 
 ## Clone some good repos
