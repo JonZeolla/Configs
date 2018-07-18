@@ -147,7 +147,7 @@ freenode.autoconnect = on
 freenode.nicks = "jzeolla,jzeolla_"
 freenode.username = "jzeolla"
 freenode.realname = "jzeolla"
-freenode.autojoin = "#apache-metron,#bro,#pwning,#faraday-dev"
+freenode.autojoin = "#apache-metron,#bro,#suricata,#pwning,#faraday-dev"
 freenode.ssl = on' | tee -a irc.conf > /dev/null
 #OFTC
 echo '[server]
