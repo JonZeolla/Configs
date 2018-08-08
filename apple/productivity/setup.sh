@@ -49,6 +49,7 @@ open /Applications/LaunchBar.app
 open /Applications/gfxcardStatus.app
 open /Applications/Micro\ Snitch.app
 open /Applications/Evernote.app
+open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Clone some good repos
 cd ~/src
