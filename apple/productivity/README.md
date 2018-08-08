@@ -18,7 +18,7 @@
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Magnet
-    1.  TODO:  Little Snitch
+    1.  Little Snitch
 1.  Clean up the dock, leaving just Finder, Activity Monitor, and iTerm 2 pinned.
 1.  Open finder, hit Shift+Cmd+A, and uninstall unwanted Applications
 1.  Restore the following from backup (if applicable):
