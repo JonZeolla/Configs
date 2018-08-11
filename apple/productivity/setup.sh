@@ -24,8 +24,8 @@ npm install -g @angular/cli
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
-sudo pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml
-sudo pip3 install boto3 paramiko selenium jupyter pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml
+pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml
+pip3 install boto3 paramiko selenium jupyter pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml
 brew install numpy scipy ansible
 brew cleanup
 sudo gem install jekyll
@@ -60,6 +60,7 @@ git clone https://github.com/apache/metron-bro-plugin-kafka
 git clone https://github.com/bro/bro --recurse-submodules
 git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
 git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
+git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
 
 ## Setup fpm
 cd ~/src/fpm
