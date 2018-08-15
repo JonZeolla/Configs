@@ -104,16 +104,13 @@ mkdir ~/.gnupg
 echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 
 ## Setup vim
-# Setup pathogen
+# TODO:  Migrate to vim 8 packages
 mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-# Pull down my .vimrc
 wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.vimrc
-# Set up vim-sensible
-cd ~/.vim/bundle && git clone https://github.com/tpope/vim-sensible.git
-# Set up vim-colors-solarized
-cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.git
-# Set up jedi-vim
-cd ~/.vim/bundle && git clone --recursive https://github.com/davidhalter/jedi-vim.git
+git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
+git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
+git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
+git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go/
 
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
