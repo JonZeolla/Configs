@@ -11,3 +11,5 @@
 	path = ~/src/seiso/.gitconfig
 [color]
 	ui = auto
+[pull]
+	rebase = true
