@@ -19,7 +19,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen
 npm install -g @angular/cli
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
@@ -104,16 +104,13 @@ mkdir ~/.gnupg
 echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 
 ## Setup vim
-# Setup pathogen
+# TODO:  Migrate to vim 8 packages
 mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-# Pull down my .vimrc
 wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.vimrc
-# Set up vim-sensible
-cd ~/.vim/bundle && git clone https://github.com/tpope/vim-sensible.git
-# Set up vim-colors-solarized
-cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.git
-# Set up jedi-vim
-cd ~/.vim/bundle && git clone --recursive https://github.com/davidhalter/jedi-vim.git
+git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
+git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
+git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
+git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go/
 
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
