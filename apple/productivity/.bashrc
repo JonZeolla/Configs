@@ -3,9 +3,9 @@ if [ -r ~/.bash_prompt ]; then
   source ~/.bash_prompt
 fi
 
-# Env Vars
+## Env Vars
 export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
-export PATH=$PATH:/usr/local/Cellar/*/*/bin/
+export PATH=$PATH:/usr/local/Cellar/*/*/bin:${HOME}/bin
 
 ## Configure some aliases
 # OS
