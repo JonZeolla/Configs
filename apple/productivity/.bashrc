@@ -3,6 +3,9 @@ if [ -r ~/.bash_prompt ]; then
   source ~/.bash_prompt
 fi
 
+## Functions
+:
+
 ## Env Vars
 export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
 export PATH=$PATH:/usr/local/Cellar/*/*/bin:${HOME}/bin
@@ -16,7 +19,6 @@ alias sha1="openssl sha1"
 #alias md5="openssl md5" # Native on macOS
 alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
-alias vi="/usr/local/Cellar/vim/*/bin/vim"
 alias headers="curl -I"
 # Docker
 alias dps="docker ps"

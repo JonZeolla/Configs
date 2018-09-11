@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO:  Configure NVM
-
 ## Always update first
 sudo softwareupdate -i -a
 
@@ -14,12 +12,13 @@ sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
 sudo fdesetup enable
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+xcode-select --install
 
-## Install some basic tools
+## Install some basics
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh
 npm install -g @angular/cli
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
@@ -35,10 +34,15 @@ sudo gem install jekyll
 defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wiki/ZipAES
 
 ## Configure the environment
+# bash
 wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_profile
 wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bashrc
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
-source ~/.bash_profile
+# zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+chsh -s /usr/local/bin/zsh # Assumes zsh was installed and linked via brew
+# other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
@@ -61,12 +65,43 @@ git clone https://github.com/bro/bro --recurse-submodules
 git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
 git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
 git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
+git clone https://github.com/powerline/fonts
+
+## Install powerline fonts
+cd ~/src/fonts
+./install.sh
 
 ## Setup fpm
 cd ~/src/fpm
 latesttag=$(git describe --tags)
 git checkout ${latesttag}
 gem install --no-ri --no-rdoc fpm
+
+## Setup git
+wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
+
+## Setup GnuPG
+mkdir ~/.gnupg
+echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
+
+## Setup vim
+# TODO:  Migrate to vim 8 packages
+mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.vimrc
+git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
+git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
+git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
+git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go/
+git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline/
+git clone --depth=1 https://github.com/vim-syntastic/syntastic.git ~/.vim/bundle/syntastic/
+git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive/
+
+## Setup iTerm2
+mkdir -p ~/.iterm2/
+wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
+defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
+wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
 
 ## Setup vagrant
 # Install the hostmanager
@@ -94,29 +129,6 @@ while [ -z "${prompt}" ]; do
       echo -e "Unknown response, not configuring the VMWare Fusion plugin for vagrant" ;;
   esac
 done
-
-## Setup git
-wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
-wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
-
-## Setup GnuPG
-mkdir ~/.gnupg
-echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
-
-## Setup vim
-# TODO:  Migrate to vim 8 packages
-mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.vimrc
-git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
-git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
-git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
-git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go/
-
-## Setup iTerm2
-mkdir -p ~/.iterm2/
-wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
-defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
-wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
 
 ## Setup weechat
 mkdir -p ~/.weechat/certs/
