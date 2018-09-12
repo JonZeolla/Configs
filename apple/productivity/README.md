@@ -34,6 +34,8 @@
         1.  Install the `ms-python.python`, `ms-vscode.go`, `ms-vscode.powershell`, `vscodevim.vim`, and `wayou.vscode-todo-highlight` extensions (Hit `F1` then type "Extension")
     1.  Microsoft Outlook
         1.  Setup an email signature.
+    1.  Microsoft OneDrive
+        1.  Setup appropriate syncs (SharePoint, etc.).
 1.  Configure the following system settings:
     1.  Show volume in menu bar ([details](http://apple.stackexchange.com/a/151589))
     1.  Add seconds display to the clock
