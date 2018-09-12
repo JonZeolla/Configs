@@ -117,3 +117,18 @@ alias headers="curl -I"
 # Docker
 alias dps="docker ps"
 alias happiness="while true; do fortune | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
+
+function unsetawstoken() {
+        unset AWS_ACCESS_KEY_ID
+        unset AWS_SECRET_ACCESS_KEY
+        unset AWS_SESSION_TOKEN
+}
+function setawstoken() {
+	eval "$(cat /dev/stdin | aws_session_token_to_env.py)" ;
+}
+function getawstoken() {
+	echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
+	#aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
+}
+
+export DEFAULT_USER='jonzeolla'
