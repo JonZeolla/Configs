@@ -41,6 +41,7 @@
     1.  Add seconds display to the clock
     1.  Require password immediately after sleep or screen saver begins ([details](https://support.apple.com/kb/PH18669?locale=en_US))
     1.  Uncheck "Displays have separate spaces" ([details](http://www.imore.com/how-span-window-between-two-displays-mavericks))
+    1.  Configure the keyboard to "Use F1, F2, etc. keys as standard function key" ([details](https://support.apple.com/en-us/HT204436))
 1.  Install the latest version of `eapol_test`:
     1. Check `http://w1.fi/releases/` for the latest version of the `wpa_supplicant-x.y.tar.gz` and update the below commands if there is a new release (This is why it's not automated in `setup.sh`).
     1. Run the following.
