@@ -5,6 +5,7 @@
     1.  Accept the Xcode license, and then clone this repo:
     ```
     sudo xcodebuild -license
+    xcode-select --install
     mkdir -p ~/src/jonzeolla
     git clone https://github.com/jonzeolla/configs/ ~/src/jonzeolla/configs/
     ```
@@ -36,6 +37,8 @@
         1.  Setup an email signature.
     1.  Microsoft OneDrive
         1.  Setup appropriate syncs (SharePoint, etc.).
+    1.  JetBrains IntelliJ IDEA
+        1.  Install the [free open source license](https://www.jetbrains.com/buy/opensource/) (requires an @apache.org email address).
 1.  Configure the following system settings:
     1.  Show volume in menu bar ([details](http://apple.stackexchange.com/a/151589))
     1.  Add seconds display to the clock
@@ -63,7 +66,7 @@
     make eapol_test
     cp eapol_test ~/bin/
     ```
-1.  Setup any standard folder structures, like `~/Documents/ISOs`, etc.
+1.  Setup any standard folder structures, like `~/Documents/ISOs`, `~/Documents/Reference`, etc.
 
 \* Modified comments from [here](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized).
 
