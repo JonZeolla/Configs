@@ -18,12 +18,12 @@ xcode-select --install
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap
 npm install -g @angular/cli
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
-pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint
+pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket
 pip3 install boto3 paramiko selenium jupyter pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint
 brew install numpy scipy ansible
 brew cleanup
