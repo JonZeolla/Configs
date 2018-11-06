@@ -20,11 +20,11 @@ brew update
 brew cask install java caskroom/versions/java8
 brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch
 npm install -g @angular/cli
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea
+brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite etcher playonmac atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar gfxcardstatus snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk keybase surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
-pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket
-pip3 install boto3 paramiko selenium jupyter pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint
+pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket pexpect pycrypto pyopenssl pefile
+pip3 install boto3 paramiko selenium jupyter pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile
 brew install numpy scipy ansible
 brew cleanup
 sudo gem install jekyll
@@ -67,10 +67,24 @@ git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
 git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
 git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
 git clone https://github.com/powerline/fonts
+git clone https://github.com/trustedsec/social-engineer-toolkit
 
 ## Install powerline fonts
 cd ~/src/fonts
 ./install.sh
+
+## Setup msfconsole
+cd /opt/metasploit-framework/embedded/framework
+# As of 2018-11-06 this is required to link pg to metasploit's postgres bundled libs, etc.
+gem install pg -v '0.20.0' --source 'https://rubygems.org/' -- --with-pg-config=/opt/metasploit-framework/embedded/bin/pg_config
+bundle install
+
+## Setup SET
+cd ~/src/social-engineer-toolkit
+latesttag=$(git describe --tags)
+git checkout ${latesttag}
+python setup.py install
+sudo sed -i '' 's#METASPLOIT_PATH.*#METASPLOIT_PATH=/opt/metasploit-framework/embedded/framework#' /etc/setoolkit/set.config
 
 ## Setup fpm
 cd ~/src/fpm
