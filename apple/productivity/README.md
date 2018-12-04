@@ -33,7 +33,7 @@
         1.  `/secure passphrase <Insert your passphrase here>`
         1.  `/secure set freenode <Insert your freenode password here>`
     1.  `visual studio code`
-        1.  Install the `ms-python.python`, `ms-vscode.go`, `ms-vscode.powershell`, `vscodevim.vim`, and `wayou.vscode-todo-highlight` extensions (Hit `F1` then type "Extension")
+        1.  Install the `ms-python.python`, `ms-vscode.go`, `ms-vscode.powershell`, `vscodevim.vim`, `ms-vscode.cpptools`, and `wayou.vscode-todo-highlight` extensions (Hit `F1` then type "Extension")
     1.  Microsoft Outlook
         1.  Setup an email signature.
     1.  Microsoft OneDrive
