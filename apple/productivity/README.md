@@ -22,7 +22,11 @@
     1.  Magnet
     1.  Little Snitch
 1.  Clean up the dock, leaving just Finder, Activity Monitor, and iTerm 2 pinned.
-1.  Open finder, hit Shift+Cmd+A, and uninstall unwanted Applications
+1.  Setup any standard folder structures, like `~/Documents/ISOs`, `~/Documents/Reference`, etc.
+1.  Open finder, then:
+    1.  Hit Shift+Cmd+A, and uninstall unwanted Applications
+    1.  Update the Favorites list on the left
+    1.  Customize the toolbar to add Path, View, Group, Action, and then Search (right click > Customize Toolbar...)
 1.  Restore the following from backup (if applicable):
     1.  ~/.ssh/
     1.  Printers (Relevant post [here](https://discussions.apple.com/thread/2775350?tstart=0))
@@ -67,7 +71,6 @@
     make eapol_test
     cp eapol_test ~/bin/
     ```
-1.  Setup any standard folder structures, like `~/Documents/ISOs`, `~/Documents/Reference`, etc.
 
 \* Modified comments from [here](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized).
 
