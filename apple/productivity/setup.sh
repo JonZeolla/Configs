@@ -107,7 +107,7 @@ wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/appl
 git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
 git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
 git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
-git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go/
+git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go
 git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline/
 git clone --depth=1 https://github.com/vim-syntastic/syntastic.git ~/.vim/bundle/syntastic/
 git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive/
