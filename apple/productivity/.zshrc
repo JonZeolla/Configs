@@ -116,8 +116,10 @@ alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 # Docker
 alias dps="docker ps"
+# Other
 alias happiness="while true; do fortune | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
 
+## Functions
 function unsetawstoken() {
         unset AWS_ACCESS_KEY_ID
         unset AWS_SECRET_ACCESS_KEY
@@ -131,4 +133,6 @@ function getawstoken() {
 	#aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
 }
 
+## Env vars
 export DEFAULT_USER='jonzeolla'
+export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"
