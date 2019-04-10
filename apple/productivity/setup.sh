@@ -113,6 +113,7 @@ git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-
 git clone --depth=1 https://github.com/vim-syntastic/syntastic.git ~/.vim/bundle/syntastic/
 git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive/
 git clone https://github.com/PProvost/vim-ps1.git ~/.vim/bundle/vim-ps1/
+git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree/
 
 ## Setup iTerm2
 mkdir -p ~/.iterm2/
