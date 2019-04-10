@@ -27,6 +27,7 @@ brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --wit
 pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow
 pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow
 brew install numpy scipy ansible
+go get -u golang.org/x/lint/golint
 brew cleanup
 sudo gem install jekyll
 # TODO:  powershell install-module azurerm azure
