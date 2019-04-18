@@ -13,6 +13,7 @@ defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldir
 sudo fdesetup enable
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 echo /usr/local/bin/zsh | sudo tee -a /etc/shells
+echo /usr/local/bin/bash | sudo tee -a /etc/shells
 xcode-select --install
 
 ## Install some basics
