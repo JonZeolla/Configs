@@ -12,6 +12,7 @@ sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
 defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
 sudo fdesetup enable
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+echo /usr/local/bin/zsh | sudo tee -a /etc/shells
 xcode-select --install
 
 ## Install some basics
@@ -50,6 +51,10 @@ terraform -install-autocomplete
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
+# Docker
+docker pull asciinema/asciicast2gif
+docker pull ubuntu:latest
+docker pull centos:latest
 
 ## Start some things up
 open /Applications/Docker.app

@@ -126,6 +126,7 @@ alias dps="docker ps"
 # Other
 alias happiness="while true; do fortune | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
 alias vinerd="vim +NERDTree"
+alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 
 ## Functions
 function unsetawstoken() {
