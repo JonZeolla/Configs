@@ -31,7 +31,7 @@ pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1cryp
 brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
-sudo gem install jekyll
+sudo gem install jekyll bundler
 # TODO:  powershell install-module azurerm azure
 
 ## Set some application settings
