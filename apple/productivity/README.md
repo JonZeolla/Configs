@@ -29,6 +29,14 @@
     1.  Customize the toolbar to add Path, View, Group, Action, and then Search (right click > Customize Toolbar...)
 1.  Restore the following from backup (if applicable):
     1.  ~/.ssh/
+        - Add any configs to mapping usernames and keys to hostnames.
+        - Add any git-related configs, such as:
+        ```
+        Host ssh.dev.azure.com
+          Hostname ssh.dev.azure.com
+          User git
+          IdentityFile ~/.ssh/changeme
+        ```
     1.  Printers (Relevant post [here](https://discussions.apple.com/thread/2775350?tstart=0))
         - Restart cups after with `sudo launchctl stop org.cups.cupsd;sudo launchctl start org.cups.cupsd`
         - Set locked/private jobs appropriately
