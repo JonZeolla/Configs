@@ -138,13 +138,22 @@ function unsetawstoken() {
   unset AWS_ACCESS_KEY_ID
   unset AWS_SECRET_ACCESS_KEY
   unset AWS_SESSION_TOKEN
+  unset AWS_PROFILE
 }
 function setawstoken() {
-	eval "$(cat /dev/stdin | aws_session_token_to_env.py)" ;
+  eval "$(cat /dev/stdin | aws_session_token_to_env.py)" ;
+  if [[ -z "${AWS_PROFILE}" ]]; then
+    export AWS_PROFILE='default'
+  fi
 }
 function getawstoken() {
-	echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
-	#aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
+  echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
+  #aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
+}
+function setawsTODO() {
+  aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO | setawstoken
+  # TODO: Set the AWS_PROFILE variable appropriately so it uses your .aws/config and so it shows up at the shell prompt
+  export AWS_PROFILE="Organization -> Account"
 }
 
 ## Other env vars
