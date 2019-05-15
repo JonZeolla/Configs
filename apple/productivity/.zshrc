@@ -1,7 +1,7 @@
 export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/Users/jonzeolla/go/bin:/usr/local/opt/ruby/bin:$PATH
+export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/go/bin:/usr/local/opt/ruby/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -38,7 +38,7 @@ HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -111,6 +111,10 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+## Additional zsh configs
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+
 ## Configure some aliases
 # OS
 alias ll="ls -al"
@@ -131,9 +135,9 @@ alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 
 ## Functions
 function unsetawstoken() {
-        unset AWS_ACCESS_KEY_ID
-        unset AWS_SECRET_ACCESS_KEY
-        unset AWS_SESSION_TOKEN
+  unset AWS_ACCESS_KEY_ID
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_SESSION_TOKEN
 }
 function setawstoken() {
 	eval "$(cat /dev/stdin | aws_session_token_to_env.py)" ;
@@ -143,6 +147,6 @@ function getawstoken() {
 	#aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
 }
 
-## Env vars
+## Other env vars
 export DEFAULT_USER='jonzeolla'
 export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"

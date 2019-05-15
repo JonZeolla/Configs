@@ -18,9 +18,10 @@ xcode-select --install
 
 ## Install some basics
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew tap sambadevi/powerlevel9k
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k
 npm install -g @angular/cli
 npm install -g electron-packager
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman
@@ -44,9 +45,9 @@ wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/master/app
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
 # zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/bhilburn/powerlevel9k.git ${HOME}/.oh-my-zsh/custom/themes/powerlevel9k
 chsh -s /usr/local/bin/zsh # Assumes zsh was installed and linked via brew
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
+ln -s /usr/local/opt/powerlevel9k "${HOME}/.oh-my-zsh/themes/powerlevel9k"
 terraform -install-autocomplete
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
@@ -66,7 +67,7 @@ open /Applications/Microsoft\ Remote\ Desktop\ Beta.app
 open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Clone some good repos
-cd ~/src
+cd ~/src || { echo "Unable to cd"; exit 1; }
 git clone https://github.com/jordansissel/fpm
 git clone https://github.com/apache/metron
 git clone https://github.com/apache/metron-bro-plugin-kafka
@@ -78,24 +79,24 @@ git clone https://github.com/powerline/fonts
 git clone https://github.com/trustedsec/social-engineer-toolkit
 
 ## Install powerline fonts
-cd ~/src/fonts
+cd ~/src/fonts || { echo "Unable to cd"; exit 1; }
 ./install.sh
 
 ## Setup msfconsole
-cd /opt/metasploit-framework/embedded/framework
+cd /opt/metasploit-framework/embedded/framework || { echo "Unable to cd"; exit 1; }
 # As of 2018-11-06 this is required to link pg to metasploit's postgres bundled libs, etc.
 gem install pg -v '0.20.0' --source 'https://rubygems.org/' -- --with-pg-config=/opt/metasploit-framework/embedded/bin/pg_config
 bundle install
 
 ## Setup SET
-cd ~/src/social-engineer-toolkit
+cd ~/src/social-engineer-toolkit || { echo "Unable to cd"; exit 1; }
 latesttag=$(git describe --tags)
 git checkout ${latesttag}
 python setup.py install
 sudo sed -i '' 's#METASPLOIT_PATH.*#METASPLOIT_PATH=/opt/metasploit-framework/embedded/framework#' /etc/setoolkit/set.config
 
 ## Setup fpm
-cd ~/src/fpm
+cd ~/src/fpm || { echo "Unable to cd"; exit 1; }
 latesttag=$(git describe --tags)
 git checkout ${latesttag}
 gem install --no-ri --no-rdoc fpm
