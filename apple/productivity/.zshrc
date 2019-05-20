@@ -113,7 +113,6 @@ fi
 
 ## Additional zsh configs
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
-POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
 ## Configure some aliases
 # OS
