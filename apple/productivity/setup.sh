@@ -21,7 +21,7 @@ xcode-select --install
 brew tap sambadevi/powerlevel9k
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat
 npm install -g @angular/cli
 npm install -g electron-packager
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman
@@ -128,6 +128,9 @@ mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
 defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
 wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
+
+## Update logstash
+logstash-plugin update
 
 ## Setup vagrant
 # Install the hostmanager
