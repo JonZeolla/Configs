@@ -158,3 +158,4 @@ function setawsTODO() {
 ## Other env vars
 export DEFAULT_USER='jonzeolla'
 export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"
+export JAVA_HOME=$(/usr/libexec/java_home)
