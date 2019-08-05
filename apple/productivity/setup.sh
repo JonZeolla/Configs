@@ -77,10 +77,21 @@ git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
 git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
 git clone https://github.com/powerline/fonts
 git clone https://github.com/trustedsec/social-engineer-toolkit
+git clone https://github.com/ioquake/ioq3
 
 ## Install powerline fonts
 cd ~/src/fonts || { echo "Unable to cd"; exit 1; }
 ./install.sh
+
+## Set quake3
+cd ~/src/ioq3 || { echo "Unable to cd"; exit 1; }
+./make-macosx.sh x86_64
+cd build
+cp -pR release-darwin-x86_64/ /Applications/ioquake3
+curl -L 'https://www.ioquake3.org/data/quake3-latest-pk3s.zip' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'DNT: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'Referer: https://ioquake3.org/extras/patch-data/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' --compressed --output ./quake3-latest-pk3s.zip
+open ./quake3-latest-pk3s.zip
+cp -pR quake3-latest-pk3s/baseq3/* /Applications/ioquake3/baseq3/
+cp -pR quake3-latest-pk3s/missionpack/* /Applications/ioquake3/missionpack/
 
 ## Setup msfconsole
 cd /opt/metasploit-framework/embedded/framework || { echo "Unable to cd"; exit 1; }
