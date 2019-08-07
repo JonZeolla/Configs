@@ -151,6 +151,7 @@ function getawstoken() {
   #aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code "${1}"
 }
 function setawsTODO() {
+  getawstoken "${1}" | setawstoken
   aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO | setawstoken
   # TODO: Set the AWS_PROFILE variable appropriately so it uses your .aws/config and so it shows up at the shell prompt
   export AWS_PROFILE="Organization -> Account"
