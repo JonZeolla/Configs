@@ -1,7 +1,11 @@
 export TERM="xterm-256color"
 
+# Languages
+export GOPATH="${HOME}/go"
+export GOROOT="$(brew --prefix golang)/libexec"
+
 # If you come from bash you might have to change your $PATH.
-export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/go/bin:/usr/local/opt/ruby/bin:$PATH
+export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"

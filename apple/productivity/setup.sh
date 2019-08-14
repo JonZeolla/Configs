@@ -49,6 +49,8 @@ chsh -s /usr/local/bin/zsh # Assumes zsh was installed and linked via brew
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
 ln -s /usr/local/opt/powerlevel9k "${HOME}/.oh-my-zsh/themes/powerlevel9k"
 terraform -install-autocomplete
+# go
+mkdir "${HOME}/go"
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
