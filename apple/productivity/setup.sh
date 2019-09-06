@@ -28,7 +28,7 @@ brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wi
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
 pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python
-pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8
+pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml
 brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
@@ -88,7 +88,7 @@ cd ~/src/fonts || { echo "Unable to cd"; exit 1; }
 ## Set quake3
 cd ~/src/ioq3 || { echo "Unable to cd"; exit 1; }
 ./make-macosx.sh x86_64
-cd build
+cd build || { echo "Unable to cd"; exit 1; }
 cp -pR release-darwin-x86_64/ /Applications/ioquake3
 curl -L 'https://www.ioquake3.org/data/quake3-latest-pk3s.zip' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'DNT: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'Referer: https://ioquake3.org/extras/patch-data/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' --compressed --output ./quake3-latest-pk3s.zip
 open ./quake3-latest-pk3s.zip
@@ -104,14 +104,14 @@ bundle install
 ## Setup SET
 cd ~/src/social-engineer-toolkit || { echo "Unable to cd"; exit 1; }
 latesttag=$(git describe --tags)
-git checkout ${latesttag}
+git checkout "${latesttag}"
 python setup.py install
 sudo sed -i '' 's#METASPLOIT_PATH.*#METASPLOIT_PATH=/opt/metasploit-framework/embedded/framework#' /etc/setoolkit/set.config
 
 ## Setup fpm
 cd ~/src/fpm || { echo "Unable to cd"; exit 1; }
 latesttag=$(git describe --tags)
-git checkout ${latesttag}
+git checkout "${latesttag}"
 gem install --no-ri --no-rdoc fpm
 
 ## Setup git
@@ -151,7 +151,7 @@ vagrant plugin install vagrant-hostmanager
 
 # Install VMWare Fusion plugin license
 while [ -z "${prompt}" ]; do
-  read -p "Is your license for vagrant-vmware-fusion in ~/license.lic? [Y/n]" prompt
+  read -rp "Is your license for vagrant-vmware-fusion in ~/license.lic? [Y/n]" prompt
   case "${prompt}" in
     ""|[yY]|[yY][eE][sS])
       echo -e "Installing the VMWare Fusion plugin for vagrant"
@@ -159,7 +159,7 @@ while [ -z "${prompt}" ]; do
       vagrant plugin license vagrant-vmware-fusion ~/license.lic
       ;;
     [nN]|[nN][oO])
-      read -p "Where is your license.lic file?  " location
+      read -rp "Where is your license.lic file?  " location
       if [ -z "${location}" ]; then
         echo -e "No license file specified, not installing the VMWare Fusion plugin for vagrant"
       else
@@ -179,7 +179,7 @@ curl https://curl.haxx.se/ca/cacert.pem > ~/.weechat/certs/ca-bundle.crt
 
 # Setup weechat
 while [ -z "${prompt}" ]; do
-  read -p "Open and then close weechat before moving forward.  Enter Yes to this prompt when you are done."
+  read -rp "Open and then close weechat before moving forward.  Enter Yes to this prompt when you are done."
   case "${prompt}" in
     ""|[yY]|[yY][eE][sS])
       echo -e "Continuing..."
@@ -198,6 +198,7 @@ done
 sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
 # Setup irc.conf
 # Freenode
+# shellcheck disable=SC2016
 echo '[server]
 freenode.addresses = "chat.freenode.net/7000"
 freenode.sasl_username = "jzeolla"
