@@ -28,7 +28,7 @@ brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wi
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
 pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python
-pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml validators mypy black pytest-cov coverage virtualenv
+pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint
 brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
