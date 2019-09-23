@@ -33,7 +33,6 @@ brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
 sudo gem install jekyll bundler
-# TODO:  powershell install-module azurerm azure
 
 ## Set some application settings
 defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wiki/ZipAES
@@ -51,6 +50,11 @@ ln -s /usr/local/opt/powerlevel9k "${HOME}/.oh-my-zsh/themes/powerlevel9k"
 terraform -install-autocomplete
 # go
 mkdir "${HOME}/go"
+# make
+go get github.com/mrtazz/checkmake
+pushd "${GOPATH}/src/github.com/mrtazz/checkmake" || { echo "Unable to cd to $GOPATH/src/github.com/mrtazz/checkmake"; exit 1; }
+make
+popd || { echo "Unable to popd"; exit 1; }
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
