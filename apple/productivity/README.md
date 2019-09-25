@@ -10,9 +10,10 @@
     git clone https://github.com/jonzeolla/configs/ ~/src/jonzeolla/configs/
     ```
 1.  Run `~/src/jonzeolla/apple/productivity/setup.sh`
-    1.  Ensure that iTerm 2 has been properly configured (has a "Presenter Mode" profile, is using Solarized Dark theme, etc.).  If it is not, follow the following steps:
-        1.  After completion, open iTerm 2, open Preferences, click on the "Profiles" icon in the preferences toolbar, then select the "colors" tab. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
+    1.  Ensure that iTerm 2 has been properly configured (has a "Presenter Mode" profile, is using Solarized Dark theme, is using the Source Code Pro for Powerline font, etc.).  If it is not, follow the following steps:
+        1.  After completion, open iTerm 2, open Preferences > Profiles > Colors. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
         1.  To apply the Solarized color presets into iTerm 2, select an existing profile from the profile list window on the left, or create a new profile. Then select the Solarized Dark preset from the "Load Presets" drop down.\*
+        1.  Set the font under Preferences > Profiles > Text to Source Code Pro for Powerline.
 1.  Open the App Store and install purchased/desirable apps under "Purchased" (Magnet, NFC Tools, ...)
 1.  Set appropriate Security & Privacy settings under System Preferences > Security & Privacy > Privacy.
 1.  Configure [scrolling](https://support.apple.com/kb/ph25291?locale=en_US) to have a "non-natural" scroll direction.
