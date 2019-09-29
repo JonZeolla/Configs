@@ -72,6 +72,10 @@ open /Applications/Evernote.app
 open /Applications/Microsoft\ Remote\ Desktop\ Beta.app
 open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
+## Setup git
+wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
+
 ## Clone some good repos
 cd ~/src || { echo "Unable to cd"; exit 1; }
 git clone https://github.com/jordansissel/fpm
@@ -89,7 +93,7 @@ git clone https://github.com/ioquake/ioq3
 cd ~/src/fonts || { echo "Unable to cd"; exit 1; }
 ./install.sh
 
-## Set quake3
+## Setup quake3
 cd ~/src/ioq3 || { echo "Unable to cd"; exit 1; }
 ./make-macosx.sh x86_64
 cd build || { echo "Unable to cd"; exit 1; }
@@ -118,10 +122,6 @@ latesttag=$(git describe --tags)
 git checkout "${latesttag}"
 gem install --no-ri --no-rdoc fpm
 
-## Setup git
-wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
-wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
-
 ## Setup GnuPG
 mkdir ~/.gnupg
 echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
@@ -148,6 +148,9 @@ wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubuser
 
 ## Update logstash
 logstash-plugin update
+
+## Setup cfssl and the other tools
+go get -u github.com/cloudflare/cfssl/cmd/...
 
 ## Setup vagrant
 # Install the hostmanager
