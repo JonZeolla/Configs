@@ -149,8 +149,18 @@ wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubuser
 ## Update logstash
 logstash-plugin update
 
-## Setup cfssl and the other tools
+## Setup TLS tooling
 go get -u github.com/cloudflare/cfssl/cmd/...
+go get github.com/google/trillian
+pushd ~/go/src/github.com/google/trillian || { echo "Unable to cd to ~/go/src/github.com/google/trillian"; exit 1; }
+go get -t -u -v ./...
+popd || { echo "Unable to popd"; exit 1; }
+pushd ~/src || { echo "Unable to cd to ~/src"; exit 1; }
+git clone https://github.com/google/certificate-transparency-go.git
+go build certificate-transparency-go/client/ctclient/ctclient.go
+chmod a+x ctclient
+sudo cp ctclient /usr/local/bin/ctclient
+popd || { echo "Unable to popd"; exit 1; }
 
 ## Setup vagrant
 # Install the hostmanager
