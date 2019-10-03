@@ -15,3 +15,6 @@
 	rebase = true
 [credential]
   helper = osxkeychain
+[filter "tabspace"]
+  smudge = gunexpand --tabs=2 --first-only
+  clean = expand --tabs=2 --initial
