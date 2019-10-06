@@ -1,5 +1,9 @@
-# Caption the screen sessions
-caption always "%{= Wk}%-w%{= Bw}%n %t%{-}%+w %-="
+# Set scrollback to 20k
+defscrollback 20000
+
+# Caption the screen sessions, and keep track of the running containers
+caption always "%{= kW}%-w%{= Bw}%n %t%{-}%+w %-= %-25= %`"
+backtick 0 5 5 zsh -c 'echo $(( $(docker ps | wc -l) - 1  )) containers running'
 
 # Allow bold
 attrcolor b ".I"
@@ -7,8 +11,11 @@ attrcolor b ".I"
 # Set background color
 defbce "on"
 
-# Set scrollback to 20k
-defscrollback 20000
-
 # Set the escape character to Ctrl+j
 escape ^Jj
+
+# Set an initial screen session named "default"
+screen -t "default" 1
+
+# Turn off the startup message
+startup_message off
