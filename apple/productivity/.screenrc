@@ -1,8 +1,8 @@
-# Set scrollback to 20k
+# Set scrollback
 defscrollback 20000
 
 # Caption the screen sessions, and keep track of the running containers
-caption always "%{= kW}%-w%{= Bw}%n %t%{-}%+w %-= %-25= %`"
+caption always "%{= kW}%-w%{= Bw}%n %t%{-}%+w %-= %{= kW} %-25= %`"
 backtick 0 5 5 zsh -c 'echo $(( $(docker ps | wc -l) - 1  )) containers running'
 
 # Allow bold
@@ -19,3 +19,6 @@ screen -t "default" 1
 
 # Turn off the startup message
 startup_message off
+
+# Enable alternate screen
+altscreen on

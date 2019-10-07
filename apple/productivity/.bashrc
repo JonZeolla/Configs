@@ -7,8 +7,8 @@ fi
 :
 
 ## Env Vars
-export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
-export PATH=$PATH:/usr/local/Cellar/*/*/bin:${HOME}/bin
+export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
+export PATH="${PATH}:/usr/local/Cellar/*/*/bin:${HOME}/bin"
 
 ## Configure some aliases
 # OS
@@ -22,6 +22,6 @@ alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 # Other
 alias dps="docker ps"
-alias happiness="while true; do fortune | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
+alias happiness="while true; do fortune | cowsay -f \`find \${COWPATH} -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 
