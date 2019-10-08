@@ -130,6 +130,10 @@ alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 # Docker
 alias dps="docker ps"
+# Screen
+alias s="screen -S"
+alias sl="screen -ls"
+alias sr="screen -r"
 # Other
 export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"

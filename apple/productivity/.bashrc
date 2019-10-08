@@ -24,4 +24,7 @@ alias headers="curl -I"
 alias dps="docker ps"
 alias happiness="while true; do fortune | cowsay -f \`find \${COWPATH} -type f | sort -R | head -n1\` | lolcat -a -s 75; sleep 2; done"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
+alias s="screen -S"
+alias sl="screen -ls"
+alias sr="screen -r"
 
