@@ -15,7 +15,7 @@ defbce "on"
 escape ^Jj
 
 # Set an initial screen session named "default"
-screen -t "default" 1
+screen -t "default" 0
 
 # Turn off the startup message
 startup_message off
