@@ -21,14 +21,14 @@ xcode-select --install
 brew tap sambadevi/powerlevel9k
 brew update
 brew cask install java caskroom/versions/java8
-brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils
+brew install python python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara
 npm install -g @angular/cli
 npm install -g electron-packager
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar snagit Keyboard-Maestro hazel bloodhound neo4j xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec backblaze thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman paragon-extfs minikube google-chrome-canary
 brew install weechat --with-aspell --with-curl --with-python@2 --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
 pip install virtualenv boto twisted==16.4.1 service_identity pyasn1-modules cryptography pyyaml pylint impacket pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python
-pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit
+pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress jedi docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml naiveBayesClassifier
 brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
