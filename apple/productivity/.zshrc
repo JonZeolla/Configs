@@ -130,6 +130,7 @@ alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 # Docker
 alias dps="docker ps"
+alias docker-cleanup="docker rm \$(docker ps -a -q)"
 # Screen
 alias s="screen -S"
 alias sl="screen -ls"
