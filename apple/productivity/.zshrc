@@ -141,6 +141,7 @@ alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f
 alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias brewupgrade='bubo ; brew cask upgrade ; bubc'
+alias testssl="docker run -t --rm mvance/testssl"
 
 ## Functions
 function unsetawstoken() {
