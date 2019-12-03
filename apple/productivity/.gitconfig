@@ -1,18 +1,21 @@
 [user]
-	name = Jon Zeolla
-	email = zeolla@gmail.com
-	signingkey = 0DAE181D0BEEC85E
+  name = Jon Zeolla
+  email = zeolla@gmail.com
+  signingkey = 0DAE181D0BEEC85E
 [alias]
-	tags = tag -l
-	branches = branch -a
-	remotes = remote -v
-	hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+  branches = branch -a
+  graph = log --graph --all --decorate --stat --date=iso
+  hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+  leaderboard = shortlog -sn --all --no-merges
+  remotes = remote -v
+  tags = tag -l
+  word-diff = diff --word-diff
 [includeIf "gitdir:~/src/seiso/**"]
-	path = ~/src/seiso/.gitconfig
+  path = ~/src/seiso/.gitconfig
 [color]
-	ui = auto
+  ui = auto
 [pull]
-	rebase = true
+  rebase = true
 [credential]
   helper = osxkeychain
 [filter "tabspace"]
