@@ -117,6 +117,8 @@ fi
 
 ## Additional zsh configs
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
+setopt no_share_history
+unsetopt share_history
 
 ## Configure some aliases
 # OS
