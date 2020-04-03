@@ -120,6 +120,10 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
 setopt no_share_history
 unsetopt share_history
 
+## Cloud things
+# Fixes awscli
+export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib
+
 ## Configure some aliases
 # OS
 alias ll="ls -al"
