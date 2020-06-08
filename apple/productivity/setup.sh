@@ -167,20 +167,20 @@ vagrant plugin install vagrant-hostmanager
 
 # Install VMWare Fusion plugin license
 while [ -z "${prompt}" ]; do
-  read -rp "Is your license for vagrant-vmware-fusion in ~/license.lic? [Y/n]" prompt
+  read -rp "Is your license for vagrant-vmware-desktop in ~/license.lic? [Y/n]" prompt
   case "${prompt}" in
     ""|[yY]|[yY][eE][sS])
       echo -e "Installing the VMWare Fusion plugin for vagrant"
-      vagrant plugin install vagrant-vmware-fusion
-      vagrant plugin license vagrant-vmware-fusion ~/license.lic
+      vagrant plugin install vagrant-vmware-desktop
+      vagrant plugin license vagrant-vmware-desktop ~/license.lic
       ;;
     [nN]|[nN][oO])
       read -rp "Where is your license.lic file?  " location
       if [ -z "${location}" ]; then
         echo -e "No license file specified, not installing the VMWare Fusion plugin for vagrant"
       else
-        vagrant plugin install vagrant-vmware-fusion
-        vagrant plugin license vagrant-vmware-fusion "${location}"
+        vagrant plugin install vagrant-vmware-desktop
+        vagrant plugin license vagrant-vmware-desktop "${location}"
       fi
       ;;
     *)

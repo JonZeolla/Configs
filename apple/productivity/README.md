@@ -9,6 +9,7 @@
     mkdir -p ~/src/jonzeolla
     git clone https://github.com/jonzeolla/configs/ ~/src/jonzeolla/configs/
     ```
+1.  Install the Vagrant VMWare Utility from [here](https://www.vagrantup.com/vmware/downloads).
 1.  Run `~/src/jonzeolla/apple/productivity/setup.sh`
     1.  Ensure that iTerm 2 has been properly configured (has a "Presenter Mode" profile, is using Solarized Dark theme, is using the Source Code Pro for Powerline font, etc.).  If it is not, follow the following steps:
         1.  After completion, open iTerm 2, open Preferences > Profiles > Colors. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
