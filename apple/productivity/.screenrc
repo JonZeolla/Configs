@@ -3,7 +3,7 @@ defscrollback 20000
 
 # Caption the screen sessions, and keep track of the running containers
 caption always "%{gk} %S    %{= kW}%-w%{= Bw}%n %t%{-}%+w %-= %{= kW} %-25= %`"
-backtick 0 5 5 zsh -c 'echo $(( $(docker ps | wc -l) - 1  )) containers running'
+backtick 0 5 15 zsh -c 'echo $(( $(docker ps | wc -l) - 1  )) containers, $(( $(vmrun list | head -1 | awk "{print \$NF}") + $(VBoxManage list runningvms | wc -l | awk "{print \$NF}") )) VMs running'
 
 # Allow bold
 attrcolor b ".I"
