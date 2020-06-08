@@ -140,7 +140,7 @@ alias dps="docker ps"
 alias docker-cleanup="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune"
 alias docker-cleanup-more="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a"
 # Vagrant
-alias vagrant-cleanup="vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
+alias vagrant-cleanup="vagrant global-status --prune && vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
 # Screen
 alias s="screen -S"
 alias sl="screen -ls"
