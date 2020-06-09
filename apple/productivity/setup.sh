@@ -57,6 +57,7 @@ popd || { echo "Unable to popd"; exit 1; }
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
+wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/bin/backtick.sh
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
 # Docker
 docker pull asciinema/asciicast2gif

@@ -3,7 +3,9 @@ defscrollback 20000
 
 # Caption the screen sessions, and keep track of the running containers
 caption always "%{gk} %S    %{= kW}%-w%{= Bw}%n %t%{-}%+w %-= %{= kW} %-25= %`"
-backtick 0 5 15 zsh -c 'echo $(( $(docker ps | wc -l) - 1  )) containers, $(( $(vmrun list | head -1 | awk "{print \$NF}") + $(VBoxManage list runningvms | wc -l | awk "{print \$NF}") )) VMs up'
+# This gets interpolated in the caption at %`
+# See https://github.com/JonZeolla/Configs/tree/master/apple/productivity
+backtick 0 5 15 "${HOME}/bin/backtick.sh"
 
 # Allow bold
 attrcolor b ".I"
