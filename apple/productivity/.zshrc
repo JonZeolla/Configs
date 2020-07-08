@@ -159,12 +159,16 @@ function unsetawstoken() {
   unset AWS_SECRET_ACCESS_KEY
   unset AWS_SESSION_TOKEN
   unset AWS_PROFILE
+  unset AWS_DEFAULT_REGION
+  unset AWS_DEFAULT_OUTPUT
 }
 function setawstoken() {
   eval "$(cat /dev/stdin | aws_session_token_to_env.py)" ;
   if [[ -z "${AWS_PROFILE}" ]]; then
     export AWS_PROFILE='default'
   fi
+  export AWS_DEFAULT_REGION='us-east-1'
+  export AWS_DEFAULT_OUTPUT='json'
 }
 function getawstoken() {
   echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
