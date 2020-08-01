@@ -4,9 +4,9 @@
 " Add fzf
 set rtp+=/usr/local/opt/fzf
 
-""""""""""""""""
-"" Basic configs
-""""""""""""""""
+"""""""""""""""
+" Basic configs
+"""""""""""""""
 " Blink instead of beep
 set visualbell
 " Disable spellcheck by default
@@ -30,6 +30,10 @@ set updatetime=100
 nmap <C-n> :NERDTreeToggle<CR>
 " Map fzf to ctrl+p
 nmap <C-p> :FZF<CR>
+" Toggle spellcheck
+nnoremap <silent> <Leader>s :set spell!<CR>
+" Toggle relative numbering
+nnoremap <silent> <Leader>r :set rnu!<CR>
 
 """""""""""""""""""
 " Configure airline
