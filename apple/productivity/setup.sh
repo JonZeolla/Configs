@@ -21,7 +21,7 @@ xcode-select --install
 brew tap sambadevi/powerlevel9k
 brew update
 brew cask install java caskroom/versions/java8
-brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack
+brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf
 npm install -g @angular/cli
 npm install -g electron-packager
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman paragon-extfs minikube google-chrome-canary pdftotext obs signal toggl
@@ -125,6 +125,27 @@ gem install --no-ri --no-rdoc fpm
 ## Setup GnuPG
 mkdir ~/.gnupg
 echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
+
+## Setup neovim
+# These setup steps assume fzf and node are already installed via brew
+mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start
+# Install my config
+wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/init.vim
+# ale
+git clone --depth 1 https://github.com/dense-analysis/ale.git ~/.local/share/nvim/site/pack/git-plugins/start/ale
+# NERDtree
+git clone https://github.com/preservim/nerdtree.git ~/.local/share/nvim/site/pack/git-plugins/start/nerdtree
+# gitgutter
+git clone https://github.com/airblade/vim-gitgutter.git ~/.local/share/nvim/site/pack/git-plugins/start/vim-gitgutter
+# airline
+git clone https://github.com/vim-airline/vim-airline ~/.local/share/nvim/site/pack/git-plugins/start/vim-airline
+# COC
+mkdir -p ~/.local/share/nvim/site/pack/coc/start
+cd ~/.local/share/nvim/site/pack/coc/start
+curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
+nvim -c 'CocInstall -sync coc-python coc-jedi coc-json coc-powershell coc-yaml|q|q'
+python3 -m pip install --upgrade pynvim
+npm install -g neovim
 
 ## Setup vim
 # TODO:  Migrate to vim 8 packages
