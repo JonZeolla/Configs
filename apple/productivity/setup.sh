@@ -143,7 +143,7 @@ git clone https://github.com/vim-airline/vim-airline ~/.local/share/nvim/site/pa
 mkdir -p ~/.local/share/nvim/site/pack/coc/start
 cd ~/.local/share/nvim/site/pack/coc/start
 curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
-nvim -c 'CocInstall -sync coc-python coc-jedi coc-json coc-powershell coc-yaml|q|q'
+nvim -c 'CocInstall -sync coc-python coc-json coc-powershell coc-yaml|q|q'
 python3 -m pip install --upgrade pynvim
 npm install -g neovim
 
