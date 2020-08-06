@@ -7,6 +7,8 @@ set rtp+=/usr/local/opt/fzf
 """""""""""""""
 " Basic configs
 """""""""""""""
+" Always parse files as unix
+set ffs=unix
 " Blink instead of beep
 set visualbell
 " Disable spellcheck by default
