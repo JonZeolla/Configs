@@ -7,7 +7,7 @@ set rtp+=/usr/local/opt/fzf
 """""""""""""""
 " Basic configs
 """""""""""""""
-" Always parse files as unix
+" Always parse as unix
 set ffs=unix
 " Blink instead of beep
 set visualbell
@@ -36,6 +36,21 @@ nmap <C-p> :FZF<CR>
 nnoremap <silent> <Leader>s :set spell!<CR>
 " Toggle relative numbering
 nnoremap <silent> <Leader>r :set rnu!<CR>
+
+""""""""""""""""
+" Code Commenter
+""""""""""""""""
+augroup code_commenter
+  autocmd!
+  autocmd FileType c,cpp,java,scala let b:leader = '// '
+  autocmd FileType sh,ruby,python   let b:leader = '# '
+  autocmd FileType conf,fstab       let b:leader = '# '
+  autocmd FileType tex              let b:leader = '% '
+  autocmd FileType mail             let b:leader = '> '
+  autocmd FileType vim              let b:leader = '" '
+augroup END
+noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> uc :<C-B>silent <C-E>s/^\V<C-R>=escape(b:leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 """""""""""""""""""
 " Configure airline
