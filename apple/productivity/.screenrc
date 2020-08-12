@@ -1,3 +1,6 @@
+# Allow colors
+term screen-256color
+
 # Set scrollback
 defscrollback 20000
 
@@ -24,3 +27,7 @@ startup_message off
 
 # Enable alternate screen
 altscreen on
+
+# Lower the map timeout
+maptimeout 10
+
