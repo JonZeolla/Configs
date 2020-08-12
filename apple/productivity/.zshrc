@@ -5,7 +5,7 @@ export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
 
 # If you come from bash you might have to change your $PATH.
-PYTHON_LOCAL=$(python3 -c "import site, os; print(os.path.join(site.USER_BASE, 'bin'))")
+PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
 export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH
 
 # Path to your oh-my-zsh installation.
