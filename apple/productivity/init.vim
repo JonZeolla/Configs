@@ -40,7 +40,7 @@ nmap <C-p> :FZF<CR>
 " Toggle spellcheck
 nnoremap <silent> <Leader>s :set spell!<CR>
 " Toggle relative numbering
-nnoremap <silent> <Leader>r :set rnu!<CR>
+nnoremap <silent> <Leader>r :set rnu!<CR> :set number!<CR>
 " Keep consistent escape key usage in terminal mode
 tnoremap <Esc> <C-\><C-n>
 
