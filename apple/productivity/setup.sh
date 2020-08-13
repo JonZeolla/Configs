@@ -139,6 +139,10 @@ git clone https://github.com/preservim/nerdtree.git ~/.local/share/nvim/site/pac
 git clone https://github.com/airblade/vim-gitgutter.git ~/.local/share/nvim/site/pack/git-plugins/start/vim-gitgutter
 # airline
 git clone https://github.com/vim-airline/vim-airline ~/.local/share/nvim/site/pack/git-plugins/start/vim-airline
+# semshi
+mkdir -p ~/.local/share/nvim/site/pack/semshi/start
+git clone https://github.com/numirias/semshi ~/.local/share/nvim/site/pack/semshi/start/semshi
+nvim -c 'UpdateRemotePlugins|q'
 # COC
 mkdir -p ~/.local/share/nvim/site/pack/coc/start
 cd ~/.local/share/nvim/site/pack/coc/start
