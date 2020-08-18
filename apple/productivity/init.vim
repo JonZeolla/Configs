@@ -27,6 +27,8 @@ set updatetime=100
 set scrolloff=2
 " Ignore case when searching unless a capital letter is provided
 set ignorecase smartcase
+" Remove highlighting when searching
+set nohlsearch
 
 """"""""""""""
 " Key mappings
