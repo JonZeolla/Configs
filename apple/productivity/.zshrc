@@ -178,11 +178,12 @@ function getawstoken() {
   #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code ${1}"
 }
 function setawsTODO() {
+  unsetawstoken
   getawstoken "${1}" | setawstoken
-  # TODO: migrate to docker
-  aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO | setawstoken
-  # TODO: Set the AWS_PROFILE variable appropriately so it uses your .aws/config and so it shows up at the shell prompt
-  export AWS_PROFILE="Organization -> Account"
+  echo "TODO: Replace the TODO appropriately and uncomment"
+  #docker run --rm --env-file <(env | grep ^AWS_) -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO" | setawstoken
+  echo "TODO: Look in ~/.zshrc and update AWS_PROFILE so it uses your .aws/config, then uncomment"
+  #export AWS_PROFILE="Organization -> Account"
 }
 
 ## Other env vars
