@@ -174,6 +174,10 @@ function setawstoken() {
   export AWS_DEFAULT_OUTPUT='json'
 }
 function getawstoken() {
+  if ! [[ $1 =~ ^[0-9]{6}$ ]]; then
+    echo "Input must be six digits"
+    return 1
+  fi
   echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
   #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code ${1}"
 }
