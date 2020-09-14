@@ -1,4 +1,6 @@
 export TERM="xterm-256color"
+# Update $? to account for the rightmost non-zero failure in a pipeline
+set -o pipefail
 
 # Languages
 export GOPATH="${HOME}/go"
