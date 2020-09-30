@@ -155,7 +155,7 @@ export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
 alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
-alias brewupgrade='bubo ; brew cask upgrade ; bubc'
+alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 alias testssl="docker run -t --rm mvance/testssl"
 
 ## Functions
