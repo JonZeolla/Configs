@@ -140,6 +140,8 @@ alias headers="curl -I"
 if type nvim > /dev/null 2>&1; then
   alias vi='nvim'
 fi
+# k8s
+alias k="kubectl"
 # Docker
 alias dps="docker ps"
 alias docker-cleanup="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune"
