@@ -191,29 +191,6 @@ popd || { echo "Unable to popd"; exit 1; }
 # Install the hostmanager
 vagrant plugin install vagrant-hostmanager
 
-# Install VMWare Fusion plugin license
-while [ -z "${prompt}" ]; do
-  read -rp "Is your license for vagrant-vmware-desktop in ~/license.lic? [Y/n]" prompt
-  case "${prompt}" in
-    ""|[yY]|[yY][eE][sS])
-      echo -e "Installing the VMWare Fusion plugin for vagrant"
-      vagrant plugin install vagrant-vmware-desktop
-      vagrant plugin license vagrant-vmware-desktop ~/license.lic
-      ;;
-    [nN]|[nN][oO])
-      read -rp "Where is your license.lic file?  " location
-      if [ -z "${location}" ]; then
-        echo -e "No license file specified, not installing the VMWare Fusion plugin for vagrant"
-      else
-        vagrant plugin install vagrant-vmware-desktop
-        vagrant plugin license vagrant-vmware-desktop "${location}"
-      fi
-      ;;
-    *)
-      echo -e "Unknown response, not configuring the VMWare Fusion plugin for vagrant" ;;
-  esac
-done
-
 ## Setup weechat
 mkdir -p ~/.weechat/certs/
 # Update the ca-bundle
