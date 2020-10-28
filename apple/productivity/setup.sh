@@ -80,7 +80,7 @@ cd ~/src || { echo "Unable to cd"; exit 1; }
 git clone https://github.com/jordansissel/fpm
 git clone https://github.com/apache/metron
 git clone https://github.com/apache/metron-bro-plugin-kafka
-git clone https://github.com/bro/bro --recurse-submodules
+git clone https://github.com/zeek/zeek --recurse-submodules
 git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
 git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
 git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
