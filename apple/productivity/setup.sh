@@ -17,7 +17,8 @@ echo /usr/local/bin/bash | sudo tee -a /etc/shells
 xcode-select --install
 
 ## Install some basics
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap sambadevi/powerlevel9k
 brew update
 brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive
