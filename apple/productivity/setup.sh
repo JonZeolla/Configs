@@ -21,12 +21,12 @@ xcode-select --install
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap sambadevi/powerlevel9k
 brew update
-brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive
+brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive yubico-yubikey-manager yubico-authenticator fujitsu-scansnap-manager-ix500 minikube google-chrome-canary
 npm install -g @angular/cli
 npm install -g electron-packager
-brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman paragon-extfs minikube google-chrome-canary pdftotext obs signal toggl gimp
+brew cask install vagrant virtualbox google-chrome sublime-text wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire chef/chef/inspec thunderbird intellij-idea metasploit quicklook-json postman paragon-extfs pdftotext obs signal toggl gimp
 # Twisted version is for sslstrip
-pip3 install bcrypt ipaddress impacket pyyaml pylint  pycrypto pyopenssl pefile netaddr termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv
+pip3 install bcrypt ipaddress impacket pyyaml pylint pycrypto pyopenssl pefile netaddr termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv
 brew install numpy scipy ansible
 go get -u golang.org/x/lint/golint
 brew cleanup
