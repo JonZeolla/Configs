@@ -20,12 +20,10 @@ xcode-select --install
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew tap sambadevi/powerlevel9k
 brew update
-brew cask install java caskroom/versions/java8
-brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat wine winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive
+brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap bro swig cmake openssl jq azure-cli hashcat shellcheck packer bro nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat winetricks awscli terraform kubectl nuget osquery php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash packetbeat filebeat winlogbeat pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive
 npm install -g @angular/cli
 npm install -g electron-packager
 brew cask install vagrant virtualbox google-chrome sublime-text vmware-fusion wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire yubico-yubikey-manager yubico-authenticator microsoft-remote-desktop-beta chef/chef/inspec thunderbird fujitsu-scansnap-manager-ix500 intellij-idea metasploit quicklook-json postman paragon-extfs minikube google-chrome-canary pdftotext obs signal toggl gimp
-brew install weechat --with-aspell --with-curl --with-perl --with-ruby --with-lua
 # Twisted version is for sslstrip
 pip3 install boto3 paramiko selenium pyasn1-modules cryptography bcrypt asn1crypto ipaddress docopt impacket pyyaml pylint pexpect pycrypto pyopenssl pefile netaddr matplotlib sklearn pillow opencv-python xmltodict termcolor pydot tqdm flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml naiveBayesClassifier grip pipenv
 brew install numpy scipy ansible
@@ -190,51 +188,3 @@ popd || { echo "Unable to popd"; exit 1; }
 ## Setup vagrant
 # Install the hostmanager
 vagrant plugin install vagrant-hostmanager
-
-## Setup weechat
-mkdir -p ~/.weechat/certs/
-# Update the ca-bundle
-curl https://curl.haxx.se/ca/cacert.pem > ~/.weechat/certs/ca-bundle.crt
-
-# Setup weechat
-while [ -z "${prompt}" ]; do
-  read -rp "Open and then close weechat before moving forward.  Enter Yes to this prompt when you are done."
-  case "${prompt}" in
-    ""|[yY]|[yY][eE][sS])
-      echo -e "Continuing..."
-      ;;
-    [nN]|[nN][oO])
-      echo -e "Negative response, exiting..."
-      exit
-      ;;
-    *)
-      echo -e "Unknown response, exiting..."
-      exit
-      ;;
-  esac
-done
-
-sed -i '' 's#gnutls_ca_file.*#gnutls_ca_file = "~/.weechat/certs/ca-bundle.crt"#' ~/.weechat/weechat.conf
-# Setup irc.conf
-# Freenode
-# shellcheck disable=SC2016
-echo '[server]
-freenode.addresses = "chat.freenode.net/7000"
-freenode.sasl_username = "jzeolla"
-freenode.sasl_password "${sec.data.freenode}"
-freenode.autoconnect = on
-freenode.nicks = "jzeolla,jzeolla_"
-freenode.username = "jzeolla"
-freenode.realname = "jzeolla"
-freenode.autojoin = "#apache-metron,#bro,#suricata,#pwning,#faraday-dev"
-freenode.ssl = on' | tee -a ~/.weechat/irc.conf > /dev/null
-#OFTC
-echo '[server]
-oftc.addresses = "irc.oftc.net/6697"
-oftc.sasl_username = "jzeolla"
-oftc.autoconnect = on
-oftc.nicks = "jzeolla,jzeolla_"
-oftc.username = "jzeolla"
-oftc.realname = "jzeolla"
-oftc.autojoin = "#ocmdev"
-oftc.ssl = on' | tee -a ~/.weechat/irc.conf > /dev/null
