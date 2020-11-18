@@ -141,6 +141,8 @@ if type nvim > /dev/null 2>&1; then
   alias vi='nvim'
 fi
 # k8s
+alias kctx="kubectx"
+alias kns="kubens"
 alias k="kubectl"
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh | sed 's/kubectl/k/g')
 # Docker
