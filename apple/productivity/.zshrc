@@ -8,7 +8,7 @@ export GOROOT="$(brew --prefix golang)/libexec"
 
 # If you come from bash you might have to change your $PATH.
 PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
-export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH
+export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -123,11 +123,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
 setopt no_share_history
 unsetopt share_history
 
-## Cloud things
-# Fixes awscli
-export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib
-
-## Configure some aliases
+## Configure things
 # OS
 alias ll="ls -al"
 alias cls=clear # C-l
@@ -140,28 +136,36 @@ alias headers="curl -I"
 if type nvim > /dev/null 2>&1; then
   alias vi='nvim'
 fi
+alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
+
 # k8s
 alias kctx="kubectx"
 alias kns="kubens"
 alias k="kubectl"
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh | sed 's/kubectl/k/g')
+export PATH="${PATH}:${HOME}/.krew/bin"
+alias kkrewupgrade="k krew update && k krew upgrade"
+
 # Docker
 alias dps="docker ps"
 alias docker-cleanup="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune"
 alias docker-cleanup-more="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a"
+
 # Vagrant
 alias vagrant-cleanup="vagrant global-status --prune && vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
+
 # Screen
 alias s="screen -S"
 alias sl="screen -ls"
 alias sr="screen -r"
+
 # Other
-export COWPATH=/usr/local/Cellar/cowsay/*/share/cows
+export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
 alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
-alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 alias testssl="docker run -t --rm mvance/testssl"
+alias upgradeallthethings="brewupgrade; kkrewupgrade"
 
 ## Functions
 function unsetawstoken() {

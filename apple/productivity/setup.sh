@@ -21,10 +21,10 @@ xcode-select --install
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap sambadevi/powerlevel9k
 brew update
-brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive yubico-yubikey-manager yubico-authenticator fujitsu-scansnap-manager-ix500 minikube google-chrome-canary nasm
+brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget php screen zsh heroku/brew/heroku bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash pipenv graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive yubico-yubikey-manager yubico-authenticator fujitsu-scansnap-manager-ix500 minikube google-chrome-canary nasm octant krew
 npm install -g @angular/cli
 npm install -g electron-packager
-brew cask install vagrant virtualbox google-chrome sublime-text wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire chef/chef/inspec thunderbird intellij-idea metasploit quicklook-json postman paragon-extfs pdftotext obs signal toggle-track gimp
+brew cask install vagrant virtualbox google-chrome sublime-text wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom powershell veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire chef/chef/inspec thunderbird intellij-idea metasploit quicklook-json postman paragon-extfs pdftotext obs signal toggle-track gimp lens
 # Twisted version is for sslstrip
 pip3 install bcrypt ipaddress impacket pyyaml pylint pycrypto pyopenssl pefile netaddr termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv
 brew install numpy scipy ansible
@@ -35,29 +35,37 @@ sudo gem install jekyll bundler
 ## Set some application settings
 defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wiki/ZipAES
 
-## Configure the environment
+## Configure
 # bash
 wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_profile
 wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bashrc
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
+
 # zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 chsh -s /usr/local/bin/zsh # Assumes zsh was installed and linked via brew
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
 ln -s /usr/local/opt/powerlevel9k "${HOME}/.oh-my-zsh/themes/powerlevel9k"
 terraform -install-autocomplete
+
 # go
 mkdir "${HOME}/go"
+
 # make
 go get github.com/mrtazz/checkmake
 pushd "${GOPATH}/src/github.com/mrtazz/checkmake" || { echo "Unable to cd to $GOPATH/src/github.com/mrtazz/checkmake"; exit 1; }
 make
 popd || { echo "Unable to popd"; exit 1; }
+
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/bin/backtick.sh
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
+
+# k8s
+k krew install starboard
+
 # Docker
 docker pull asciinema/asciicast2gif
 docker pull ubuntu:latest
