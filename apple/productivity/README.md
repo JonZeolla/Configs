@@ -16,10 +16,12 @@
         1.  To apply the Solarized color presets into iTerm 2, select an existing profile from the profile list window on the left, or create a new profile. Then select the Solarized Dark preset from the "Load Presets" drop down.\*
         1.  Set the font under Preferences > Profiles > Text to Source Code Pro for Powerline.
 1.  Open the App Store and install purchased/desirable apps under "Purchased" (Magnet, NFC Tools, ...)
+1.  Install non-brew, non-App Store software, like [GoPro webcam](https://community.gopro.com/t5/en/How-to-Use-Your-GoPro-as-a-Webcam/ta-p/665493).
 1.  Set appropriate Security & Privacy settings under System Preferences > Security & Privacy > Privacy.
-1.  Configure [scrolling](https://support.apple.com/kb/ph25291?locale=en_US) to have a "non-natural" scroll direction.
-1.  Configure [the trackpad](https://support.apple.com/en-us/HT202319) to be 4 ticks from the right.
-1.  Disable "Automatically rearrange Spaces based on most recent use" in Mission Control.
+1.  Configure the OS manually.
+    1.  Configure [scrolling](https://support.apple.com/kb/ph25291?locale=en_US) to have a "non-natural" scroll direction.
+    1.  Configure [the trackpad](https://support.apple.com/en-us/HT202319) to be 4 ticks from the right.
+    1.  Disable "Automatically rearrange Spaces based on most recent use" in Mission Control.
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Magnet
