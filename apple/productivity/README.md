@@ -23,7 +23,6 @@
     1.  Configure [the trackpad](https://support.apple.com/en-us/HT202319) to be 4 ticks from the right.
     1.  Disable "Automatically rearrange Spaces based on most recent use" in Mission Control.
     1.  Create a keyboard shortcut (System Preferences > Keyboard > Shortcuts > App Shortcuts) called "Tile Window to Left of Screen" with shortcut of ctrl+shift+option+cmd.
-    1.  Reduce motion via System Preferences > Accessibility > Display > check "Reduce motion".
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Magnet
