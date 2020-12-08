@@ -159,6 +159,9 @@ alias s="screen -S"
 alias sl="screen -ls"
 alias sr="screen -r"
 
+# Powershell
+alias pwsh="docker pull microsoft/powershell:latest && docker run -it microsoft/powershell:latest"
+
 # Other
 export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
