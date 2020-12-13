@@ -33,6 +33,9 @@ set nohlsearch
 """"""""""""""
 " Key mappings
 """"""""""""""
+" Simple macOS copy/paste
+vnoremap <C-c> :w !pbcopy<CR><CR>
+noremap <C-v> :r !pbpaste<CR><CR>
 " Map starting a python REPL to ctrl+p ctrl+y
 nmap <C-p><C-y> :CocCommand python.startREPL<CR>
 " Map nerdtree to ctrl+n
