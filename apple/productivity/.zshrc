@@ -173,11 +173,11 @@ alias upgradeallthethings="brewupgrade; kkrewupgrade"
 ## Functions
 function nvim_exrc_security_check() {
   if [[ -r .exrc ]]; then
-    read "answer?.exrc file detected, this will modify your vim settings!  Are you sure (y/N)?"
+    read -k "answer?.exrc file detected, this will modify your vim settings!  Are you sure (y/N)? "
     if [[ "${answer}" =~ ^[yY]$ ]]; then
       nvim "$@"
     else
-      echo "Not opening nvim"
+      echo "\nNot opening nvim"
     fi
   else
     nvim "$@"
