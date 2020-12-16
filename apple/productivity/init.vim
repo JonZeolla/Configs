@@ -7,6 +7,8 @@ set rtp+=/usr/local/opt/fzf
 """""""""""""""
 " Basic configs
 """""""""""""""
+" Enable exrc for per-repo `vim` configs
+set exrc
 " Always parse as unix
 set ffs=unix
 " Blink instead of beep

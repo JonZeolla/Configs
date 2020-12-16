@@ -134,7 +134,7 @@ alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 if type nvim > /dev/null 2>&1; then
-  alias vi='nvim'
+  alias vi=nvim_exrc_security_check
 fi
 alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 
@@ -171,6 +171,19 @@ alias testssl="docker run -t --rm mvance/testssl"
 alias upgradeallthethings="brewupgrade; kkrewupgrade"
 
 ## Functions
+function nvim_exrc_security_check() {
+  if [[ -r .exrc ]]; then
+    read "answer?.exrc file detected, this will modify your vim settings!  Are you sure (y/N)?"
+    if [[ "${answer}" =~ ^[yY]$ ]]; then
+      nvim "$@"
+    else
+      echo "Not opening nvim"
+    fi
+  else
+    nvim "$@"
+  fi
+}
+
 function unsetawstoken() {
   unset AWS_ACCESS_KEY_ID
   unset AWS_SECRET_ACCESS_KEY
