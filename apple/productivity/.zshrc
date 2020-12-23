@@ -168,7 +168,7 @@ alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f
 alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
-alias upgradeallthethings="brewupgrade; kkrewupgrade"
+alias upgradeallthethings="brewupgrade; kkrewupgrade; vagrant box prune"
 
 ## Functions
 function nvim_exrc_security_check() {
