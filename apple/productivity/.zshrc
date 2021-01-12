@@ -160,7 +160,7 @@ alias sl="screen -ls"
 alias sr="screen -r"
 
 # Powershell
-alias pwsh="docker pull microsoft/powershell:latest && docker run -it microsoft/powershell:latest"
+alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):/src microsoft/powershell:latest"
 
 # Other
 export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
