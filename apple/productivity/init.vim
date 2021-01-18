@@ -50,6 +50,10 @@ nnoremap <silent> <Leader>s :set spell!<CR>
 nnoremap <silent> <Leader>r :set rnu!<CR> :set number!<CR>
 " Keep consistent escape key usage in terminal mode
 tnoremap <Esc> <C-\><C-n>
+" Reformat XML
+noremap <silent> <Leader>x :%!xmllint --format %<CR>
+" Reformat JSON
+noremap <silent> <Leader>j :%!jq . %<CR>
 
 """"""""""""""""
 " Code Commenter
