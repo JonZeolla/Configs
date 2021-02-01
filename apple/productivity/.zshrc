@@ -119,7 +119,9 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ## Additional zsh configs
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir newline vcs aws)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs virtualenv aws kubecontext)
+POWERLEVEL9K_KUBECONTEXT_BACKGROUND="006"
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 setopt no_share_history
 unsetopt share_history
 
