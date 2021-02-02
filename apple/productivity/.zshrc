@@ -148,6 +148,11 @@ alias k="kubectl"
 export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
+# git
+alias gpom="git push origin main"
+alias gpomf="git push origin main --force"
+alias gdc="git diff --cached"
+
 # Docker
 alias dps="docker ps"
 alias docker-cleanup="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune"
