@@ -176,6 +176,7 @@ alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
 alias upgradeallthethings="brewupgrade; kkrewupgrade; vagrant box prune"
+alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 
 ## Functions
 function nvim_exrc_security_check() {
