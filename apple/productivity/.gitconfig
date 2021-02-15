@@ -21,3 +21,15 @@
 [filter "tabspace"]
   smudge = gunexpand --tabs=2 --first-only
   clean = expand --tabs=2 --initial
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[diff "pandoc"]
+  textconv = pandoc --to=markdown
+  prompt = false
+[alias]
+  wdiff = diff --word-diff=color --unified=1
+[init]
+	defaultBranch = main
