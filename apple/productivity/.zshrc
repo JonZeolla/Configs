@@ -155,8 +155,8 @@ alias gdc="git diff --cached"
 
 # Docker
 alias dps="docker ps"
-alias docker-cleanup="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune"
-alias docker-cleanup-more="docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a"
+alias docker-cleanup="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune; docker system df"
+alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
 
 # Vagrant
 alias vagrant-cleanup="vagrant global-status --prune && vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
