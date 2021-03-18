@@ -140,6 +140,9 @@ if type nvim > /dev/null 2>&1; then
 fi
 alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 
+# Python
+alias pri='pipenv run invoke'
+
 # k8s
 alias kctx="kubectx"
 alias kns="kubens"
