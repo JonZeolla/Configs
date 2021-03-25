@@ -62,7 +62,7 @@ augroup code_commenter
   autocmd!
   autocmd FileType c,cpp,java,scala let b:leader = '// '
   autocmd FileType sh,ruby,python   let b:leader = '# '
-  autocmd FileType conf,fstab       let b:leader = '# '
+  autocmd FileType conf,fstab,tf    let b:leader = '# '
   autocmd FileType tex              let b:leader = '% '
   autocmd FileType mail             let b:leader = '> '
   autocmd FileType vim              let b:leader = '" '
