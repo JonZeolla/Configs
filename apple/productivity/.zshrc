@@ -215,17 +215,24 @@ function getawstoken() {
   if ! [[ $1 =~ ^[0-9]{6}$ ]]; then
     echo "Input must be six digits"
     return 1
+  elif [[ $# > 2 ]]; then
+    echo "Must provide either 1 or 2 inputs"
+    return 1
   fi
   echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
-  #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code ${1}"
+  if [[ -n $2 ]]; then
+    #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number "${2}" --token-code ${1}"
+  else
+    #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code ${1}"
+  fi
 }
 function setawsTODO() {
   unsetawstoken
   getawstoken "${1}" | setawstoken
-  echo "TODO: Replace the TODO appropriately and uncomment"
-  #docker run --rm --env-file <(env | grep ^AWS_) -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO" | setawstoken
   echo "TODO: Look in ~/.zshrc and update AWS_PROFILE so it uses your .aws/config, then uncomment"
   #export AWS_PROFILE="Organization -> Account"
+  echo "TODO: Replace the TODO appropriately and uncomment"
+  #docker run --rm --env-file <(env | grep ^AWS_) -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts assume-role --role-arn arn:aws:iam::TODO:role/TODO --role-session-name TODO" | setawstoken
 }
 
 ## Other env vars
