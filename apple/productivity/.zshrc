@@ -220,10 +220,10 @@ function getawstoken() {
     return 1
   fi
   echo "You must modify this function to insert your account and IAM user (See the TODOs below)"
-  if [[ -n $2 ]]; then
-    #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number "${2}" --token-code ${1}"
-  else
+  if [[ $# == 1 ]]; then
     #docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number arn:aws:iam::TODO:mfa/TODO --token-code ${1}"
+  else
+    docker run --rm -v ${HOME}/.aws:/root/.aws seiso/easy_infra "aws sts get-session-token --serial-number "${2}" --token-code ${1}"
   fi
 }
 function setawsTODO() {
