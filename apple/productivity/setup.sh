@@ -1,38 +1,38 @@
 #!/usr/bin/env bash
 
 ## Always update first
-softwareupdate --all --install --force
+softwareupdate --all --install --force --install-rosetta
 
 ## Set some macOS settings
+# Set finder to show all files
 defaults write com.apple.finder AppleShowAllFiles YES
-defaults write com.apple.menuextra.battery ShowPercent YES
+# Set the keyrepeat speed
 defaults write -g KeyRepeat -int 1
+# Ensure the firewall is enabled
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
-# I don't think this currently works, so I put something in the README to do it manually
+# Set the scroll direction
 defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
+# Enable FDE
 sudo fdesetup enable
+# Enable the 'locate' command
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-echo /usr/local/bin/zsh | sudo tee -a /etc/shells
-echo /usr/local/bin/bash | sudo tee -a /etc/shells
+# Allow brew-installed zsh and bash (ARM only)
+echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
+echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells
 xcode-select --install
 
 ## Install some basics
-
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap filippo.io/age https://filippo.io/age
-brew tap sambadevi/powerlevel9k
 brew tap anchore/syft
 brew tap anchore/grype
 brew update
-brew install python3 go maven@3.3 maven git wget gnupg2 ant npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer nvm dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget php screen zsh bison zmap watch jupyter asciinema coreutils libnfc mfoc powerlevel9k logstash graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive yubico-yubikey-manager yubico-authenticator fujitsu-scansnap-manager-ix500 minikube google-chrome-canary nasm octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config xpdf cookiecutter age syft grype beekeeper-studio
+brew install python3 go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible
 npm install -g electron-packager
-brew install --cask vagrant virtualbox google-chrome sublime-text wireshark mysqlworkbench iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher atom veracrypt beyond-compare drawio visual-studio-code little-snitch micro-snitch launchbar Keyboard-Maestro hazel bloodhound xquartz playonmac tunnelblick google-cloud-sdk surge keka microsoft-office evernote wire chef/chef/inspec thunderbird intellij-idea metasploit quicklook-json postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik
-# Twisted version is for sslstrip
-pip3 install bcrypt ipaddress impacket pyyaml pylint pycrypto pyopenssl pefile netaddr termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv
-brew install numpy scipy ansible
-go get -u golang.org/x/lint/golint
+brew install --cask vagrant virtualbox google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite docker burp-suite balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music
+# Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
+pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv cookiecutter
 brew cleanup
-sudo gem install jekyll bundler
 
 ## Set some application settings
 defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wiki/ZipAES
@@ -45,25 +45,21 @@ wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/maste
 
 # zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-chsh -s /usr/local/bin/zsh # Assumes zsh was installed and linked via brew
+chsh -s /opt/homebrew/bin/zsh
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
-ln -s /usr/local/opt/powerlevel9k "${HOME}/.oh-my-zsh/themes/powerlevel9k"
+wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.p10k.zsh
+p10k configure # This will download the fonts and do other p10k setup tasks
 terraform -install-autocomplete
 
 # go
 mkdir "${HOME}/go"
-
-# make
-go get github.com/mrtazz/checkmake
-pushd "${GOPATH}/src/github.com/mrtazz/checkmake" || { echo "Unable to cd to $GOPATH/src/github.com/mrtazz/checkmake"; exit 1; }
-make
-popd || { echo "Unable to popd"; exit 1; }
+go get -u golang.org/x/lint/golint
 
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/bin/backtick.sh
-sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport
+sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 
 # k8s
 k krew install starboard
@@ -78,7 +74,8 @@ open /Applications/Docker.app
 open /Applications/LaunchBar.app
 open /Applications/Micro\ Snitch.app
 open /Applications/Evernote.app
-open /Applications/Microsoft\ Remote\ Desktop\ Beta.app
+open /Applications/Lastpass.app
+open /Applications/Toggl\ Track.app
 open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Setup git
@@ -87,20 +84,8 @@ wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Confi
 
 ## Clone some good repos
 cd ~/src || { echo "Unable to cd"; exit 1; }
-git clone https://github.com/jordansissel/fpm
-git clone https://github.com/apache/metron
-git clone https://github.com/apache/metron-bro-plugin-kafka
-git clone https://github.com/zeek/zeek --recurse-submodules
 git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
-git clone https://github.com/jonzeolla/development ~/src/jonzeolla/development/
-git clone https://github.com/seisollc/probemon ~/src/seiso/probemon/ --recurse-submodules
-git clone https://github.com/powerline/fonts
-git clone https://github.com/trustedsec/social-engineer-toolkit
 git clone https://github.com/ioquake/ioq3
-
-## Install powerline fonts
-cd ~/src/fonts || { echo "Unable to cd"; exit 1; }
-./install.sh
 
 ## Setup quake3
 cd ~/src/ioq3 || { echo "Unable to cd"; exit 1; }
@@ -112,32 +97,13 @@ open ./quake3-latest-pk3s.zip
 cp -pR quake3-latest-pk3s/baseq3/* /Applications/ioquake3/baseq3/
 cp -pR quake3-latest-pk3s/missionpack/* /Applications/ioquake3/missionpack/
 
-## Setup msfconsole
-cd /opt/metasploit-framework/embedded/framework || { echo "Unable to cd"; exit 1; }
-# As of 2018-11-06 this is required to link pg to metasploit's postgres bundled libs, etc.
-gem install pg -v '0.20.0' --source 'https://rubygems.org/' -- --with-pg-config=/opt/metasploit-framework/embedded/bin/pg_config
-bundle install
-
-## Setup SET
-cd ~/src/social-engineer-toolkit || { echo "Unable to cd"; exit 1; }
-latesttag=$(git describe --tags)
-git checkout "${latesttag}"
-python setup.py install
-sudo sed -i '' 's#METASPLOIT_PATH.*#METASPLOIT_PATH=/opt/metasploit-framework/embedded/framework#' /etc/setoolkit/set.config
-
-## Setup fpm
-cd ~/src/fpm || { echo "Unable to cd"; exit 1; }
-latesttag=$(git describe --tags)
-git checkout "${latesttag}"
-gem install --no-ri --no-rdoc fpm
-
 ## Setup GnuPG
 mkdir ~/.gnupg
 echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 
 ## Setup neovim
 # These setup steps assume fzf and node are already installed via brew
-mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start
+mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start ~/.config/nvim
 # Install my config
 wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/init.vim
 # ale
@@ -179,9 +145,6 @@ mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
 defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
 wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
-
-## Update logstash
-logstash-plugin update
 
 ## Setup TLS tooling
 go get -u github.com/cloudflare/cfssl/cmd/...

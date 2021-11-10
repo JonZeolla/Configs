@@ -2,6 +2,13 @@ export TERM="xterm-256color"
 # Update $? to account for the rightmost non-zero failure in a pipeline
 set -o pipefail
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Languages
 export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
@@ -17,7 +24,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -239,5 +246,6 @@ function setawsTODO() {
 ## Other env vars
 export DEFAULT_USER='jonzeolla'
 export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"
-# Version pin to Java 12
-export JAVA_HOME=$(/usr/libexec/java_home -v12)
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
