@@ -57,5 +57,6 @@
         1.  Setup an email signature.
     1.  Microsoft OneDrive
         1.  Setup appropriate syncs (SharePoint, etc.).
+1.  Migrate any unsynced bookmarks (i.e. from custom Chrome profiles)
 
 \* Modified comments from [here](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized).
