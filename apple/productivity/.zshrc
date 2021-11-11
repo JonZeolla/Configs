@@ -156,6 +156,7 @@ alias kctx="kubectx"
 alias kns="kubens"
 alias k="kubectl"
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh | sed 's/kubectl/k/g')
+[[ $commands[kind] ]] && source <(kind completion zsh)
 export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
