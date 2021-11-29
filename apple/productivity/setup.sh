@@ -31,7 +31,9 @@ brew install python3 go git wget gnupg2 npm yarn nmap swig cmake openssl jq azur
 npm install -g electron-packager
 brew install --cask vagrant virtualbox google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite docker owasp-zap balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv cookiecutter
+pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv cookiecutter pipx
+python3 -m pipx ensurepath
+pipx install pipenv
 brew cleanup
 
 ## Set some application settings
