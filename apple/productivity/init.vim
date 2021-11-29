@@ -31,6 +31,8 @@ set scrolloff=2
 set ignorecase smartcase
 " Remove highlighting when searching
 set nohlsearch
+" Set the textwidth to 150 characters
+set textwidth=150
 
 """"""""""""""
 " Key mappings
