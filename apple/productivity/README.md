@@ -11,7 +11,7 @@
     ```
 1.  Run `~/src/jonzeolla/apple/productivity/setup.sh`
     1.  This script is not tested, and is almost guaranteed fail. Use it at your own risk. Consider reviewing and running the contents manually line-by-line. You may not need all of the packages that I install.
-        1. Configure hotkey preferences like the [LastPass quick search](https://support.logmeininc.com/lastpass/help/how-do-i-use-lastpass-hotkeys-on-my-mac).
+        1. Configure hotkey preferences like the [LastPass quick search](https://support.logmeininc.com/lastpass/help/how-do-i-use-lastpass-hotkeys-on-my-mac) and LaunchBar's emoji keyboard shortcut (⌘+e) and Actions.
     1.  Ensure that iTerm 2 has been properly configured (has a "Presenter Mode" profile, is using Solarized Dark theme, is using the Source Code Pro for Powerline font, etc.).  If it is not, follow the following steps:
         1.  After completion, open iTerm 2, open Preferences > Profiles > Colors. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
         1.  To apply the Solarized color presets into iTerm 2, select an existing profile from the profile list window on the left, or create a new profile. Then select the Solarized Dark preset from the "Load Presets" drop down.\*
