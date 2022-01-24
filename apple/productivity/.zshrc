@@ -79,19 +79,21 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
+  ansible
   aws
-  docker-compose
+  brew
   docker
+  docker-compose
+  git
+  golang
+  iterm2
   jsontools
-  vscode
+  macos
   python
   terraform
   vagrant
   vault
-  golang
-  brew
-  ansible
+  vscode
 )
 
 source $ZSH/oh-my-zsh.sh
