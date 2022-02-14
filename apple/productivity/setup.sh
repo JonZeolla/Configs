@@ -34,7 +34,7 @@ keycastr
 balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire
 chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music discord
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip pipenv cookiecutter pipx c7n
+pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx c7n
 python3 -m pipx ensurepath
 pipx install pipenv
 brew cleanup
