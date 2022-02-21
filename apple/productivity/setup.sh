@@ -62,7 +62,7 @@ go get -u golang.org/x/lint/golint
 
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
-mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
+mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso ~/src/sans
 wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/bin/backtick.sh
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 
@@ -86,6 +86,7 @@ open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 ## Setup git
 wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
 wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
+wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.sansgitconfig
 
 ## Clone some good repos
 cd ~/src || { echo "Unable to cd"; exit 1; }
