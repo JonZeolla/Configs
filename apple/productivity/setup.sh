@@ -27,12 +27,21 @@ brew tap filippo.io/age https://filippo.io/age
 brew tap anchore/syft
 brew tap anchore/grype
 brew update
-brew install python3 go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane
+brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane
 npm install -g electron-packager
 brew install --cask vagrant virtualbox google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite docker owasp-zap
 keycastr
 balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire
 chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music discord
+
+###################################################################################
+# Hack to get the latest version of 3, excluding any alphas, betas, or dev releases
+latest_version_of_python="$(pyenv install -l | sed 's/^ *//g' | grep '^3\.' | grep -v '[a-zA-Z]' | tail -1)"
+pyenv install -f "${latest_version_of_python}"
+pyenv global "${latest_version_of_python}"
+eval "$(pyenv init -)"
+###################################################################################
+
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
 pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx c7n
 python3 -m pipx ensurepath
@@ -52,6 +61,7 @@ wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/maste
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 chsh -s /opt/homebrew/bin/zsh
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
+wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zprofile
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
 terraform -install-autocomplete
