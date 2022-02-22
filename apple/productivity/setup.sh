@@ -27,7 +27,10 @@ brew tap filippo.io/age https://filippo.io/age
 brew tap anchore/syft
 brew tap anchore/grype
 brew update
-brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane
+brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick
+ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap
+watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf
+dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane act
 npm install -g electron-packager
 brew install --cask vagrant virtualbox google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite docker owasp-zap
 keycastr
