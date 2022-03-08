@@ -56,6 +56,8 @@ tnoremap <Esc> <C-\><C-n>
 noremap <silent> <Leader>x :%!xmllint --format %<CR>
 " Reformat JSON
 noremap <silent> <Leader>j :%!jq . %<CR>
+" Vertically split, and jump to new side
+noremap <silent> <Leader>n :vsplit <CR><C-w><C-w>
 
 """"""""""""""""
 " Code Commenter
