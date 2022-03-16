@@ -193,6 +193,7 @@ alias testssl="docker run -t --rm mvance/testssl"
 alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/*; do pushd "${folder}"; ggpull; popd; done'
 alias upgradeallthethings="brewupgrade; kkrewupgrade; vagrant box prune; pip3upgrade; upgradenvimpacks"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
+alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 
 ## Functions
 function nvim_exrc_security_check() {
