@@ -14,9 +14,11 @@ export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
 
 # If you come from bash you might have to change your $PATH.
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
-export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH"
+export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH:/Users/jonzeolla/.local/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -158,8 +160,6 @@ alias pip3upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -
 alias kctx="kubectx"
 alias kns="kubens"
 alias k="kubectl"
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh | sed 's/kubectl/k/g')
-[[ $commands[kind] ]] && source <(kind completion zsh)
 export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
@@ -189,12 +189,14 @@ alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):
 export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
 alias vinerd="vim +NERDTree"
-alias asciicast2gif='docker run --rm -v "$(pwd):/data" asciinema/asciicast2gif'
+alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
 alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/*; do pushd "${folder}"; ggpull; popd; done'
 alias upgradeallthethings="brewupgrade; kkrewupgrade; vagrant box prune; pip3upgrade; upgradenvimpacks"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
+# Autocomplete
+autoload -U compinit; compinit
 
 ## Functions
 function nvim_exrc_security_check() {

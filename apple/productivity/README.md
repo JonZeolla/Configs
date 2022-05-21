@@ -31,7 +31,7 @@
     1.  Micro Snitch
     1.  Magnet
     1.  Little Snitch
-1.  Clean up the dock, leaving just Finder, Activity Monitor, and iTerm 2 pinned.
+1.  Clean up the dock, leaving just Finder, Activity Monitor, iTerm 2, and Rancher Desktop pinned.
 1.  Setup any standard folder structures, like `~/Documents/Reference`, etc. and migrate information from prior systems.
 1.  Open finder, then:
     1.  Hit Shift+Cmd+A, and uninstall unwanted Applications

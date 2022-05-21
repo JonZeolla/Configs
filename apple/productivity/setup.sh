@@ -27,9 +27,9 @@ brew tap filippo.io/age https://filippo.io/age
 brew tap anchore/syft
 brew tap anchore/grype
 brew update
-brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane act just colordiff rust logitech-options
+brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl ttygif tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli terraform kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible cosign crane act just colordiff rust logitech-options kind
 npm install -g electron-packager
-brew install --cask vagrant google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite docker owasp-zap keycastr balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music discord google-drive intune-company-portal logitech-presentation parallels
+brew install --cask vagrant google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite owasp-zap keycastr balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire chef/chef/inspec postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass yt-music discord google-drive intune-company-portal logitech-presentation parallels rancher
 
 ###################################################################################
 # Hack to get the latest version of 3, excluding any alphas, betas, or dev releases
@@ -61,6 +61,13 @@ wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/appl
 wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zprofile
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
+sudo mkdir -p /usr/local/share/zsh/site-functions/
+sudo chown jonzeolla: /usr/local/share/zsh/site-functions/
+nerdctl completion zsh > /usr/local/share/zsh/site-functions/_nerdctl
+rdctl completion zsh > /usr/local/share/zsh/site-functions/_rdctl
+kubectl completion zsh | sed 's/kubectl/k/g' > /usr/local/share/zsh/site-functions/_k
+kubectl completion zsh > /usr/local/share/zsh/site-functions/_kubectl
+kind completion zsh > /usr/local/share/zsh/site-functions/_kind
 terraform -install-autocomplete
 
 # go
@@ -76,13 +83,8 @@ sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Curre
 # k8s
 k krew install starboard
 
-# Docker
-docker pull asciinema/asciicast2gif
-docker pull ubuntu:latest
-docker pull centos:latest
-
 ## Start some things up
-open /Applications/Docker.app
+open /Applications/Rancher\ Desktop.app
 open /Applications/LaunchBar.app
 open /Applications/Micro\ Snitch.app
 open /Applications/Evernote.app
