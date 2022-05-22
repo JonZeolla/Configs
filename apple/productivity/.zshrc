@@ -155,6 +155,7 @@ alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 # Python
 alias pri='pipenv run invoke'
 alias pip3upgrade='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U'
+alias upgradepipx='pipx upgrade-all'
 
 # k8s
 alias kctx="kubectx"
@@ -192,7 +193,7 @@ alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
 alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/*; do pushd "${folder}"; ggpull; popd; done'
-alias upgradeallthethings="brewupgrade; kkrewupgrade; vagrant box prune; pip3upgrade; upgradenvimpacks"
+alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradepipx"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 # Autocomplete
