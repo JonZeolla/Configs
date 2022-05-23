@@ -63,6 +63,8 @@ wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/appl
 wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zprofile
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
+
+# Ensure that /usr/local/share/zsh/site-functions/ is in your FPATH env var for the below to work
 sudo mkdir -p /usr/local/share/zsh/site-functions/
 sudo chown jonzeolla: /usr/local/share/zsh/site-functions/
 nerdctl completion zsh > /usr/local/share/zsh/site-functions/_nerdctl
