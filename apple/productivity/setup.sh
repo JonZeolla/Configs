@@ -81,12 +81,15 @@ mkdir "${HOME}/go"
 go get -u golang.org/x/lint/golint
 
 # SANS
+mkdir -p ~/src/sans
 # This is used in iTerm2 configs for the SANS profile(s)
 wget -O ~/Documents/SANS/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
+wget -O ~/src/sans/.envrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.sansenvrc
+direnv allow ~/src/sans/
 
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.screenrc
-mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso ~/src/sans
+mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/backtick.sh
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 

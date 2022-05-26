@@ -85,6 +85,7 @@ plugins=(
   ansible
   aws
   brew
+  direnv
   docker
   docker-compose
   git
@@ -196,6 +197,7 @@ alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/
 alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradepipx"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
+eval "$(mcfly init zsh)"
 # Autocomplete
 autoload -U compinit; compinit
 
@@ -256,6 +258,8 @@ function setawsTODO() {
 ## Other env vars
 export DEFAULT_USER='jonzeolla'
 export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"
+# This turns off all direnv stdout
+export DIRENV_LOG_FORMAT=""
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
