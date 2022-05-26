@@ -52,16 +52,16 @@ defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wi
 
 ## Configure
 # bash
-wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_profile
-wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bashrc
-wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.bash_prompt
+wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_profile
+wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bashrc
+wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_prompt
 
 # zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 chsh -s /opt/homebrew/bin/zsh
-wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zshrc
-wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.zprofile
-wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.p10k.zsh
+wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zshrc
+wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zprofile
+wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
 
 # Ensure that /usr/local/share/zsh/site-functions/ is in your FPATH env var for the below to work
@@ -80,12 +80,12 @@ go get -u golang.org/x/lint/golint
 
 # SANS
 # This is used in iTerm2 configs for the SANS profile(s)
-wget -O ~/Documents/SANS/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/Cloud%20Ace%20Final.png
+wget -O ~/Documents/SANS/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
 
 # other
-wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
+wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso ~/src/sans
-wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/bin/backtick.sh
+wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/backtick.sh
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 
 # k8s
@@ -103,9 +103,9 @@ open /Applications/Parallels\ Desktop.app
 open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Setup git
-wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.gitconfig
-wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.seisogitconfig
-wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/master/apple/productivity/.sansgitconfig
+wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.seisogitconfig
+wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.sansgitconfig
 
 ## Clone some good repos
 cd ~/src || { echo "Unable to cd"; exit 1; }
@@ -130,7 +130,7 @@ echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 # These setup steps assume fzf and node are already installed via brew
 mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start ~/.config/nvim
 # Install my config
-wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/init.vim
+wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/init.vim
 # ale
 git clone --depth 1 https://github.com/dense-analysis/ale.git ~/.local/share/nvim/site/pack/git-plugins/start/ale
 # NERDtree
@@ -156,7 +156,7 @@ npm install -g neovim
 ## Setup vim
 # TODO:  Migrate to vim 8 packages
 mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.vimrc
+wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.vimrc
 git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
 git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
 git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
@@ -171,7 +171,7 @@ git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree/
 mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
 defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
-wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/com.googlecode.iterm2.plist
+wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/com.googlecode.iterm2.plist
 
 ## Setup TLS tooling
 go get -u github.com/cloudflare/cfssl/cmd/...
