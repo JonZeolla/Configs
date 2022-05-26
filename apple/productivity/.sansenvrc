@@ -1,3 +1,17 @@
+# AWS
 export AWS_PROFILE='SEC540: devsecops'
-export AWS_DEFAULT_REGION='us-east-1'
+export AWS_DEFAULT_REGION='us-east-2'
 export AWS_DEFAULT_OUTPUT='json'
+
+# Azure
+export ARM_CLIENT_SECRET=
+export ARM_CLIENT_ID=
+export ARM_TENANT_ID=
+export ARM_SUBSCRIPTION_ID=
+
+export AZDO_ORG_SERVICE_URL='https://dev.azure.com/sec540-jonzeolla'
+export AZDO_PERSONAL_ACCESS_TOKEN=
+export AZURE_DEVOPS_EXT_PAT=
+
+export AZURE_LOCATION=
+export AZURE_VM_SIZE=
