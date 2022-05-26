@@ -81,9 +81,10 @@ mkdir "${HOME}/go"
 go get -u golang.org/x/lint/golint
 
 # SANS
-mkdir -p ~/src/sans
+mkdir -p ~/src/sans ~/Documents/iTerm2
 # This is used in iTerm2 configs for the SANS profile(s)
-wget -O ~/Documents/SANS/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
+wget -O ~/Documents/iTerm2/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
+wget -O ~/Documents/iTerm2/seiso-enso.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/seiso-enso.png
 wget -O ~/src/sans/.envrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.sansenvrc
 direnv allow ~/src/sans/
 
