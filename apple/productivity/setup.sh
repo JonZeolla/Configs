@@ -55,6 +55,7 @@ defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wi
 wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_profile
 wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bashrc
 wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_prompt
+touch ~/.hushlogin # Don't show Last Login MOTD
 
 # zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -63,6 +64,7 @@ wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/
 wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zprofile
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
+touch ~/.hushlogin # Don't show Last Login MOTD
 
 # Ensure that /usr/local/share/zsh/site-functions/ is in your FPATH env var for the below to work
 sudo mkdir -p /usr/local/share/zsh/site-functions/
