@@ -78,6 +78,10 @@ terraform -install-autocomplete
 mkdir "${HOME}/go"
 go get -u golang.org/x/lint/golint
 
+# SANS
+# This is used in iTerm2 configs for the SANS profile(s)
+wget -O ~/Documents/SANS/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/Cloud%20Ace%20Final.png
+
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/master/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso ~/src/sans
