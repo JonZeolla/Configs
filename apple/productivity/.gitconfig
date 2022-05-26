@@ -1,7 +1,7 @@
 [user]
   name = Jon Zeolla
   email = zeolla@gmail.com
-  signingkey = 0DAE181D0BEEC85E
+  signingkey = 0F8BDBBDA27992AB64BEA44963EC3E583341252E
 [alias]
   branches = branch -a
   graph = log --graph --all --decorate --stat --date=iso
@@ -35,3 +35,5 @@
   wdiff = diff --word-diff=color --unified=1
 [init]
   defaultBranch = main
+[commit]
+  gpgsign = true
