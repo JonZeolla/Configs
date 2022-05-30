@@ -132,7 +132,7 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ## Additional zsh configs
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs virtualenv aws kubecontext)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs virtualenv aws azure kubecontext)
 POWERLEVEL9K_KUBECONTEXT_BACKGROUND="006"
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 setopt no_share_history
@@ -200,6 +200,8 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 eval "$(mcfly init zsh)"
 # Autocomplete
 autoload -U compinit; compinit
+autoload -U +X bashcompinit && bashcompinit
+source /opt/homebrew/etc/bash_completion.d/az
 
 ## Functions
 function nvim_exrc_security_check() {
