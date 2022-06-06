@@ -1,5 +1,6 @@
 [user]
 	name = Jon Zeolla
 	email = Jon.Zeolla@SeisoLLC.com
+  signingkey = 0F8BDBBDA27992AB64BEA44963EC3E583341252E
 [pull]
 	rebase = true
