@@ -37,3 +37,7 @@
   defaultBranch = main
 [commit]
   gpgsign = true
+[gpg "x509"]
+	program = gitsign
+[gpg]
+	format = x509
