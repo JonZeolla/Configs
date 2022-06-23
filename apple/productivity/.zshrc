@@ -233,6 +233,7 @@ function setawstoken() {
   fi
   export AWS_DEFAULT_REGION='us-east-1'
   export AWS_DEFAULT_OUTPUT='json'
+  docker pull seiso/easy_infra
 }
 function getawstoken() {
   if ! [[ $1 =~ ^[0-9]{6}$ ]]; then
