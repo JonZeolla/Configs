@@ -88,6 +88,12 @@ wget -O ~/Documents/iTerm2/seiso-enso.png https://raw.githubusercontent.com/JonZ
 wget -O ~/src/sans/.envrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.sansenvrc
 direnv allow ~/src/sans/
 
+# aws
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+unzip sessionmanager-bundle.zip
+sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+rm -rf sessionmanager-bundle*
+
 # other
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
