@@ -41,7 +41,7 @@ eval "$(pyenv init -)"
 ###################################################################################
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx c7n
+pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx c7n pre-commit
 python3 -m pipx ensurepath
 pipx install pipenv
 pipx install pls
