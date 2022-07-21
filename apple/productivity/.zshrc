@@ -166,7 +166,7 @@ export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
 # git
-alias newfeature="git checkout main && ggpull && git checkout -b $1"
+alias newfeature="git checkout main && git pull origin \"$(git_current_branch)\" --tags && git checkout -b $1"
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
