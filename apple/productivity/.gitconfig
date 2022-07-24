@@ -38,6 +38,6 @@
 [commit]
   gpgsign = true
 [gpg "x509"]
-	program = gitsign
+  program = gitsign
 [gpg]
-	format = x509
+  format = x509
