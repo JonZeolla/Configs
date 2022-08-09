@@ -199,5 +199,5 @@ sudo cp ctclient /usr/local/bin/ctclient
 popd || { echo "Unable to popd"; exit 1; }
 
 ## Setup vagrant
-# Install the hostmanager
 vagrant plugin install vagrant-hostmanager
+vagrant plugin install vagrant-parallels
