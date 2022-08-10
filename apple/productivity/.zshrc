@@ -14,7 +14,7 @@ export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
 
 # If you come from bash you might have to change your $PATH.
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="${HOME}/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
@@ -22,6 +22,9 @@ export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:${GOPATH
 # Ensure that pipx uses the pyenv version of python
 PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin/python3"
 export PIPX_DEFAULT_PYTHON
+# Ensure that pipenv uses the pyenv python versions
+PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
+export PIPENV_PYTHON
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
