@@ -162,7 +162,8 @@ mkdir -p ~/.local/share/nvim/site/pack/coc/start
 cd ~/.local/share/nvim/site/pack/coc/start
 curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
 python3 -m pip install --upgrade pynvim jedi mypy
-nvim -c 'CocInstall -sync coc-python coc-json coc-powershell coc-yaml|q|q'
+# This should align with the init.vim g:coc_global_extensions
+nvim -c 'CocInstall -sync coc-docker coc-git coc-json coc-powershell coc-prettier coc-pyright coc-yaml|q|q'
 npm install -g neovim
 
 ## Setup vim
