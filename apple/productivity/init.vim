@@ -33,6 +33,8 @@ set ignorecase smartcase
 set nohlsearch
 " Set the textwidth to 150 characters
 set textwidth=150
+" But don't word wrap when typing text
+set formatoptions-=t
 
 """"""""""""""
 " Key mappings
@@ -88,7 +90,22 @@ let g:airline#extensions#ale#enabled = 1
 " Configure ale
 """""""""""""""
 let g:ale_completion_enabled = 1
-let b:ale_linters = {'python': ['pylint', 'mypy']}
+let b:ale_linters = {
+      \   'python': ['pylint', 'mypy', 'unimport', 'bandit'],
+      \   'ansible': ['ansible-lint'],
+      \   'cloudformation': ['cfn-python-lint'],
+      \   'dockerfile': ['dockerfile'],
+      \}
+let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'python': ['black', 'isort', 'autoimport', 'unimport'],
+      \   'terraform': ['terraform'],
+      \   'rust': ['rustfmt'],
+      \   'go': ['gofmt'],
+      \}
+let g:ale_fix_on_save = 1
+let g:ale_python_isort_options = '--profile black'
+let g:ale_python_auto_pipenv = 1
 
 """""""""""""
 " COC configs
