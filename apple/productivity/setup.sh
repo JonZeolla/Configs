@@ -118,6 +118,8 @@ open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig
 wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.seisogitconfig
 wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.sansgitconfig
+# Default gitsign to GitHub
+git config gitsign.connectorID https://github.com/login/oauth
 
 ## Clone some good repos
 cd ~/src || { echo "Unable to cd"; exit 1; }
