@@ -41,3 +41,5 @@
   program = gitsign
 [gpg]
   format = x509
+[gitsign]
+  connectorID = https://github.com/login/oauth
