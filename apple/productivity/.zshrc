@@ -176,6 +176,7 @@ alias newfeature="git checkout main && git pull origin main --tags && git checko
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
+export GITSIGN_CREDENTIAL_CACHE="${HOME}/Library/Caches/.sigstore/gitsign/cache.sock"
 
 # Docker
 alias dps="docker ps"
