@@ -98,6 +98,8 @@ rm -rf sessionmanager-bundle*
 wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.screenrc
 mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
 wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/backtick.sh
+wget -O ~/bin/aws_session_token_to_env.py https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/aws_session_token_to_env.py
+wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
 sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 
 # k8s
