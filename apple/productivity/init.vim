@@ -94,6 +94,7 @@ let b:ale_linters = {
       \   'ansible': ['ansible-lint'],
       \   'cloudformation': ['cfn-python-lint'],
       \   'dockerfile': ['dockerfile'],
+      \   'go': ['gopls'],
       \   'python': ['pylint', 'mypy', 'unimport', 'bandit'],
       \}
 let g:ale_fixers = {
@@ -114,9 +115,41 @@ let g:ale_python_auto_pipenv = 1
 let g:coc_global_extensions = [
       \ 'coc-docker',
       \ 'coc-git',
+      \ 'coc-go',
       \ 'coc-json',
+      \ 'coc-markdownlint',
       \ 'coc-powershell',
       \ 'coc-prettier',
       \ 'coc-pyright',
       \ 'coc-yaml',
       \ ]
+
+" use <tab> to trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
+""""""""""""""""""""
+" packer.vim configs
+""""""""""""""""""""
+" Requires lua and I don't want to move to init.lua yet so running lua inline
+" After making updates to this section, you **MUST** run:
+" :PackerSync
+" :PackerStatus
+lua <<EOF
+
+return require('packer').startup(function(use)
+  -- Let packer manage itself
+  use 'wbthomason/packer.nvim'
+
+  -- Add iron so we can have REPLs
+  use 'hkupty/iron.nvim'
+end)
+
+EOF

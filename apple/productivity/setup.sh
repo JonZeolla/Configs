@@ -150,6 +150,8 @@ echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 ## Setup neovim
 # These setup steps assume fzf and node are already installed via brew
 mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start ~/.config/nvim
+# Setup the packer plugin manager for neovim
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 # Install my config
 wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/init.vim
 # ale
@@ -166,13 +168,18 @@ git clone https://github.com/NoahTheDuke/vim-just ~/.local/share/nvim/site/pack/
 mkdir -p ~/.local/share/nvim/site/pack/semshi/start
 git clone https://github.com/numirias/semshi ~/.local/share/nvim/site/pack/semshi/start/semshi
 nvim -c 'UpdateRemotePlugins|q'
+# iron (REPL)
+git clone https://github.com/hkupty/iron.nvim ~/.local/share/nvim/site/pack/iron.nvim/start/iron.nvim
 # COC
 mkdir -p ~/.local/share/nvim/site/pack/coc/start
 cd ~/.local/share/nvim/site/pack/coc/start
 curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
 python3 -m pip install --upgrade pynvim jedi mypy
 # This should align with the init.vim g:coc_global_extensions
-nvim -c 'CocInstall -sync coc-docker coc-git coc-json coc-powershell coc-prettier coc-pyright coc-yaml|q|q'
+# Use `:CocList extensions` to see installed extensions
+nvim -c 'CocInstall -sync coc-docker coc-git coc-go coc-json coc-markdownlint coc-powershell coc-prettier coc-pyright coc-yaml|q|q'
+# Include my coc settings, which should have things like weekly maintenance of extensions
+wget -O ~/.config/nvim/coc-settings.json https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/coc-settings.json
 
 ## Setup vim
 # TODO:  Migrate to vim 8 packages

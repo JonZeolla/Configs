@@ -147,12 +147,13 @@ alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f
 alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
-alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/*; do pushd "${folder}"; ggpull; popd; done'
+alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/* ~/.local/share/nvim/site/pack/packer/start/packer.nvim; do pushd "${folder}"; ggpull; popd; done'
 alias upgradep10k='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" && ggpull && popd'
 alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
 alias upgradevagrantplugins='vagrant plugin update vagrant-parallels'
 alias upgradecoc="nvim +CocUpdate +qa; pushd ~/.local/share/nvim/site/pack/coc/start; curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -; popd"
-alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradevagrantplugins; upgradecoc"
+alias upgradepacker="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
+alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradevagrantplugins; upgradecoc; upgradepacker"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 eval "$(mcfly init zsh)"
