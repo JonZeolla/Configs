@@ -64,6 +64,7 @@ wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/
 wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zprofile
 
 # spaceship stuff
+wget -O ~/.spaceshiprc.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.spaceshiprc.zsh
 git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
