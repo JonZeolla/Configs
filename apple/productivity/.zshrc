@@ -152,7 +152,7 @@ alias upgradep10k='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlev
 alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
 alias upgradevagrantplugins='vagrant plugin update vagrant-parallels'
 alias upgradecoc="nvim +CocUpdate +qa; pushd ~/.local/share/nvim/site/pack/coc/start; curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -; popd"
-alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradevagrantplugins"
+alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradevagrantplugins; upgradecoc"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 eval "$(mcfly init zsh)"

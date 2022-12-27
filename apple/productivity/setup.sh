@@ -173,7 +173,6 @@ curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar
 python3 -m pip install --upgrade pynvim jedi mypy
 # This should align with the init.vim g:coc_global_extensions
 nvim -c 'CocInstall -sync coc-docker coc-git coc-json coc-powershell coc-prettier coc-pyright coc-yaml|q|q'
-npm install -g neovim
 
 ## Setup vim
 # TODO:  Migrate to vim 8 packages
