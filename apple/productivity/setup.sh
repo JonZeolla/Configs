@@ -62,6 +62,12 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 chsh -s /opt/homebrew/bin/zsh
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zshrc
 wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zprofile
+
+# spaceship stuff
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+
+# Powerlevel 10k stuff
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.p10k.zsh
 p10k configure # This will download the fonts and do other p10k setup tasks
 touch ~/.hushlogin # Don't show Last Login MOTD
@@ -182,7 +188,7 @@ git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive/
 git clone https://github.com/PProvost/vim-ps1.git ~/.vim/bundle/vim-ps1/
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree/
 
-## Setup iTerm2
+## Setup iTerm2 (Consider moving to warp in the future)
 mkdir -p ~/.iterm2/
 wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
 defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
