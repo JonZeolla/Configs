@@ -43,7 +43,7 @@ set formatoptions-=t
 vnoremap <C-c> :w !pbcopy<CR><CR>
 noremap <C-c><C-p> :r !pbpaste<CR><CR>
 " Map starting a python REPL to ctrl+p ctrl+y
-nmap <C-p><C-y> :CocCommand python.startREPL<CR>
+nmap <C-p><C-y> :IronRepl<CR>
 " Map nerdtree to ctrl+n
 nmap <C-n> :NERDTreeToggle<CR>
 " Map fzf to ctrl+p
@@ -53,6 +53,7 @@ nnoremap <silent> <Leader>s :set spell!<CR>
 " Toggle relative numbering
 nnoremap <silent> <Leader>r :set rnu!<CR> :set number!<CR>
 " Keep consistent escape key usage in terminal mode
+" Doesn't currently work with iron.nvim so you need to still use Ctrl+\,Ctrl+n to exit terminal
 tnoremap <Esc> <C-\><C-n>
 " Reformat XML
 noremap <silent> <Leader>x :%!xmllint --format %<CR>
@@ -95,7 +96,7 @@ let b:ale_linters = {
       \   'cloudformation': ['cfn-python-lint'],
       \   'dockerfile': ['dockerfile'],
       \   'go': ['gopls'],
-      \   'python': ['pylint', 'mypy', 'unimport', 'bandit'],
+      \   'python': ['pylint', 'mypy', 'unimport', 'bandit', 'refurb'],
       \}
 let g:ale_fixers = {
       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -107,6 +108,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_python_isort_options = '--profile black'
 let g:ale_python_auto_pipenv = 1
+let g:ale_python_refurb_auto_pipenv = 1
 
 """""""""""""
 " COC configs

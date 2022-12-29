@@ -60,6 +60,7 @@ plugins=(
   jsontools
   macos
   python
+  screen
   terraform
   vagrant
   vault
