@@ -96,7 +96,7 @@ let b:ale_linters = {
       \   'cloudformation': ['cfn-python-lint'],
       \   'dockerfile': ['dockerfile'],
       \   'go': ['gopls'],
-      \   'python': ['pylint', 'mypy', 'unimport', 'bandit', 'refurb'],
+      \   'python': ['pylint', 'mypy', 'unimport', 'bandit', 'refurb', 'pyre'],
       \}
 let g:ale_fixers = {
       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -108,6 +108,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_python_isort_options = '--profile black'
 let g:ale_python_auto_pipenv = 1
+let g:ale_python_pyre_auto_pipenv = 1
 let g:ale_python_refurb_auto_pipenv = 1
 
 """""""""""""
