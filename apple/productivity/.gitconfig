@@ -43,3 +43,5 @@
   format = x509
 [gitsign]
   connectorID = https://github.com/login/oauth
+[tag]
+  forceSignAnnotated = true
