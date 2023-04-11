@@ -20,7 +20,6 @@ set wildmenu
 set wildmode=list:longest,full
 syntax enable
 set background=dark
-set pastetoggle=<F1>
 " Replace tabs with two spaces
 set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 " Reduce the update time of neovim to get better GitGutter and coc experiences
