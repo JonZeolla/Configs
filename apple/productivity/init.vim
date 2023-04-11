@@ -34,13 +34,15 @@ set nohlsearch
 set textwidth=150
 " But don't word wrap when typing text
 set formatoptions-=t
+" Share the macos clipboard
+set clipboard=unnamed
 
 """"""""""""""
 " Key mappings
 """"""""""""""
-" Simple macOS copy/paste
-vnoremap <C-c> :w !pbcopy<CR><CR>
-noremap <C-c><C-p> :r !pbpaste<CR><CR>
+" LEGACY copy/paste; see clipboard setting
+" vnoremap <C-c> :w !pbcopy<CR><CR>
+" noremap <C-c><C-p> :r !pbpaste<CR><CR>
 " Map starting a python REPL to ctrl+p ctrl+y
 nmap <C-p><C-y> :IronRepl<CR>
 " Map nerdtree to ctrl+n
