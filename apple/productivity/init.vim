@@ -30,8 +30,8 @@ set scrolloff=2
 set ignorecase smartcase
 " Remove highlighting when searching
 set nohlsearch
-" Set the textwidth to 150 characters
-set textwidth=150
+" Set the textwidth to 120 characters
+set textwidth=120
 " But don't word wrap when typing text
 set formatoptions-=t
 " Share the macos clipboard
