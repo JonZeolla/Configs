@@ -131,9 +131,6 @@ alias dps="docker ps"
 alias docker-cleanup="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune; docker system df"
 alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
 
-# Vagrant
-alias vagrant-cleanup="vagrant global-status --prune && vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
-
 # Screen
 alias s="screen -S"
 alias sl="screen -ls"
@@ -151,10 +148,9 @@ alias testssl="docker run -t --rm mvance/testssl"
 alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/* ~/.local/share/nvim/site/pack/packer/start/packer.nvim; do pushd "${folder}"; ggpull; popd; done'
 alias upgradep10k='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" && ggpull && popd'
 alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
-alias upgradevagrantplugins='vagrant plugin update vagrant-parallels'
 alias upgradecoc="nvim +CocUpdate +qa; pushd ~/.local/share/nvim/site/pack/coc/start; curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -; popd"
 alias upgradepacker="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradevagrantplugins; upgradecoc; upgradepacker"
+alias upgradeallthethings="brewupgrade; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradecoc; upgradepacker"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 eval "$(mcfly init zsh)"
