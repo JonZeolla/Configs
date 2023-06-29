@@ -16,6 +16,7 @@
         1.  After completion, open iTerm 2, open Preferences > Profiles > Colors. Click on the "load presets" and select "import...". Select the Solarized Dark theme file from ~/.iterm2/ (To display hidden files, press command, shift, and period).\*
         1.  To apply the Solarized color presets into iTerm 2, select an existing profile from the profile list window on the left, or create a new profile. Then select the Solarized Dark preset from the "Load Presets" drop down.\*
         1.  Set the font under Preferences > Profiles > Text to Source Code Pro for Powerline.
+    1. Update "${HOME}/.oh-my-zsh/plugins/git/" to add `--tags --force` to `ggpull`
 1.  Setup the GPG keychain, ~/.aws/{config,credentials}, and gitsign.
 1.  Setup the github CLI via `gh auth login && gh extension install actions/gh-actions-cache`.
 1.  Open the App Store and install purchased/desirable apps under "Purchased" (Magnet, NFC Tools, Countdown Timer Plus, ...)
