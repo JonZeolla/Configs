@@ -76,7 +76,7 @@ touch ~/.hushlogin # Don't show Last Login MOTD
 
 # Ensure that /usr/local/share/zsh/site-functions/ is in your FPATH env var for the below to work
 sudo mkdir -p /usr/local/share/zsh/site-functions/
-sudo chown jonzeolla: /usr/local/share/zsh/site-functions/
+sudo chown "$(whoami)": /usr/local/share/zsh/site-functions/
 nerdctl completion zsh > /usr/local/share/zsh/site-functions/_nerdctl
 rdctl completion zsh > /usr/local/share/zsh/site-functions/_rdctl
 kubectl completion zsh | sed 's/kubectl/k/g' > /usr/local/share/zsh/site-functions/_k

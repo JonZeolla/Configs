@@ -18,7 +18,7 @@ export PYENV_ROOT="${HOME}/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
-export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:/usr/local/opt/grep/libexec/gnubin:${PYTHON_LOCAL}:$PATH:/Users/jonzeolla/.local/bin"
+export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:${PYTHON_LOCAL}:$PATH:/Users/jonzeolla/.local/bin"
 # Ensure that pipx uses the pyenv version of python
 PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin/python3"
 export PIPX_DEFAULT_PYTHON
