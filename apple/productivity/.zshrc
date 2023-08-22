@@ -34,8 +34,11 @@ PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin
 export PIPX_DEFAULT_PYTHON
 
 # Ensure that pipenv uses the pyenv python versions
-PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
-export PIPENV_PYTHON
+# Ensure that pipenv uses the pyenv python versions
+# This is intentionally disabled because having it causes issues; see the Update in
+# https://stackoverflow.com/questions/64189006/why-is-pipenv-not-picking-up-my-pyenv-versions
+#PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
+#export PIPENV_PYTHON
 
 
 # Path to your oh-my-zsh installation.
