@@ -1,3 +1,5 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export TERM="xterm-256color"
 # Update $? to account for the rightmost non-zero failure in a pipeline
 set -o pipefail
@@ -9,22 +11,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Generic path update
+export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/local/opt/ruby/bin:${PATH}"
+
 # Languages
 export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
-# If you come from bash you might have to change your $PATH.
+## Buncha python stuff
+# 3 steps for pyenv setup per https://github.com/pyenv/pyenv/tree/79a501139fd106b39c6095467930ac506822c4c5#set-up-your-shell-environment-for-pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# https://docs.python.org/3/library/site.html#site.USER_SITE
 PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
-export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:${GOPATH}/bin:${GOROOT}/bin:/usr/local/opt/ruby/bin:${PYTHON_LOCAL}:$PATH:/Users/jonzeolla/.local/bin"
+export PATH="${PYTHON_LOCAL}:${PATH}"
+
 # Ensure that pipx uses the pyenv version of python
 PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin/python3"
 export PIPX_DEFAULT_PYTHON
+
 # Ensure that pipenv uses the pyenv python versions
 PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
 export PIPENV_PYTHON
+
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
