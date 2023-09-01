@@ -214,3 +214,10 @@ go build certificate-transparency-go/client/ctclient/ctclient.go
 chmod a+x ctclient
 sudo cp ctclient /usr/local/bin/ctclient
 popd || { echo "Unable to popd"; exit 1; }
+
+## Setup goss/dgoss
+curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o ~/bin/dgoss
+chmod o+x ~/bin/dgoss
+latest_release=$(curl https://api.github.com/repos/goss-org/goss/releases/latest | jq -r '.tag_name' | sed 's_^v__')
+# Assumes arm64
+curl -L "https://github.com/goss-org/goss/releases/download/${latest_release}/goss-linux-arm64" -o ~/bin/goss

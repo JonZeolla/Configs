@@ -34,7 +34,6 @@ PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin
 export PIPX_DEFAULT_PYTHON
 
 # Ensure that pipenv uses the pyenv python versions
-# Ensure that pipenv uses the pyenv python versions
 # This is intentionally disabled because having it causes issues; see the Update in
 # https://stackoverflow.com/questions/64189006/why-is-pipenv-not-picking-up-my-pyenv-versions
 #PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
@@ -154,6 +153,16 @@ alias sr="screen -r"
 # Powershell
 alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):/src microsoft/powershell:latest"
 
+# goss/dgoss
+export GOSS_PATH=~/bin/goss
+function upgradegoss() {
+  curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o ~/bin/dgoss
+  chmod o+x ~/bin/dgoss
+  latest_release=$(curl https://api.github.com/repos/goss-org/goss/releases/latest | jq -r '.tag_name' | sed 's_^v__')
+  # Assumes arm64
+  curl -L "https://github.com/goss-org/goss/releases/download/${latest_release}/goss-linux-arm64" -o ~/bin/goss
+}
+
 # Other
 export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
@@ -165,7 +174,7 @@ alias upgradep10k='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlev
 alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
 alias upgradecoc="nvim +CocUpdate +qa; pushd ~/.local/share/nvim/site/pack/coc/start; curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -; popd"
 alias upgradepacker="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradecoc; upgradepacker"
+alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradecoc; upgradepacker; upgradegoss"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 eval "$(mcfly init zsh)"
