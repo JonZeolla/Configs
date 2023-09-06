@@ -157,10 +157,11 @@ alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):
 export GOSS_PATH=~/bin/goss
 function upgradegoss() {
   curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o ~/bin/dgoss
-  chmod o+x ~/bin/dgoss
+  chmod 0755 ~/bin/dgoss
   latest_release=$(curl https://api.github.com/repos/goss-org/goss/releases/latest | jq -r '.tag_name' | sed 's_^v__')
   # Assumes arm64
-  curl -L "https://github.com/goss-org/goss/releases/download/${latest_release}/goss-linux-arm64" -o ~/bin/goss
+  curl -L "https://github.com/goss-org/goss/releases/download/v${latest_release}/goss-linux-arm64" -o ~/bin/goss
+  chmod 0755 ~/bin/goss
 }
 
 # Other
