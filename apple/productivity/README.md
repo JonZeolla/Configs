@@ -26,6 +26,7 @@
     1.  Configure [the trackpad](https://support.apple.com/en-us/HT202319) to be 4 ticks from the right.
     1.  Disable "Automatically rearrange Spaces based on most recent use" in Mission Control.
     1.  Enable "Automatically hide and show the Dock" in Dock & Menu Bar.
+    1.  Speed up desktop switching via Display --> Refresh Rate --> Change from ProMotion to 60 Hertz.
     1.  Set "Show Sound in menu bar" to "always" under Sound.
     1.  Enable "Display the time with seconds" under Dock & Menu Bar.
     1.  Ensure the Mission control "Show Desktop" is not set to F11 F11 to fix VS Code "step into" shortcut. ([details](https://github.com/Microsoft/vscode/issues/5102))
