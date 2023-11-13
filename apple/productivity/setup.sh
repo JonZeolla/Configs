@@ -150,6 +150,7 @@ echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
 
 ## Setup neovim
 # These setup steps assume fzf and node are already installed via brew
+brew install fzf node
 mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start ~/.config/nvim
 # Setup the packer plugin manager for neovim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
@@ -165,6 +166,10 @@ git clone https://github.com/airblade/vim-gitgutter.git ~/.local/share/nvim/site
 git clone https://github.com/vim-airline/vim-airline ~/.local/share/nvim/site/pack/git-plugins/start/vim-airline
 # vim-just
 git clone https://github.com/NoahTheDuke/vim-just ~/.local/share/nvim/site/pack/git-plugins/start/vim-just
+# GitHub copilot
+git clone https://github.com/github/copilot.vim ~/.local/share/nvim/site/pack/git-plugins/start/copilot
+echo "Interactively setup copilot"
+nvim -c 'Copilot setup'
 # semshi
 mkdir -p ~/.local/share/nvim/site/pack/semshi/start
 git clone https://github.com/numirias/semshi ~/.local/share/nvim/site/pack/semshi/start/semshi
