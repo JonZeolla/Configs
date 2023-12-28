@@ -48,6 +48,8 @@ export ZSH="${HOME}/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="spaceship"
+# Spaceship configs
+SPACESHIP_PROMPT_ASYNC=FALSE
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -70,11 +72,9 @@ plugins=(
   docker-compose
   git
   golang
-  iterm2
   jsontools
   macos
   python
-  screen
   terraform
   vagrant
   vault
@@ -89,6 +89,7 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
+alias vi='nvim'
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -116,9 +117,6 @@ alias sha1="openssl sha1"
 alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
-if type nvim > /dev/null 2>&1; then
-  alias vi=nvim_exrc_security_check
-fi
 alias brewupgrade='bubo ; brew upgrade --cask ; bubc'
 
 # Python
@@ -145,10 +143,9 @@ alias dps="docker ps"
 alias docker-cleanup="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune; docker system df"
 alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
 
-# Screen
-alias s="screen -S"
-alias sl="screen -ls"
-alias sr="screen -r"
+# tmux
+alias t="tmux"
+alias tl="tmux ls"
 
 # Powershell
 alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):/src microsoft/powershell:latest"
@@ -167,18 +164,15 @@ function upgradegoss() {
 # Other
 export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
-alias vinerd="vim +NERDTree"
 alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
-alias upgradenvimpacks='for folder in ~/.local/share/nvim/site/pack/git-plugins/start/* ~/.local/share/nvim/site/pack/packer/start/packer.nvim; do pushd "${folder}"; ggpull; popd; done'
-alias upgradep10k='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" && ggpull && popd'
 alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
-alias upgradecoc="nvim +CocUpdate +qa; pushd ~/.local/share/nvim/site/pack/coc/start; curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -; popd"
-alias upgradepacker="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimpacks; upgradep10k; upgradespaceship; upgradepipx; upgradecoc; upgradepacker; upgradegoss"
+alias upgradenvchad='pushd ~/.config/nvim && ggpull && popd'
+alias upgradenvimconfig='upgradenvchad ; pushd ~/.config/nvim/lua/custom && ggpull && popd; nvim --headless "+MasonInstallAll" "+MasonUpdate" +qa; nvim --headless "+Lazy sync" +qa'
+alias upgradetmux='~/.tmux/plugins/tpm/bin/update_plugins all'
+alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradepipx; upgradegoss"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
-eval "$(mcfly init zsh)"
 # Autocomplete
 autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit

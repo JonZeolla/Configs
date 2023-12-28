@@ -46,4 +46,4 @@
 [tag]
   forceSignAnnotated = true
 [fetch]
-	tags = true
+  tags = true

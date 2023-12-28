@@ -10,7 +10,7 @@ defaults write com.apple.finder AppleShowAllFiles YES
 defaults write -g KeyRepeat -int 1
 # Ensure the firewall is enabled
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
-# Set the scroll direction
+# Set the scroll direction; may no longer work or need a restart?
 defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
 # Enable FDE
 sudo fdesetup enable
@@ -23,14 +23,9 @@ xcode-select --install
 
 ## Install some basics
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-brew tap filippo.io/age https://filippo.io/age
-brew tap anchore/syft
-brew tap anchore/grype
-brew tap cantino/mcfly
-brew update
-brew install go git wget gnupg2 npm yarn nmap swig cmake openssl jq azure-cli hashcat shellcheck packer dos2unix testssl tree vim imagemagick ruby autoconf automake libtool gnu-tar pandoc aircrack-ng bash libextractor fortune cowsay lolcat awscli opentofu kubectl nuget screen zsh bison zmap watch jupyter asciinema coreutils graphviz wakeonlan grep hadolint coreutils yara neovim neo4j kubectx git-lfs aquasecurity/trivy/trivy ncrack fzf dive ykman minikube octant krew sha3sum tor tor-browser libxml2 libxmlsec1 pkg-config age syft grype beekeeper-studio pyenv ansible sigstore/tap/cosign crane act just colordiff rust logitech-options kind cantino/mcfly/mcfly direnv helm tektoncd-cli cue-lang/tap/cue sigstore/tap/gitsign cfn-lint ansible-lint gofmt rustfmt scc gh quarto sigstore/tap/gitsign-credential-cache screenflow yq gitter docker-slim elgato-stream-deck obs poetry cloudquery/tap/cloudquery graphviz go-task/tap/go-task tcl-tk terraformer goreleaser tilt pv ffmpeg python-tk
-npm install -g electron-packager
-brew install --cask google-chrome sublime-text wireshark iterm2 slack steam firefox the-unarchiver gpg-suite zap keycastr balenaEtcher drawio visual-studio-code little-snitch micro-snitch launchbar hazel bloodhound xquartz surge keka microsoft-office evernote wire postman paragon-extfs pdftotext obs signal toggle-track gimp lens meld quik microsoft-teams lastpass discord google-drive intune-company-portal logitech-presentation parallels rancher docker chromedriver spotify obsbot-webcam
+# terraform is no longer updated via brew, so not installing it here
+brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu cowsay lolcat fortune go-task yq pyenv ansible gnu-tar azure-cli awscli kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config sigstore/tap/gitsign-credential-cache quarto screenflow gh elgato-stream-deck obs ffmpeg rancher krisp ruff ripgrep tmux
+brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch launchbar xquartz keka signal lens discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam warp
 
 ###################################################################################
 # Hack to get the latest version of 3, excluding any alphas, betas, or dev releases
@@ -41,184 +36,79 @@ eval "$(pyenv init -)"
 ###################################################################################
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt impacket pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx c7n pre-commit gitpython pyyaml flynt refurb principalmapper pyre myst-parser gql trestle
+pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx pre-commit gitpython pyyaml flynt refurb pyre gql
 python3 -m pipx ensurepath
 pipx install pipenv
-pipx install pls
 pipx install compliance-trestle
 brew cleanup
 
 ## Set some application settings
-defaults write com.aone.keka ZipUsingAES TRUE # https://github.com/aonez/Keka/wiki/ZipAES
+# https://github.com/aonez/Keka/wiki/ZipAES
+defaults write com.aone.keka ZipUsingAES TRUE
 
 ## Configure
-# bash
-wget -O ~/.bash_profile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_profile
-wget -O ~/.bashrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bashrc
-wget -O ~/.bash_prompt https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.bash_prompt
-touch ~/.hushlogin # Don't show Last Login MOTD
-
 # zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 chsh -s /opt/homebrew/bin/zsh
 wget -O ~/.zshrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zshrc
-wget -O ~/.zprofile https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.zprofile
 
 # spaceship stuff
 wget -O ~/.spaceshiprc.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.spaceshiprc.zsh
 git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-
-# Powerlevel 10k stuff
-wget -O ~/.p10k.zsh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.p10k.zsh
-p10k configure # This will download the fonts and do other p10k setup tasks
 touch ~/.hushlogin # Don't show Last Login MOTD
 
 # Ensure that /usr/local/share/zsh/site-functions/ is in your FPATH env var for the below to work
 sudo mkdir -p /usr/local/share/zsh/site-functions/
 sudo chown "$(whoami)": /usr/local/share/zsh/site-functions/
-nerdctl completion zsh > /usr/local/share/zsh/site-functions/_nerdctl
-rdctl completion zsh > /usr/local/share/zsh/site-functions/_rdctl
 kubectl completion zsh | sed 's/kubectl/k/g' > /usr/local/share/zsh/site-functions/_k
 kubectl completion zsh > /usr/local/share/zsh/site-functions/_kubectl
-kind completion zsh > /usr/local/share/zsh/site-functions/_kind
-terraform -install-autocomplete
 
 # go
 mkdir "${HOME}/go"
-go get -u golang.org/x/lint/golint
 
 # SANS
-mkdir -p ~/src/sans ~/Documents/iTerm2
-# This is used in iTerm2 configs for the SANS profile(s)
-wget -O ~/Documents/iTerm2/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
-wget -O ~/Documents/iTerm2/seiso-enso.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/seiso-enso.png
-wget -O ~/src/sans/.envrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.sansenvrc
-direnv allow ~/src/sans/
+mkdir -p ~/src/sans ~/Documents/sans
+wget -O ~/Documents/sans/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
+wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.sansgitconfig
 
-# aws
-curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
-unzip sessionmanager-bundle.zip
-sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
-rm -rf sessionmanager-bundle*
+# Seiso
+mkdir -p ~/src/seiso ~/Documents/seiso
+wget -O ~/Documents/seiso/seiso-enso.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/seiso-enso.png
+wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.seisogitconfig
 
 # other
-wget -O ~/.screenrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.screenrc
-mkdir -p ~/bin ~/etc ~/src/testing ~/src/seiso
-wget -O ~/bin/backtick.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/backtick.sh
-wget -O ~/bin/aws_session_token_to_env.py https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/aws_session_token_to_env.py
+mkdir -p ~/bin ~/etc ~/src/testing
 wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
-sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /opt/homebrew/bin/airport
 
 # k8s
 k krew install starboard
 
 ## Start some things up
-open /Applications/Rancher\ Desktop.app
 open /Applications/LaunchBar.app
 open /Applications/Micro\ Snitch.app
-open /Applications/Evernote.app
-open /Applications/Lastpass.app
-open /Applications/Toggl\ Track.app
-open /Applications/Company\ Portal.app/
-open /Applications/Parallels\ Desktop.app
 open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Setup git
 wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig
-wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.seisogitconfig
-wget -O ~/src/sans/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.sansgitconfig
 
-## Clone some good repos
-cd ~/src || { echo "Unable to cd"; exit 1; }
-git clone https://github.com/jonzeolla/configs ~/src/jonzeolla/configs/
-git clone https://github.com/ioquake/ioq3
-
-## Setup quake3
-cd ~/src/ioq3 || { echo "Unable to cd"; exit 1; }
-./make-macosx.sh x86_64
-cd build || { echo "Unable to cd"; exit 1; }
-cp -pR release-darwin-x86_64/ /Applications/ioquake3
-curl -L 'https://www.ioquake3.org/data/quake3-latest-pk3s.zip' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'DNT: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'Referer: https://ioquake3.org/extras/patch-data/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' --compressed --output ./quake3-latest-pk3s.zip
-open ./quake3-latest-pk3s.zip
-cp -pR quake3-latest-pk3s/baseq3/* /Applications/ioquake3/baseq3/
-cp -pR quake3-latest-pk3s/missionpack/* /Applications/ioquake3/missionpack/
-
-## Setup GnuPG
-mkdir ~/.gnupg
-echo "use-standard-socket" >> ~/.gnupg/gpg-agent.conf
+## Setup tmux
+mkdir -p ~/.config/tmux/ ~/.tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+wget -O ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux.conf
+wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux_status.sh
 
 ## Setup neovim
-# These setup steps assume fzf and node are already installed via brew
-brew install fzf node
-mkdir -p ~/.local/share/nvim/site/pack/git-plugins/start ~/.config/nvim
-# Setup the packer plugin manager for neovim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-# Install my config
-wget -O ~/.config/nvim/init.vim https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/init.vim
-# ale
-git clone --depth 1 https://github.com/dense-analysis/ale.git ~/.local/share/nvim/site/pack/git-plugins/start/ale
-# NERDtree
-git clone https://github.com/preservim/nerdtree.git ~/.local/share/nvim/site/pack/git-plugins/start/nerdtree
-# gitgutter
-git clone https://github.com/airblade/vim-gitgutter.git ~/.local/share/nvim/site/pack/git-plugins/start/vim-gitgutter
-# airline
-git clone https://github.com/vim-airline/vim-airline ~/.local/share/nvim/site/pack/git-plugins/start/vim-airline
-# vim-just
-git clone https://github.com/NoahTheDuke/vim-just ~/.local/share/nvim/site/pack/git-plugins/start/vim-just
-# GitHub copilot
-git clone https://github.com/github/copilot.vim ~/.local/share/nvim/site/pack/git-plugins/start/copilot
-echo "Interactively setup copilot"
-nvim -c 'Copilot setup'
-# semshi
-mkdir -p ~/.local/share/nvim/site/pack/semshi/start
-git clone https://github.com/numirias/semshi ~/.local/share/nvim/site/pack/semshi/start/semshi
-nvim -c 'UpdateRemotePlugins|q'
-# iron (REPL)
-git clone https://github.com/hkupty/iron.nvim ~/.local/share/nvim/site/pack/iron.nvim/start/iron.nvim
-# COC
-mkdir -p ~/.local/share/nvim/site/pack/coc/start
-cd ~/.local/share/nvim/site/pack/coc/start
-curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
-python3 -m pip install --upgrade pynvim jedi mypy
-# This should align with the init.vim g:coc_global_extensions
-# Use `:CocList extensions` to see installed extensions
-nvim -c 'CocInstall -sync coc-docker coc-git coc-go coc-json coc-markdownlint coc-powershell coc-prettier coc-pyright coc-yaml|q|q'
-# Include my coc settings, which should have things like weekly maintenance of extensions
-wget -O ~/.config/nvim/coc-settings.json https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/coc-settings.json
-
-## Setup vim
-# TODO:  Migrate to vim 8 packages
-mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-wget -O ~/.vimrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.vimrc
-git clone https://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible/
-git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized/
-git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim/
-git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go
-git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline/
-git clone --depth=1 https://github.com/vim-syntastic/syntastic.git ~/.vim/bundle/syntastic/
-git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive/
-git clone https://github.com/PProvost/vim-ps1.git ~/.vim/bundle/vim-ps1/
-git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree/
-
-## Setup iTerm2 (Consider moving to warp in the future)
-mkdir -p ~/.iterm2/
-wget -O ~/.iterm2/solarized_dark.itermcolors https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors
-defaults write com.googlecode.iterm2 AboutToPasteTabsWithCancel 0
-wget -O ~/Library/Preferences/com.googlecode.iterm2.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/com.googlecode.iterm2.plist
-
-## Setup TLS tooling
-go get -u github.com/cloudflare/cfssl/cmd/...
-go get github.com/google/trillian
-pushd ~/go/src/github.com/google/trillian || { echo "Unable to cd to ~/go/src/github.com/google/trillian"; exit 1; }
-go get -t -u -v ./...
-popd || { echo "Unable to popd"; exit 1; }
-pushd ~/src || { echo "Unable to cd to ~/src"; exit 1; }
-git clone https://github.com/google/certificate-transparency-go.git
-go build certificate-transparency-go/client/ctclient/ctclient.go
-chmod a+x ctclient
-sudo cp ctclient /usr/local/bin/ctclient
-popd || { echo "Unable to popd"; exit 1; }
+# Install NvChad
+git clone https://github.com/NvChad/NvChad ~/.config/nvim
+# Apply my config
+git clone git@github.com:jonzeolla/neovim.git ~/.config/nvim/lua/custom
+# GitHub copilot requires node and an interactive setup
+brew install node
+echo "Interactively login to copilot"
+nvim "+Copilot auth" +qa
+nvim --headless "+MasonInstallAll" +qa
+nvim --headless "+Lazy sync" +qa
 
 ## Setup goss/dgoss
 curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o ~/bin/dgoss
