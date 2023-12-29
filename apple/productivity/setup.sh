@@ -95,7 +95,7 @@ wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/ap
 ## Setup tmux
 mkdir -p ~/.config/tmux/ ~/.tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-wget -O ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux.conf
+wget -O ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/tmux.conf
 wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux_status.sh
 
 ## Setup neovim
