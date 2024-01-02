@@ -102,7 +102,7 @@ wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs
 # Install NvChad
 git clone https://github.com/NvChad/NvChad ~/.config/nvim
 # Apply my config
-git clone git@github.com:jonzeolla/neovim.git ~/.config/nvim/lua/custom
+git clone https://github.com/jonzeolla/neovim.git ~/.config/nvim/lua/custom
 # GitHub copilot requires node and an interactive setup
 brew install node
 echo "Interactively login to copilot"
