@@ -10,6 +10,7 @@
   remotes = remote -v
   tags = tag -l
   word-diff = diff --word-diff
+  blame = blame -w -ccc
 [includeIf "gitdir:~/src/seiso/**"]
   path = ~/src/seiso/.gitconfig
 [includeIf "gitdir:~/src/sans/**"]
