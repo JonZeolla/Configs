@@ -103,6 +103,9 @@ wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs
 git clone https://github.com/NvChad/NvChad ~/.config/nvim
 # Apply my config
 git clone https://github.com/jonzeolla/neovim.git ~/.config/nvim/lua/custom
+# Configure neovim supporting tools
+mkdir -p ~/.config/yamllint
+wget -O ~/.config/yamllint/config https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/yamllint.config
 # GitHub copilot requires node and an interactive setup
 brew install node
 echo "Interactively login to copilot"
