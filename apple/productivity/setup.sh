@@ -106,6 +106,7 @@ git clone https://github.com/jonzeolla/neovim.git ~/.config/nvim/lua/custom
 # Configure neovim supporting tools
 mkdir -p ~/.config/yamllint
 wget -O ~/.config/yamllint/config https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/yamllint.config
+wget -O ~/.pylintrc https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.pylintrc
 # GitHub copilot requires node and an interactive setup
 brew install node
 echo "Interactively login to copilot"

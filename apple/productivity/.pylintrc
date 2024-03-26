@@ -1,0 +1,6 @@
+[FORMAT]
+max-line-length=160
+
+[MESSAGES CONTROL]
+# logging-fstring-interpolation
+disable=W1203
