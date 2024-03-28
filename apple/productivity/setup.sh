@@ -67,6 +67,10 @@ kubectl completion zsh > /usr/local/share/zsh/site-functions/_kubectl
 # go
 mkdir "${HOME}/go"
 
+# Zenable
+mkdir -p ~/src/zenable
+wget -O ~/src/zenable/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.zenablegitconfig
+
 # SANS
 mkdir -p ~/src/sans ~/Documents/sans
 wget -O ~/Documents/sans/Cloud\ Ace\ Final.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/Cloud%20Ace%20Final.png
