@@ -96,6 +96,8 @@ open /usr/local/Caskroom/little-snitch/*/LittleSnitch-*.dmg
 
 ## Setup git
 wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig
+wget -O ~/.gitconfig.offline https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig.offline
+wget -O ~/.gitconfig.online https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig.online
 
 ## Setup tmux
 mkdir -p ~/.config/tmux/ ~/.tmux/plugins

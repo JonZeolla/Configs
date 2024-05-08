@@ -1,0 +1,52 @@
+[user]
+  name = Jon Zeolla
+  email = zeolla@gmail.com
+  signingkey = 0F8BDBBDA27992AB64BEA44963EC3E583341252E
+[alias]
+  branches = branch -a
+  graph = log --graph --all --decorate --stat --date=iso
+  hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+  leaderboard = shortlog -sn --all --no-merges
+  remotes = remote -v
+  tags = tag -l
+  word-diff = diff --word-diff
+[includeIf "gitdir:~/src/sans/**"]
+  path = ~/src/sans/.gitconfig
+[includeIf "gitdir:~/src/zenable/**"]
+  path = ~/src/zenable/.gitconfig
+[color]
+  ui = auto
+[pull]
+  rebase = true
+[credential]
+  helper = osxkeychain
+[filter "tabspace"]
+  smudge = gunexpand --tabs=2 --first-only
+  clean = expand --tabs=2 --initial
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[diff "pandoc"]
+  textconv = pandoc --to=markdown
+  prompt = false
+[alias]
+  wdiff = diff --word-diff=color --unified=1
+[init]
+  defaultBranch = main
+[tag]
+  forceSignAnnotated = true
+[fetch]
+  tags = true
+################################################
+# Disable commit signing when offline
+# [commit]
+#   gpgsign = true
+# [gpg "x509"]
+#   program = gitsign
+# [gpg]
+#   format = x509
+# [gitsign]
+#   connectorID = https://github.com/login/oauth
+################################################

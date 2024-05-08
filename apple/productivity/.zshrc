@@ -137,6 +137,8 @@ alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
 export GITSIGN_CREDENTIAL_CACHE="${HOME}/Library/Caches/sigstore/gitsign/cache.sock"
+alias gooffline="cp ~/.gitconfig.offline ~/.gitconfig"
+alias goonline="cp ~/.gitconfig.online ~/.gitconfig"
 
 # Docker
 alias dps="docker ps"
