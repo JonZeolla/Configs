@@ -23,6 +23,7 @@
     1.  Micro Snitch
     1.  Magnet
     1.  Little Snitch
+    1.  Fathom video
 1.  Clean up the dock, leaving it as minimal as possible.
 1.  Open finder, then:
     1.  Hit Shift+Cmd+A, and uninstall unwanted Applications like GarageBand.
