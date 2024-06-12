@@ -39,6 +39,11 @@ export PIPX_DEFAULT_PYTHON
 #PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
 #export PIPENV_PYTHON
 
+## AI stuff
+export OLLAMA_API_BASE=http://127.0.0.1:11434
+export AIDER_AUTO_COMMITS=False
+alias aider="aider --model ollama/llama3:70b"
+
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
