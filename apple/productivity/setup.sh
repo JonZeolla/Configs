@@ -36,11 +36,12 @@ eval "$(pyenv init -)"
 ###################################################################################
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat hatch
+pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml grip cookiecutter pipx pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat
 brew install fd # for the linux-cultist/venv-selector.nvim plugin
 python3 -m pipx ensurepath
 pipx install pipenv
 pipx install compliance-trestle
+pipx install hatch
 brew cleanup
 
 ## Set some application settings
