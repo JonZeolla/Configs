@@ -11,6 +11,9 @@
   tags = tag -l
   word-diff = diff --word-diff
   blame = blame -w -ccc
+  latest-work = branch --sort=-committerdate
+[includeIf "gitdir:~/src/zenable/**"]
+  path = ~/src/zenable/.gitconfig
 [includeIf "gitdir:~/src/seiso/**"]
   path = ~/src/seiso/.gitconfig
 [includeIf "gitdir:~/src/sans/**"]
