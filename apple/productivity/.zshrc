@@ -14,30 +14,14 @@ fi
 # Generic path update
 export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/local/opt/ruby/bin:${PATH}"
 
-# Languages
+# Go
 export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
-## Buncha python stuff
-# 3 steps for pyenv setup per https://github.com/pyenv/pyenv/tree/79a501139fd106b39c6095467930ac506822c4c5#set-up-your-shell-environment-for-pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# https://docs.python.org/3/library/site.html#site.USER_SITE
-PYTHON_LOCAL=$(python3 -c "import site, pathlib; print(pathlib.Path(site.USER_BASE, 'bin'))")
-export PATH="${PYTHON_LOCAL}:${PATH}"
-
-# Ensure that pipx uses the pyenv version of python
-PIPX_DEFAULT_PYTHON="${HOME}/.pyenv/versions/$(pyenv version | cut -f1 -d\ )/bin/python3"
-export PIPX_DEFAULT_PYTHON
-
-# Ensure that pipenv uses the pyenv python versions
-# This is intentionally disabled because having it causes issues; see the Update in
-# https://stackoverflow.com/questions/64189006/why-is-pipenv-not-picking-up-my-pyenv-versions
-#PIPENV_PYTHON="${PYENV_ROOT}/shims/python"
-#export PIPENV_PYTHON
+# Python
+export RYE_HOME="${HOME}/.rye"
+export PATH="${RYE_HOME}/shims:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
@@ -125,7 +109,6 @@ alias headers="curl -I"
 alias brewupgrade='bubo ; brew upgrade --cask ; brew upgrade ; brew cleanup'
 
 # Python
-alias pri='pipenv run invoke'
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
 alias upgradepipx='pipx upgrade-all'
 

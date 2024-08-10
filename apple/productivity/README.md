@@ -14,6 +14,7 @@
     1.  This script is not tested, and is almost guaranteed fail. Use it at your own risk. Consider reviewing and running the contents manually line-by-line.
     1.  Install Sauce Code Pro from [Nerd fonts](https://www.nerdfonts.com/) (The Source Code Pro equivalent) and setup Warp to use it
     1.  Update "${HOME}/.oh-my-zsh/plugins/git/" to add `--tags --force` to `ggpull`
+    1.  Run `rye` and finish the setup.
 1.  Configure hotkey preferences like the LaunchBar's emoji keyboard shortcut (⌘+e) and Actions.
 1.  Setup the aws cli and gitsign.
 1.  Setup the github CLI via `gh auth login && gh extension install actions/gh-actions-cache`.
