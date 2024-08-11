@@ -66,7 +66,6 @@ plugins=(
   python
   terraform
   vagrant
-  vault
   vscode
 )
 
