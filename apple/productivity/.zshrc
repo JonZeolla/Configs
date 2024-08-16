@@ -165,7 +165,6 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 # Autocomplete
 autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
-source /opt/homebrew/etc/bash_completion.d/az
 
 ## Functions
 function nvim_exrc_security_check() {
