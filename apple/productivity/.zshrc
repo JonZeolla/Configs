@@ -37,8 +37,8 @@ export ZSH="${HOME}/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="spaceship"
-# Spaceship configs
-SPACESHIP_PROMPT_ASYNC=FALSE
+# General Spaceship configs
+SPACESHIP_ANSIBLE_SHOW=false
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -53,19 +53,15 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  ansible
   aws
   brew
   direnv
-  docker
-  docker-compose
   git
   golang
   jsontools
   macos
   python
   terraform
-  vagrant
   vscode
 )
 
@@ -94,6 +90,10 @@ POWERLEVEL9K_KUBECONTEXT_BACKGROUND="006"
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 setopt no_share_history
 unsetopt share_history
+
+# Zenable Spaceship configs; must be later in this file to find `spaceship`
+source "${HOME}/.zsh/zenable-spaceship-section/zenable.plugin.zsh"
+spaceship add zenable
 
 ## Configure things
 # OS
@@ -155,9 +155,9 @@ export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
 alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
-alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && ggpull && popd'
-alias upgradenvchad='pushd ~/.config/nvim && ggpull && popd'
-alias upgradenvimconfig='upgradenvchad ; pushd ~/.config/nvim/lua/custom && ggpull && popd; nvim --headless "+MasonInstallAll" "+MasonUpdate" +qa; nvim --headless "+Lazy sync" +qa'
+alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && git pull && popd'
+alias upgradenvchad='pushd ~/.config/nvim && git pull && popd'
+alias upgradenvimconfig='upgradenvchad ; pushd ~/.config/nvim/lua/custom && git pull && popd; nvim --headless "+MasonInstallAll" "+MasonUpdate" +qa; nvim --headless "+Lazy sync" +qa'
 alias upgradetmux='~/.tmux/plugins/tpm/bin/update_plugins all'
 alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradepipx; upgradegoss"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
