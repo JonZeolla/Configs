@@ -39,6 +39,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="spaceship"
 # General Spaceship configs
 SPACESHIP_ANSIBLE_SHOW=false
+SPACESHIP_DOCKER_SHOW=false
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
