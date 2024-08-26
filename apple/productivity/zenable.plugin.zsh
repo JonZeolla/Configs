@@ -44,8 +44,8 @@ spaceship_zenable() {
 
   # Display the zenable section using spaceship::section::v4
   spaceship::section::v4 \
-    --color="$SPACESHIP_ZENABLE_COLOR" \
-    --symbol="$SPACESHIP_ZENABLE_SYMBOL" \
+    --color "$SPACESHIP_ZENABLE_COLOR" \
+    --symbol "$SPACESHIP_ZENABLE_SYMBOL" \
     ""
     # --prefix="$SPACESHIP_ZENABLE_PREFIX" \
     # --suffix="$SPACESHIP_ZENABLE_SUFFIX" \
