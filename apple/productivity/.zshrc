@@ -229,8 +229,6 @@ export DEFAULT_USER='jonzeolla'
 export HISTCONTROL="ignorespace${HISTCONTROL:+:$HISTCONTROL}"
 # This turns off all direnv stdout
 export DIRENV_LOG_FORMAT=""
-# Required until https://github.com/go-task/task/issues/1585 is stable
-export TASK_X_MAP_VARIABLES=2
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
