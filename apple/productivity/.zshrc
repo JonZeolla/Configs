@@ -107,6 +107,13 @@ alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
 alias brewupgrade='bubo ; brew upgrade --cask ; brew upgrade ; brew cleanup'
+function copy() {
+  if [[ $# -gt 0 ]]; then
+    pbcopy < <(cat "$@")
+  else
+    echo "Usage: copy <file glob>"
+  fi
+}
 
 # Python
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
@@ -120,7 +127,24 @@ export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
 # git
-alias newfeature="git checkout main && git pull origin main --force --tags && git checkout -b $1"
+function newfeature() {
+  if [[ $# -eq 1 ]]; then
+    git checkout main
+    git pull origin main --force --tags
+    git checkout -b "$1"
+  else
+    echo "Usage: newfeature <new-branch-name>"
+  fi
+}
+function movechanges() {
+  if [[ $# -eq 1 ]]; then
+    git stash
+    newfeature "$1"
+    git stash pop
+  else
+    echo "Usage: movechanges <new-branch-name>"
+  fi
+}
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
