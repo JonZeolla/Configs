@@ -115,7 +115,7 @@ function copy() {
   fi
 }
 function grepyml() {
-  grep -r "$1" * --include \*.yml --exclude-dir=.venv --exclude-dir=.terraform
+  grep -r "$1" * --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform
 }
 function greppy() {
   grep -r "$1" * --include \*.py --exclude-dir=.venv --exclude-dir=.terraform
