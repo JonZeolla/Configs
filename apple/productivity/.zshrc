@@ -114,6 +114,15 @@ function copy() {
     echo "Usage: copy <file glob>"
   fi
 }
+function grepyml() {
+  grep -r "$1" * --include \*.yml
+}
+function greppy() {
+  grep -r "$1" * --include \*.py
+}
+function grepmd() {
+  grep -r "$1" * --include \*.md
+}
 
 # Python
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
