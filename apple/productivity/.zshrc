@@ -115,13 +115,13 @@ function copy() {
   fi
 }
 function grepyml() {
-  grep -r "$1" * --include \*.yml
+  grep -r "$1" * --include \*.yml --exclude-dir=.venv --exclude-dir=.terraform
 }
 function greppy() {
-  grep -r "$1" * --include \*.py
+  grep -r "$1" * --include \*.py --exclude-dir=.venv --exclude-dir=.terraform
 }
 function grepmd() {
-  grep -r "$1" * --include \*.md
+  grep -r "$1" * --include \*.md --exclude-dir=.venv --exclude-dir=.terraform
 }
 
 # Python
