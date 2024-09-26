@@ -109,6 +109,7 @@ SPACESHIP_PROMPT_ORDER=(
   aws
   aws_custom
   line_sep
+  char
 )
 
 export monorepo="TODO_change_your_zshrc"
