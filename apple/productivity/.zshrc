@@ -98,6 +98,19 @@ source "${HOME}/.zsh/zenable-spaceship-section/zenable.plugin.zsh"
 spaceship add zenable
 source "${HOME}/.zsh/zenable-spaceship-section/aws_custom.plugin.zsh"
 spaceship add aws_custom
+source "${HOME}/.zsh/zenable-spaceship-section/dir_custom.plugin.zsh"
+spaceship add dir_custom
+SPACESHIP_PROMPT_ORDER=(
+  dir_custom
+  git
+  exec_time
+  async
+  zenable
+  aws
+  aws_custom
+  line_sep
+)
+
 export monorepo="TODO_change_your_zshrc"
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
