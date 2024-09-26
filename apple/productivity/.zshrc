@@ -96,6 +96,8 @@ unsetopt share_history
 # Spaceship configs; must be later in this file to find `spaceship`
 source "${HOME}/.zsh/zenable-spaceship-section/zenable.plugin.zsh"
 spaceship add zenable
+source "${HOME}/.zsh/zenable-spaceship-section/aws_custom.plugin.zsh"
+spaceship add aws_custom
 export monorepo="TODO_change_your_zshrc"
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
