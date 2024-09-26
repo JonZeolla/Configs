@@ -92,9 +92,21 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 setopt no_share_history
 unsetopt share_history
 
-# Zenable Spaceship configs; must be later in this file to find `spaceship`
+## Zenable
+# Spaceship configs; must be later in this file to find `spaceship`
 source "${HOME}/.zsh/zenable-spaceship-section/zenable.plugin.zsh"
 spaceship add zenable
+export monorepo="TODO_change_your_zshrc"
+export scripts_dir="${monorepo}/scripts"
+function sethost() {
+  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.host"
+}
+function setcontainer() {
+  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.container"
+}
+function setsandbox() {
+  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.sandbox"
+}
 
 ## Configure things
 # OS
@@ -116,6 +128,9 @@ function copy() {
 }
 function grepyml() {
   grep -r "$1" * --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform
+}
+function greptoml() {
+  grep -r "$1" * --include \*.toml --exclude-dir=.venv --exclude-dir=.terraform
 }
 function greppy() {
   grep -r "$1" * --include \*.py --exclude-dir=.venv --exclude-dir=.terraform

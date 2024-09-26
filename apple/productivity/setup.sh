@@ -65,7 +65,7 @@ mkdir -p ~/src/zenable
 wget -O ~/src/zenable/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.zenablegitconfig
 # Configure spaceship
 mkdir -p ~/.zsh/zenable-spaceship-section
-wget -O ~/.zsh/zenable-spaceship-section/zenable.plugin.sh https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/zenable.plugin.sh
+wget -O ~/.zsh/zenable-spaceship-section/zenable.plugin.zsh https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/zenable.plugin.zsh
 
 # SANS
 mkdir -p ~/src/sans ~/Documents/sans

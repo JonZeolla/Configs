@@ -32,21 +32,39 @@ spaceship_zenable() {
 
   # Check if any environment variable starts with ZENABLE_
   local zenable_var_found=false
+  # Check for specific env vars
+  local zenable_account=""
+  local zenable_environment=""
+
   for var in ${(k)parameters}; do
     if [[ $var == ZENABLE_* ]]; then
       zenable_var_found=true
-      break
+      if [[ $var == "ZENABLE_ACCOUNT" ]]; then
+        zenable_account="${(P)var}"
+      fi
+      if [[ $var == "ZENABLE_ENVIRONMENT" ]]; then
+        zenable_environment="${(P)var}"
+      fi
     fi
   done
 
   # If no ZENABLE_ variable is found, don't show the section
   [[ $zenable_var_found == false ]] && return
 
+  # Create the prompt content for account and environment
+  local zenable_info=""
+  if [[ -n $zenable_account ]]; then
+    zenable_info+="[Account: $zenable_account] "
+  fi
+  if [[ -n $zenable_environment ]]; then
+    zenable_info+="[Environment: $zenable_environment] "
+  fi
+
   # Display the zenable section using spaceship::section::v4
   spaceship::section::v4 \
     --color "$SPACESHIP_ZENABLE_COLOR" \
     --symbol "$SPACESHIP_ZENABLE_SYMBOL" \
-    ""
+    "${zenable_info}"
     # --prefix="$SPACESHIP_ZENABLE_PREFIX" \
     # --suffix="$SPACESHIP_ZENABLE_SUFFIX" \
 }
