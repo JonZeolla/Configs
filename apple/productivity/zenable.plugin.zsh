@@ -41,9 +41,10 @@ spaceship_zenable() {
       zenable_var_found=true
       if [[ $var == "ZENABLE_ACCOUNT" ]]; then
         zenable_account="${(P)var}"
-      fi
-      if [[ $var == "ZENABLE_ENVIRONMENT" ]]; then
+      elif [[ $var == "ZENABLE_ENVIRONMENT" ]]; then
         zenable_environment="${(P)var}"
+      else
+        other_zenable_var_found=true
       fi
     fi
   done
@@ -61,10 +62,9 @@ spaceship_zenable() {
   fi
 
   # Display the zenable section using spaceship::section::v4
+  # Only display a symbol if a ZENABLE_ env var was found which _wasn't_ ACCOUNT or ENVIRONMENT
   spaceship::section::v4 \
     --color "$SPACESHIP_ZENABLE_COLOR" \
-    --symbol "$SPACESHIP_ZENABLE_SYMBOL" \
+    ${other_zenable_var_found:+--symbol "$SPACESHIP_ZENABLE_SYMBOL"} \
     "${zenable_info}"
-    # --prefix="$SPACESHIP_ZENABLE_PREFIX" \
-    # --suffix="$SPACESHIP_ZENABLE_SUFFIX" \
 }
