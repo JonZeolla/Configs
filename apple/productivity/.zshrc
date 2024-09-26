@@ -101,13 +101,16 @@ spaceship add aws_custom
 export monorepo="TODO_change_your_zshrc"
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
-  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.host"
+  ln -sf "${monorepo}/services/.envrc.host" "${monorepo}/services/.envrc"
+  direnv allow "${monorepo}/services"
 }
 function setcontainer() {
-  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.container"
+  ln -sf "${monorepo}/services/.envrc.container" "${monorepo}/services/.envrc"
+  direnv allow "${monorepo}/services"
 }
 function setsandbox() {
-  ln -s "${monorepo}/services/.envrc" "${monorepo}/services/.envrc.sandbox"
+  ln -sf "${monorepo}/services/.envrc.sandbox" "${monorepo}/services/.envrc"
+  direnv allow "${monorepo}/services"
 }
 
 ## Configure things
