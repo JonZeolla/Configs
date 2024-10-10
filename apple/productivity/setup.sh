@@ -24,7 +24,7 @@ xcode-select --install
 ## Install some basics
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 # terraform is no longer updated via brew, so not installing it here
-brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu lolcat fortune go-task yq ansible gnu-tar kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config sigstore/tap/gitsign-credential-cache quarto screenflow gh elgato-stream-deck obs ffmpeg rancher krisp ruff ripgrep tmux superhuman poetry ollama uv k3d rye cursor pipenv grip aws-sam-cli pv rsync
+brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu lolcat fortune go-task yq ansible gnu-tar kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config sigstore/tap/gitsign-credential-cache quarto screenflow gh elgato-stream-deck obs ffmpeg rancher krisp ruff ripgrep tmux superhuman poetry ollama uv k3d rye cursor pipenv grip aws-sam-cli pv rsync golangci-lint
 brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal lens discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam warp descript
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
