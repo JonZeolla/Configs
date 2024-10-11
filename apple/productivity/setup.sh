@@ -28,11 +28,10 @@ brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opent
 brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal lens discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam warp descript
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
-pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml cookiecutter pipx pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat
+pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml cookiecutter pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat
 brew install fd # for the linux-cultist/venv-selector.nvim plugin
-python3 -m pipx ensurepath
-pipx install compliance-trestle
-pipx install hatch
+uv tool install compliance-trestle
+uv tool install tox
 brew cleanup
 
 ## Set some application settings
