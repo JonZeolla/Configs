@@ -201,7 +201,6 @@ alias docker-cleanup="docker system df; docker container prune ; docker builder 
 alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
 
 # tmux
-alias t="tmux"
 alias tl="tmux ls"
 
 # Powershell
@@ -230,7 +229,8 @@ alias upgradetmux='~/.tmux/plugins/tpm/bin/update_plugins all'
 alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradepipx; upgradegoss"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
-# common task typo
+# common task typo / shortener
+alias t="task"
 alias ask="task"
 # Autocomplete
 autoload -U compinit; compinit
