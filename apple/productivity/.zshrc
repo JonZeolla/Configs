@@ -12,7 +12,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Generic path update
-export PATH="${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/local/opt/ruby/bin:${PATH}"
+export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/local/opt/ruby/bin:${PATH}"
 
 # Go
 export GOPATH="${HOME}/go"
@@ -20,8 +20,11 @@ export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
 # Python
-export RYE_HOME="${HOME}/.rye"
-export PATH="${RYE_HOME}/shims:${PATH}"
+# uv sets up symlinks into .local/bin
+export PATH="${HOME}/.local/bin:${PATH}"
+
+# Rust
+export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
