@@ -149,16 +149,16 @@ function copy() {
   fi
 }
 function grepyml() {
-  grep -r "$1" * --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform
+  grep -r --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 function greptoml() {
-  grep -r "$1" * --include \*.toml --exclude-dir=.venv --exclude-dir=.terraform
+  grep -r --include \*.toml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 function greppy() {
-  grep -r "$1" * --include \*.py --exclude-dir=.venv --exclude-dir=.terraform
+  grep -r --include \*.py --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 function grepmd() {
-  grep -r "$1" * --include \*.md --exclude-dir=.venv --exclude-dir=.terraform
+  grep -r --include \*.md --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 
 # Python
