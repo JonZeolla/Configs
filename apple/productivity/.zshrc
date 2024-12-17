@@ -191,6 +191,17 @@ function movechanges() {
     echo "Usage: movechanges <new-branch-name>"
   fi
 }
+function change() {
+  if [[ $# -eq 1 ]]; then
+    git checkout main
+    git pull origin main --tags
+    pr_branch=$(gh pr view "$1" --json headRefName -q .headRefName)
+    git fetch origin "${pr_branch}"
+    git checkout "${pr_branch}"
+  else
+    echo "Usage: change <pr-number>"
+  fi
+}
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
