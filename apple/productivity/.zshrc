@@ -246,6 +246,7 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 # common task typo / shortener
 alias t="task"
 alias ask="task"
+alias taks="task"
 # Autocomplete
 autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
