@@ -194,7 +194,7 @@ function movechanges() {
     echo "Usage: movechanges <new-branch-name>"
   fi
 }
-function change() {
+function checkout() {
   if [[ $# -eq 1 ]]; then
     git checkout main
     git pull origin main --tags
@@ -202,7 +202,7 @@ function change() {
     git fetch origin "${pr_branch}"
     git checkout "${pr_branch}"
   else
-    echo "Usage: change <pr-number>"
+    echo "Usage: checkout <pr-number>"
   fi
 }
 alias gpom="git push origin main"
