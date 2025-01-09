@@ -18,6 +18,7 @@ SPACESHIP_ZENABLE_ASYNC="${SPACESHIP_ZENABLE_ASYNC=false}"
 # SPACESHIP_ZENABLE_SUFFIX="${SPACESHIP_ZENABLE_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
 SPACESHIP_ZENABLE_SYMBOL="${SPACESHIP_ZENABLE_SYMBOL="⚠️ "}"
 SPACESHIP_ZENABLE_COLOR="${SPACESHIP_ZENABLE_COLOR="red"}"
+SPACESHIP_PYTHON_SYMBOL="${SPACESHIP_PYTHON_SYMBOL="🐍"}"
 
 # ------------------------------------------------------------------------------
 # Section
@@ -35,6 +36,7 @@ spaceship_zenable() {
   # Check for specific env vars
   local zenable_account=""
   local zenable_environment=""
+  local pythonpath_var_found=false
 
   for var in ${(k)parameters}; do
     if [[ $var == ZENABLE_* ]]; then
@@ -47,18 +49,24 @@ spaceship_zenable() {
         other_zenable_var_found=true
       fi
     fi
+
+    if [[ $var == *PYTHONPATH* ]] && [[ -n "${(P)var}" ]]; then
+      pythonpath_var_found=true
+    fi
   done
 
-  # If no ZENABLE_ variable is found, don't show the section
-  [[ $zenable_var_found == false ]] && return
-
-  # Create the prompt content for account and environment
   local zenable_info=""
+  # Create the prompt content for account and environment
   if [[ -n $zenable_account ]]; then
     zenable_info+="[Account: $zenable_account] "
   fi
   if [[ -n $zenable_environment ]]; then
     zenable_info+="[Environment: $zenable_environment] "
+  fi
+
+  # Add Python-related symbol if PYTHONPATH-related variables are found
+  if [[ $pythonpath_var_found == true ]]; then
+    zenable_info+="$SPACESHIP_PYTHON_SYMBOL "
   fi
 
   # Display the zenable section using spaceship::section::v4
