@@ -201,6 +201,7 @@ function checkout() {
     pr_branch=$(gh pr view "$1" --json headRefName -q .headRefName)
     git fetch origin "${pr_branch}"
     git checkout "${pr_branch}"
+    git pull origin "${pr_branch}"
   else
     echo "Usage: checkout <pr-number>"
   fi
