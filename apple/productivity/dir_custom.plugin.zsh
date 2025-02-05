@@ -54,10 +54,10 @@ spaceship_dir_custom() {
         dir="$trunc_prefix svc/$service_name"
       elif [[ $relative_path == infrastructure/accounts/* ]]; then
         local account_name=${relative_path#infrastructure/accounts/}
-        dir="$trunc_prefix acct/$account_name"
+        dir="$trunc_prefix infra/acct/$account_name"
       elif [[ $relative_path == infrastructure/modules/* ]]; then
         local module_name=${relative_path#infrastructure/modules/}
-        dir="$trunc_prefix mod/$module_name"
+        dir="$trunc_prefix infra/mod/$module_name"
       elif [[ $relative_path == packages/* ]]; then
         # For packages, keep the entire path starting from `packages/`
         local package_path=${relative_path#packages/}
