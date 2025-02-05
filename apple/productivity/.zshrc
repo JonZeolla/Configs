@@ -118,16 +118,16 @@ SPACESHIP_PROMPT_ORDER=(
 export monorepo="TODO_change_your_zshrc"
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
-  ln -sf "${monorepo}/services/.envrc.host" "${monorepo}/services/.envrc"
-  direnv allow "${monorepo}/services"
+  ln -sf "${monorepo}/.envrc.host" "${monorepo}/.envrc"
+  direnv allow "${monorepo}/"
 }
 function setcontainer() {
-  ln -sf "${monorepo}/services/.envrc.container" "${monorepo}/services/.envrc"
-  direnv allow "${monorepo}/services"
+  ln -sf "${monorepo}/.envrc.container" "${monorepo}/.envrc"
+  direnv allow "${monorepo}/"
 }
 function setsandbox() {
-  ln -sf "${monorepo}/services/.envrc.sandbox" "${monorepo}/services/.envrc"
-  direnv allow "${monorepo}/services"
+  ln -sf "${monorepo}/.envrc.sandbox" "${monorepo}/.envrc"
+  direnv allow "${monorepo}/"
 }
 
 ## Configure things
