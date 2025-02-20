@@ -2,7 +2,7 @@
 # Zenable
 #
 # Zenable is a notification tool for displaying alerts in your prompt
-# when any environment variables starting with ZENABLE_ are set
+# when certain environment variables starting with ZENABLE_ are set
 #
 # Based on https://github.com/spaceship-prompt/spaceship-section/tree/main and
 # https://spaceship-prompt.sh/api/section/
@@ -39,7 +39,8 @@ spaceship_zenable() {
   local pythonpath_var_found=false
 
   for var in ${(k)parameters}; do
-    if [[ $var == ZENABLE_* ]]; then
+    # Skip alerting on loglevel; should be obvious and is regularly set
+    if [[ $var == ZENABLE_* ]] && [[ $var != "ZENABLE_LOGLEVEL" ]]; then
       zenable_var_found=true
       if [[ $var == "ZENABLE_ACCOUNT" ]]; then
         zenable_account="${(P)var}"
