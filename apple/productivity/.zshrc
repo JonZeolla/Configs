@@ -148,6 +148,7 @@ function copy() {
     echo "Usage: copy <file glob>"
   fi
 }
+alias grepz="grep --exclude-dir=.venv --exclude-dir=.terraform --exclude-dir=.aws-sam --exclude-dir=.pytest_cache --exclude-dir=.web --exclude-dir=node_modules --exclude=requirements.txt --exclude=uv.lock --exclude=package-lock.json"
 function grepyml() {
   grep -r --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
