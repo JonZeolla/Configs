@@ -156,7 +156,7 @@ function greptoml() {
   grep -r --include \*.toml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 function greppy() {
-  grep -r --include \*.py --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
+  grep -r --include \*.py --exclude-dir=.venv --exclude-dir=.terraform --exclude-dir=.aws-sam -- "$1" *
 }
 function grepmd() {
   grep -r --include \*.md --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
