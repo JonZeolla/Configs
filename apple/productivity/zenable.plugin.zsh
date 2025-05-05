@@ -46,7 +46,9 @@ spaceship_zenable() {
         zenable_account="${(P)var}"
       elif [[ $var == "ZENABLE_ENVIRONMENT" ]]; then
         zenable_environment="${(P)var}"
-      else
+      # Selectively don't alert or track certain variables
+      elif [[ $var != "ZENABLE_GITHUB_APP_INSTALLATION_ID" ]]; then
+        # Otherwise, flag another ZENABLE_ env var as found for alerting
         other_zenable_var_found=true
       fi
     fi
