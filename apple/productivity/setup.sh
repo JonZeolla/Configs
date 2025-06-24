@@ -28,6 +28,8 @@ brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opent
 brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam ghostty descript microsoft-powerpoint microsoft-word microsoft-excel sublime-text
 # At the moment this is the only supported way to install task-master
 npm install -g task-master-ai && task-master init
+# At the moment this is the only supported way to install claude code
+npm install -g @anthropic-ai/claude-code
 
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
 pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml cookiecutter pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat
