@@ -165,6 +165,9 @@ function greptf() {
   grep -r --include \*.tf --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
 
+# AI tools
+alias claude="/Users/jonzeolla/.claude/local/claude"
+
 # Python
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
 alias upgradepipx='pipx upgrade-all'
