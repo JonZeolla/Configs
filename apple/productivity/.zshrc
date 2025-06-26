@@ -30,7 +30,8 @@ export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 export OLLAMA_API_BASE=http://127.0.0.1:11434
 export AIDER_AUTO_COMMITS=False
 alias aider="aider --model ollama/llama3:70b"
-
+alias claude="/Users/jonzeolla/.claude/local/claude"
+alias cca="/Users/jonzeolla/.claude/local/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task'"
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -164,9 +165,6 @@ function grepmd() {
 function greptf() {
   grep -r --include \*.tf --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
 }
-
-# AI tools
-alias claude="/Users/jonzeolla/.claude/local/claude"
 
 # Python
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
