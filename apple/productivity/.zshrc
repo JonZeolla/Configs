@@ -28,10 +28,12 @@ export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
-export AIDER_AUTO_COMMITS=False
-alias aider="aider --model ollama/llama3:70b"
-alias claude="/Users/jonzeolla/.claude/local/claude"
-alias cca="/Users/jonzeolla/.claude/local/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task'"
+claude() {
+  command /Users/jonzeolla/.claude/local/claude "$@"
+}
+claudeallowed() {
+  command /Users/jonzeolla/.claude/local/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
+}
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
