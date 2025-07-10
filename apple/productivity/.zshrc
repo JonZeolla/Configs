@@ -28,10 +28,10 @@ export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
-claude() {
+claudedefault() {
   command /Users/jonzeolla/.claude/local/claude "$@"
 }
-claudeallowed() {
+claud() {
   command /Users/jonzeolla/.claude/local/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
 }
 
