@@ -210,6 +210,14 @@ function checkout() {
     echo "Usage: checkout <pr-number>"
   fi
 }
+function worktree() {
+  branch="$1"
+  if [[ $# -eq 1 ]]; then
+    git worktree add "${monorepo}/../${branch}" -b "${branch}"
+  else
+    echo "Usage: worktree <new-worktree-and-branch-name>"
+  fi
+}
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
