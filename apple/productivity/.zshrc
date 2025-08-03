@@ -220,6 +220,9 @@ function worktree() {
     echo "Usage: worktree <new-worktree-and-branch-name>"
   fi
 }
+function compare() {
+  git diff --name-only $(git merge-base main HEAD)..HEAD
+}
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
