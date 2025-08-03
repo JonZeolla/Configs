@@ -223,6 +223,10 @@ function worktree() {
 function compare() {
   git diff --name-only $(git merge-base main HEAD)..HEAD
 }
+function split-branch() {
+  ~/bin/git-split-branch.sh
+}
+alias breakup-branch="split-branch"
 alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
