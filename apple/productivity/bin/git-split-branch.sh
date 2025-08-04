@@ -42,7 +42,6 @@ interrupt_handler() {
 }
 
 # Set up cleanup trap immediately
-trap cleanup_worktrees EXIT
 trap interrupt_handler INT TERM
 
 # Check bash version (we need 4.3+ for nameref support)
@@ -615,14 +614,14 @@ organize_files_by_branch() {
     for file in "${!file_assignments_ref[@]}"; do
         local branch_num=${file_assignments_ref[$file]}
         # Check if the key exists, if not initialize it
-        if [[ ! -v "branch_files_ref[branch_num]" ]]; then
-            branch_files_ref[branch_num]=""
+        if [[ ! -v "branch_files_ref[$branch_num]" ]]; then
+            branch_files_ref[$branch_num]=""
         fi
-        
-        if [[ -z "${branch_files_ref[branch_num]}" ]]; then
-            branch_files_ref[branch_num]="$file"
+
+        if [[ -z "${branch_files_ref[$branch_num]}" ]]; then
+            branch_files_ref[$branch_num]="$file"
         else
-            branch_files_ref[branch_num]+=" $file"
+            branch_files_ref[$branch_num]+=" $file"
         fi
     done
 }
@@ -710,6 +709,7 @@ show_final_report() {
     local current_branch="$1"
     local -n branch_files_ref=$2
     local -n created_branches_ref=$3
+    local -n worktrees_pruned_ref=$4
 
     echo
     echo "======================================"
@@ -724,6 +724,8 @@ show_final_report() {
     if git diff --name-only --cached | grep -q .; then
         echo -e "  ${YELLOW}Note: You have staged changes${NC}"
     fi
+    echo -e "  Push command: ${BLUE}git push -u origin $current_branch${NC}"
+    echo -e "  PR link: ${BLUE}$(generate_pr_link "$current_branch")${NC}"
     echo
 
     # Show created branches
@@ -735,12 +737,45 @@ show_final_report() {
         echo
     done
 
+    # Prompt to push branches
+    if [[ ${#created_branches_ref[@]} -gt 0 ]]; then
+        echo
+        if confirm_prompt "Would you like to push all branches to origin?"; then
+            log "Pushing branches to origin..."
+
+            # Push current branch first
+            echo -e "  Pushing ${CYAN}$current_branch${NC} (current branch with revert commits)..."
+            if git push -u origin "$current_branch" 2>&1; then
+                echo -e "  ${GREEN}✓${NC} Successfully pushed $current_branch"
+            else
+                error "Failed to push $current_branch"
+            fi
+
+            # Push created branches
+            for branch in "${!created_branches_ref[@]}"; do
+                echo -e "  Pushing ${CYAN}$branch${NC}..."
+                if git push -u origin "$branch" 2>&1; then
+                    echo -e "  ${GREEN}✓${NC} Successfully pushed $branch"
+                else
+                    error "Failed to push $branch"
+                fi
+            done
+            echo
+
+            # Clean up worktrees after successful push
+            log "Cleaning up worktrees..."
+            git worktree prune
+            cleanup_worktrees
+            info "Worktrees cleaned up successfully"
+            worktrees_pruned_ref=true
+        fi
+    fi
+
     log "Branch splitting complete!"
     echo
     echo "Next steps:"
     echo "1. Review the changes on each branch"
-    echo "2. Push branches to remote using the commands above"
-    echo "3. Create pull requests using the generated links"
+    echo "2. Create pull requests using the generated links above"
 }
 
 # Main script logic
@@ -814,11 +849,20 @@ main() {
     # Create revert commits on current branch for moved files
     create_revert_commits branch_map branch_files "$branch_count"
 
-    # Final report
-    show_final_report "$current_branch" branch_files created_branches
+    # Final report (this will handle pushing and may prune worktrees)
+    local worktrees_pruned=false
+    show_final_report "$current_branch" branch_files created_branches worktrees_pruned
 
-    # Clean up
-    cleanup_worktrees
+    # Ask user if they want to clean up (only if not already pruned)
+    if [[ "$worktrees_pruned" != "true" ]]; then
+        echo
+        if confirm_prompt "Would you like to clean up the temporary worktrees?"; then
+            cleanup_worktrees
+        else
+            info "Worktrees preserved at: $WORKTREE_BASE"
+            info "You can manually clean them up later with: rm -rf $WORKTREE_BASE"
+        fi
+    fi
 }
 
 
