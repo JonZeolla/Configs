@@ -232,6 +232,12 @@ alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
 # Git pull push
 alias gpp="ggpull && ggp"
+# Git add all, commit, and push. Retry if pre-commit changes things
+function gacp() {                   # git add + commit + pull/push
+  [ $# -ge 1 ] || { echo "usage: gacp <msg>"; return 1; }
+  git add -A
+  git commit -m "$*" || { git add -A && git commit -m "$*"; } && ggp
+}
 export GITSIGN_CREDENTIAL_CACHE="${HOME}/Library/Caches/sigstore/gitsign/cache.sock"
 alias gooffline="cp ~/.gitconfig.offline ~/.gitconfig"
 alias goonline="cp ~/.gitconfig.online ~/.gitconfig"
