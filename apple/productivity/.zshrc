@@ -236,7 +236,7 @@ alias gpp="ggpull && ggp"
 function gacp() {                   # git add + commit + pull/push
   [ $# -ge 1 ] || { echo "usage: gacp <msg>"; return 1; }
   git add -A
-  git commit -m "$*" || { git add -A && git commit -m "$*"; } && ggp
+  git commit -m "$*" || { git add -A && git commit -m "$*"; } && gpp
 }
 export GITSIGN_CREDENTIAL_CACHE="${HOME}/Library/Caches/sigstore/gitsign/cache.sock"
 alias gooffline="cp ~/.gitconfig.offline ~/.gitconfig"
