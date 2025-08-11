@@ -231,7 +231,7 @@ alias gpom="git push origin main"
 alias gpomf="git push origin main --force"
 alias gdc="git diff --cached"
 # Git pull push
-alias gpp="ggpull && ggp"
+alias gpp="ggpull; ggp"
 # Git add all, commit, and push. Retry if pre-commit changes things
 function gacp() {                   # git add + commit + pull/push
   [ $# -ge 1 ] || { echo "usage: gacp <msg>"; return 1; }
