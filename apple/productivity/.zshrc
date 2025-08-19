@@ -214,7 +214,7 @@ function worktree() {
   branch="$1"
   dir="${monorepo}/../${branch}"
   if [[ $# -eq 1 ]]; then
-    git worktree add "${dir}" -b "${branch}"
+    git worktree add "${dir}" main -b "${branch}"
     cd "${dir}"
   else
     echo "Usage: worktree <new-worktree-and-branch-name>"
