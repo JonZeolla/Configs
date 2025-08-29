@@ -118,7 +118,7 @@ SPACESHIP_PROMPT_ORDER=(
   char
 )
 
-alias uz="uvx --reinstall --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp"
+alias uz='uvx --reinstall --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp'
 export monorepo="TODO_change_your_zshrc"
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
