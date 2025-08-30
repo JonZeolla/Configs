@@ -120,7 +120,7 @@ SPACESHIP_PROMPT_ORDER=(
 
 alias uz='uvx --reinstall --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp'
 export monorepo="TODO_change_your_zshrc"
-export git_root='$(git rev-parse --show-toplevel 2> /dev/null || echo "")'
+alias git_root='git rev-parse --show-toplevel 2> /dev/null || echo ""'
 export scripts_dir="${monorepo}/scripts"
 function sethost() {
   ln -sf "${monorepo}/../.envrc.host" "${monorepo}/../.envrc"
