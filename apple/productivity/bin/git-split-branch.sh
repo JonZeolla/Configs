@@ -252,10 +252,18 @@ apply_file_to_worktree() {
     # Get the file content from the original branch
     if git show "HEAD:$file" >/dev/null 2>&1; then
         git show "HEAD:$file" > "$worktree_path/$file"
+        
+        # Preserve file permissions from git
+        local file_mode
+        file_mode=$(git ls-tree HEAD "$file" | awk '{print $1}')
+        if [[ "$file_mode" == "100755" ]]; then
+            chmod +x "$worktree_path/$file"
+            debug "Set executable permission for $file"
+        fi
     else
         # File might be new (untracked), copy it
         if [[ -f "$file" ]]; then
-            cp "$file" "$worktree_path/$file"
+            cp -p "$file" "$worktree_path/$file"  # -p preserves permissions
         fi
     fi
 }
