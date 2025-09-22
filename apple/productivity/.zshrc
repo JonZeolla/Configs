@@ -28,12 +28,6 @@ export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
-claudedefault() {
-  command /opt/homebrew/bin/claude "$@"
-}
-claude() {
-  command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
-}
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -287,6 +281,14 @@ autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
 
 ## Functions
+function claudedefault() {
+  cd $(git_root)
+  command /opt/homebrew/bin/claude "$@"
+}
+function claude() {
+  cd $(git_root)
+  command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
+}
 function nvim_exrc_security_check() {
   if [[ -r .exrc ]]; then
     read -k "answer?.exrc file detected, this will modify your vim settings!  Are you sure (y/N)? "
