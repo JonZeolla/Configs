@@ -282,12 +282,18 @@ autoload -U +X bashcompinit && bashcompinit
 
 ## Functions
 function claudedefault() {
-  cd $(git_root)
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
   command /opt/homebrew/bin/claude "$@"
+  trap - EXIT INT
 }
 function claude() {
-  cd $(git_root)
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
   command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
+  trap - EXIT INT
 }
 function nvim_exrc_security_check() {
   if [[ -r .exrc ]]; then
