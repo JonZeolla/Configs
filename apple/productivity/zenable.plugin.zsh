@@ -40,7 +40,7 @@ spaceship_zenable() {
 
   for var in ${(k)parameters}; do
     # Skip alerting on loglevel; should be obvious and is regularly set
-    if [[ $var == ZENABLE_* ]] && [[ $var != "ZENABLE_LOGLEVEL" ]]; then
+    if [[ $var == ZENABLE_* ]] && [[ $var != "ZENABLE_LOGLEVEL" ]] && [[ $var != "ZENABLE_EXPERIMENTAL" ]]; then
       zenable_var_found=true
       if [[ $var == "ZENABLE_ACCOUNT" ]]; then
         zenable_account="${(P)var}"
