@@ -208,7 +208,7 @@ function checkout() {
 }
 function worktree() {
   branch="$1"
-  dir="${monorepo}/../${branch}"
+  dir="$(git_root)/../${branch}"
   if [[ $# -eq 1 ]]; then
     git worktree add "${dir}" main -b "${branch}"
     cd "${dir}"
