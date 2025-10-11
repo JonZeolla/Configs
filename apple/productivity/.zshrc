@@ -176,24 +176,6 @@ export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
 # git
-function newfeature() {
-  if [[ $# -eq 1 ]]; then
-    git checkout main
-    git pull origin main --force --tags
-    git checkout -b "$1"
-  else
-    echo "Usage: newfeature <new-branch-name>"
-  fi
-}
-function movechanges() {
-  if [[ $# -eq 1 ]]; then
-    git stash
-    newfeature "$1"
-    git stash pop
-  else
-    echo "Usage: movechanges <new-branch-name>"
-  fi
-}
 function checkout() {
   if [[ $# -eq 1 ]]; then
     git checkout main
