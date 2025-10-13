@@ -274,7 +274,7 @@ function claude() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
   trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task' "$@"
+  command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Fetch' "$@"
   trap - EXIT INT
 }
 function nvim_exrc_security_check() {
