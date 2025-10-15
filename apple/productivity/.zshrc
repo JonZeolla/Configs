@@ -263,6 +263,9 @@ autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
 
 ## Functions
+function debug-chrome() {
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir="$HOME/.config/google-chrome"
+}
 function claudedefault() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
@@ -274,7 +277,7 @@ function claude() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
   trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Fetch' "$@"
+  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch' "$@"
   trap - EXIT INT
 }
 function nvim_exrc_security_check() {
