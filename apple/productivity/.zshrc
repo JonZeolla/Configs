@@ -202,6 +202,13 @@ function openworktree() {
   branch="$1"
   dir="$(git_root)/../${branch}"
   if [[ $# -eq 1 ]]; then
+    # Check if worktree directory already exists
+    if [[ -d "${dir}" ]]; then
+      echo "Worktree directory already exists, navigating to: ${dir}"
+      cd "${dir}"
+      return 0
+    fi
+
     # Fetch all remotes to ensure we have the latest branch info
     git fetch --all
 
