@@ -198,6 +198,29 @@ function worktree() {
     echo "Usage: worktree <new-worktree-and-branch-name>"
   fi
 }
+function openworktree() {
+  branch="$1"
+  dir="$(git_root)/../${branch}"
+  if [[ $# -eq 1 ]]; then
+    # Fetch all remotes to ensure we have the latest branch info
+    git fetch --all
+
+    # Check if branch exists locally
+    if git show-ref --verify --quiet "refs/heads/${branch}"; then
+      # Local branch exists
+      git worktree add "${dir}" "${branch}"
+    elif git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+      # Remote branch exists
+      git worktree add "${dir}" -b "${branch}" "origin/${branch}"
+    else
+      echo "Error: Branch '${branch}' not found locally or on remote 'origin'"
+      return 1
+    fi
+    cd "${dir}"
+  else
+    echo "Usage: openworktree <existing-branch-name>"
+  fi
+}
 function compare() {
   git diff --name-only $(git merge-base main HEAD)..HEAD
 }
