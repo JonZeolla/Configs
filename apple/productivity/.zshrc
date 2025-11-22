@@ -307,7 +307,7 @@ function claude() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
   trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch' "$@"
+  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch,mcp__chrome-devtools' "$@"
   trap - EXIT INT
 }
 function nvim_exrc_security_check() {
