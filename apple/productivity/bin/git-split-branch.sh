@@ -103,8 +103,8 @@ ${CYAN}WORKFLOW:${NC}
        - p: Print/cat the file contents
        - u: Undo last assignment and go back
     6. Creates new branches and migrates files
-    7. Creates revert commits on original branch for moved files
-    8. Shows final report with GitHub PR links
+    7. Optionally creates revert commits on original branch for moved files
+    8. Pushes all branches to origin and shows PR links
 
 ${CYAN}NOTES:${NC}
     - Each file is handled independently
@@ -745,38 +745,36 @@ show_final_report() {
         echo
     done
 
-    # Prompt to push branches
+    # Push all branches
     if [[ ${#created_branches_ref[@]} -gt 0 ]]; then
         echo
-        if confirm_prompt "Would you like to push all branches to origin?"; then
-            log "Pushing branches to origin..."
+        log "Pushing branches to origin..."
 
-            # Push current branch first
-            echo -e "  Pushing ${CYAN}$current_branch${NC} (current branch with revert commits)..."
-            if git push -u origin "$current_branch" 2>&1; then
-                echo -e "  ${GREEN}✓${NC} Successfully pushed $current_branch"
-            else
-                error "Failed to push $current_branch"
-            fi
-
-            # Push created branches
-            for branch in "${!created_branches_ref[@]}"; do
-                echo -e "  Pushing ${CYAN}$branch${NC}..."
-                if git push -u origin "$branch" 2>&1; then
-                    echo -e "  ${GREEN}✓${NC} Successfully pushed $branch"
-                else
-                    error "Failed to push $branch"
-                fi
-            done
-            echo
-
-            # Clean up worktrees after successful push
-            log "Cleaning up worktrees..."
-            git worktree prune
-            cleanup_worktrees
-            info "Worktrees cleaned up successfully"
-            worktrees_pruned_ref=true
+        # Push current branch first
+        echo -e "  Pushing ${CYAN}$current_branch${NC}..."
+        if git push -u origin "$current_branch" 2>&1; then
+            echo -e "  ${GREEN}✓${NC} Successfully pushed $current_branch"
+        else
+            error "Failed to push $current_branch"
         fi
+
+        # Push created branches
+        for branch in "${!created_branches_ref[@]}"; do
+            echo -e "  Pushing ${CYAN}$branch${NC}..."
+            if git push -u origin "$branch" 2>&1; then
+                echo -e "  ${GREEN}✓${NC} Successfully pushed $branch"
+            else
+                error "Failed to push $branch"
+            fi
+        done
+        echo
+
+        # Clean up worktrees after push
+        log "Cleaning up worktrees..."
+        git worktree prune
+        cleanup_worktrees
+        info "Worktrees cleaned up successfully"
+        worktrees_pruned_ref=true
     fi
 
     log "Branch splitting complete!"
@@ -854,8 +852,13 @@ main() {
     declare -A created_branches
     process_branches "$current_branch" branch_map branch_files created_branches "$branch_count"
 
-    # Create revert commits on current branch for moved files
-    create_revert_commits branch_map branch_files "$branch_count"
+    # Optionally create revert commits on current branch for moved files
+    echo
+    if confirm_prompt "Create revert commit(s) on the current branch for moved files?"; then
+        create_revert_commits branch_map branch_files "$branch_count"
+    else
+        info "Skipping revert commits on current branch"
+    fi
 
     # Final report (this will handle pushing and may prune worktrees)
     local worktrees_pruned=false
