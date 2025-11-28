@@ -25,7 +25,7 @@ xcode-select --install
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 # terraform is no longer updated via brew, so not installing it here
 brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu lolcat fortune go-task yq ansible gnu-tar kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config sigstore/tap/gitsign-credential-cache quarto screenflow gh elgato-stream-deck obs ffmpeg rancher krisp ruff ripgrep tmux superhuman ollama uv k3d cursor grip pv rsync golangci-lint beekeeper-studio rust dive ngrok zed bats adobe-acrobat-reader claude-code eslint mcp-publisher
-brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam ghostty descript microsoft-powerpoint microsoft-word microsoft-excel sublime-text fujitsu-scansnap-home beyond-compare amazon-q codex
+brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam ghostty descript microsoft-powerpoint microsoft-word microsoft-excel sublime-text fujitsu-scansnap-home beyond-compare amazon-q codex cursor-cli
 # At the moment this is the only supported way to install task-master
 npm install -g task-master-ai && task-master init
 
