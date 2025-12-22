@@ -288,6 +288,7 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 alias t="task"
 alias ask="task"
 alias taks="task"
+alias tr="task redeploy"
 # Autocomplete
 autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
