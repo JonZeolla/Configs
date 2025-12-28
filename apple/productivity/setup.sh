@@ -103,11 +103,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 wget -O ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/tmux.conf
 wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux_status.sh
 
-## Setup neovim
-# Install NvChad
-git clone https://github.com/NvChad/NvChad ~/.config/nvim
-# Apply my config
-git clone https://github.com/jonzeolla/neovim.git ~/.config/nvim/lua/custom
+## Setup neovim (LazyVim)
+git clone https://github.com/jonzeolla/neovim.git ~/.config/nvim
+rm -rf ~/.config/nvim/.git
 # Configure neovim supporting tools
 mkdir -p ~/.config/yamllint
 wget -O ~/.config/yamllint/config https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/yamllint.config
@@ -116,7 +114,6 @@ wget -O ~/.pylintrc https://raw.githubusercontent.com/jonzeolla/configs/main/app
 brew install node
 echo "Interactively login to copilot"
 nvim "+Copilot auth" +qa
-nvim --headless "+MasonInstallAll" +qa
 nvim --headless "+Lazy sync" +qa
 
 ## Setup goss/dgoss
