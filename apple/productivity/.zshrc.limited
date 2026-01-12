@@ -1,0 +1,92 @@
+export TERM="xterm-256color"
+# Update $? to account for the rightmost non-zero failure in a pipeline
+set -o pipefail
+
+alias vi='nvim'
+
+export PATH="${HOME}/.local/bin:${PATH}"
+plugins=(
+  git
+)
+
+alias grepz="grep --exclude-dir=.venv --exclude-dir=.terraform --exclude-dir=.aws-sam --exclude-dir=.pytest_cache --exclude-dir=.web --exclude-dir=node_modules --exclude-dir=.mypy_cache --exclude-dir=htmlcov --exclude-dir=.next --exclude-dir=_next --exclude=requirements.txt --exclude=uv.lock --exclude=package-lock.json --exclude=tsconfig.tsbuildinfo --exclude='*.pyc'"
+function grepyml() {
+  grep -r --include \*.yml --include \*.yaml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
+}
+function greptoml() {
+  grep -r --include \*.toml --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
+}
+function greppy() {
+  grep -r --include \*.py --exclude-dir=.venv --exclude-dir=.terraform --exclude-dir=.aws-sam -- "$1" *
+}
+function grepmd() {
+  grep -r --include \*.md --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
+}
+function greptf() {
+  grep -r --include \*.tf --exclude-dir=.venv --exclude-dir=.terraform -- "$1" *
+}
+function checkout() {
+  if [[ $# -eq 1 ]]; then
+    git checkout main
+    git pull origin main --tags
+    pr_branch=$(gh pr view "$1" --json headRefName -q .headRefName)
+    git fetch origin "${pr_branch}"
+    git checkout "${pr_branch}"
+    git pull origin "${pr_branch}"
+  else
+    echo "Usage: checkout <pr-number>"
+  fi
+}
+function worktree() {
+  branch="$1"
+  dir="$(git_root)/../${branch}"
+  if [[ $# -eq 1 ]]; then
+    git worktree add "${dir}" main -b "${branch}"
+    cd "${dir}"
+  else
+    echo "Usage: worktree <new-worktree-and-branch-name>"
+  fi
+}
+function openworktree() {
+  branch="$1"
+  dir="$(git_root)/../${branch}"
+  if [[ $# -eq 1 ]]; then
+    # Check if worktree directory already exists
+    if [[ -d "${dir}" ]]; then
+      echo "Worktree directory already exists, navigating to: ${dir}"
+      cd "${dir}"
+      return 0
+    fi
+
+    # Fetch all remotes to ensure we have the latest branch info
+    git fetch --all
+
+    # Check if branch exists locally
+    if git show-ref --verify --quiet "refs/heads/${branch}"; then
+      # Local branch exists
+      git worktree add "${dir}" "${branch}"
+    elif git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+      # Remote branch exists
+      git worktree add "${dir}" -b "${branch}" "origin/${branch}"
+    else
+      echo "Error: Branch '${branch}' not found locally or on remote 'origin'"
+      return 1
+    fi
+    cd "${dir}"
+  else
+    echo "Usage: openworktree <existing-branch-name>"
+  fi
+}
+function split-branch() {
+  ~/bin/git-split-branch.sh
+}
+alias gdc="git diff --cached"
+# Git pull push
+alias gpp="ggl; ggp"
+# Git add all, commit, and push. Retry if pre-commit changes things
+function gacp() {                   # git add + commit + pull/push
+  [ $# -ge 1 ] || { echo "usage: gacp <msg>"; return 1; }
+  git add -A
+  git commit -m "$*" || { git add -A && git commit -m "$*"; } && gpp
+}
+alias tl="tmux ls"
