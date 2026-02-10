@@ -28,7 +28,8 @@ export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
-export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+# This isn't ready yet, just lots of repeating myself and a messy UI
+#export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
