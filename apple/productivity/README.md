@@ -19,11 +19,10 @@
 1.  Configure hotkey preferences like the LaunchBar's emoji keyboard shortcut (⌘+e) and Actions.
 1.  Setup the aws cli and gitsign.
 1.  Setup the github CLI via `gh auth login && gh extension install actions/gh-actions-cache`.
-1.  Open the App Store and install purchased/desirable apps under "Purchased" (Magnet, Countdown Timer Plus, ...)
+1.  Open the App Store and install purchased/desirable apps under "Purchased" (Countdown Timer Plus, ...)
 1.  Set appropriate Security & Privacy settings under System Settings > Privacy & Security > Privacy.
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
-    1.  Magnet
     1.  Little Snitch
     1.  Fathom video
 1.  Clean up the dock, leaving it as minimal as possible.
