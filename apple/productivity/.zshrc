@@ -258,6 +258,7 @@ alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a
 
 # tmux
 alias tl="tmux ls"
+alias ta='tmux attach -d -t'
 
 # Powershell
 alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):/src microsoft/powershell:latest"
