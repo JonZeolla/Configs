@@ -115,6 +115,8 @@ SPACESHIP_PROMPT_ORDER=(
 )
 
 alias uz='UV_NO_CACHE=1 uvx --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp'
+# Short for local zenable
+alias lzenable'go run $(git rev-parse --show-toplevel)/packages/zenable/cmd/zenable'
 export monorepo="TODO_change_your_zshrc"
 alias git_root='git rev-parse --show-toplevel 2> /dev/null || echo ""'
 export scripts_dir="${monorepo}/scripts"
