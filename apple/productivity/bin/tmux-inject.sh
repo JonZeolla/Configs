@@ -67,11 +67,20 @@ require_tmux() {
   }
 }
 
-VARS=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN)
+REQUIRED_VARS=(AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN)
+OPTIONAL_VARS=(
+  ANTHROPIC_AUTH_TOKEN
+  ANTHROPIC_BASE_URL
+  ANTHROPIC_MODEL
+  ANTHROPIC_DEFAULT_SONNET_MODEL
+  ANTHROPIC_DEFAULT_HAIKU_MODEL
+  ANTHROPIC_DEFAULT_OPUS_MODEL
+  ANTHROPIC_CUSTOM_HEADERS
+)
 
-# Verify vars exist in current shell
+# Verify required vars exist in current shell
 missing=()
-for v in "${VARS[@]}"; do
+for v in "${REQUIRED_VARS[@]}"; do
   [[ -n "${!v-}" ]] || missing+=("$v")
 done
 if [[ "${#missing[@]}" -gt 0 ]]; then
@@ -79,6 +88,14 @@ if [[ "${#missing[@]}" -gt 0 ]]; then
   echo "Set them first, then run: tmux-aws-inject" >&2
   exit 1
 fi
+
+# Collect optional vars that are set
+ACTIVE_OPTIONAL=()
+for v in "${OPTIONAL_VARS[@]}"; do
+  [[ -n "${!v-}" ]] && ACTIVE_OPTIONAL+=("$v")
+done
+
+VARS=("${REQUIRED_VARS[@]}" "${ACTIVE_OPTIONAL[@]}")
 
 require_tmux
 
@@ -99,9 +116,11 @@ run tmux set-option -g update-environment "$new"
 
 # Optional: push into existing panes (best-effort)
 if [[ "$PANES" -eq 1 ]]; then
-  export_cmd="export AWS_ACCESS_KEY_ID=$(printf %q "$AWS_ACCESS_KEY_ID"); \
-export AWS_SECRET_ACCESS_KEY=$(printf %q "$AWS_SECRET_ACCESS_KEY"); \
-export AWS_SESSION_TOKEN=$(printf %q "$AWS_SESSION_TOKEN")"
+  export_cmd=""
+  for v in "${VARS[@]}"; do
+    export_cmd+="export ${v}=$(printf %q "${!v}"); "
+  done
+  export_cmd="${export_cmd%; }"
 
   tmux list-panes -a -F '#{pane_id} #{pane_current_command}' | while IFS= read -r pane_id cmd; do
     if [[ "$FORCE_PANES" -eq 1 ]]; then
@@ -115,4 +134,5 @@ export AWS_SESSION_TOKEN=$(printf %q "$AWS_SESSION_TOKEN")"
   done
 fi
 
-echo "Injected AWS_* into tmux (and panes: $PANES)."
+injected="${VARS[*]}"
+echo "Injected ${injected} into tmux (and panes: $PANES)."
