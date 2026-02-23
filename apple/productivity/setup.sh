@@ -65,6 +65,7 @@ mkdir "${HOME}/go"
 ## Zenable
 mkdir -p ~/src/zenable
 wget -O ~/src/zenable/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.zenablegitconfig
+curl -fsSL https://cli.zenable.app/install.sh | bash
 # Configure spaceship
 mkdir -p ~/.zsh/zenable-spaceship-section
 wget -O ~/.zsh/zenable-spaceship-section/zenable.plugin.zsh https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/zenable.plugin.zsh
