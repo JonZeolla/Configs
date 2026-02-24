@@ -180,6 +180,23 @@ export PATH="${PATH}:${HOME}/.krew/bin"
 alias kkrewupgrade="k krew update && k krew upgrade"
 
 # git
+function debug-chrome() {
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir="$HOME/.config/google-chrome"
+}
+function claudedefault() {
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
+  command /opt/homebrew/bin/claude "$@"
+  trap - EXIT INT
+}
+function claude() {
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
+  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
+  trap - EXIT INT
+}
 function checkout() {
   if [[ $# -eq 1 ]]; then
     git checkout main
@@ -198,6 +215,7 @@ function worktree() {
   if [[ $# -eq 1 ]]; then
     git worktree add "${dir}" main -b "${branch}"
     cd "${dir}"
+    claude
   else
     echo "Usage: worktree <new-worktree-and-branch-name>"
   fi
@@ -210,6 +228,7 @@ function openworktree() {
     if [[ -d "${dir}" ]]; then
       echo "Worktree directory already exists, navigating to: ${dir}"
       cd "${dir}"
+      claude -c
       return 0
     fi
 
@@ -228,6 +247,7 @@ function openworktree() {
       return 1
     fi
     cd "${dir}"
+    claude -c
   else
     echo "Usage: openworktree <existing-branch-name>"
   fi
@@ -299,23 +319,6 @@ autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
 
 ## Functions
-function debug-chrome() {
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir="$HOME/.config/google-chrome"
-}
-function claudedefault() {
-  local prev_dir=$(pwd)
-  cd "$(git_root)" || return
-  trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude "$@"
-  trap - EXIT INT
-}
-function claude() {
-  local prev_dir=$(pwd)
-  cd "$(git_root)" || return
-  trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
-  trap - EXIT INT
-}
 function nvim_exrc_security_check() {
   if [[ -r .exrc ]]; then
     read -k "answer?.exrc file detected, this will modify your vim settings!  Are you sure (y/N)? "
