@@ -132,6 +132,54 @@ function setsandbox() {
   ln -sf "${monorepo}/../.envrc.sandbox" "${monorepo}/../.envrc"
   direnv allow "${monorepo}/"
 }
+function mpy() {
+  local envrc_target
+  envrc_target="$(readlink -f "${monorepo}/../.envrc")"
+  if [[ ! -f "${envrc_target}" ]]; then
+    echo "Error: could not resolve .envrc symlink target"
+    return 1
+  fi
+
+  if [[ "$1" == "off" ]]; then
+    sed -i '' '/^export MOUNT_PYTHONPATH=/d' "${envrc_target}"
+    sed -i '' '/^export PYTHONPATH=/d' "${envrc_target}"
+    direnv allow "${monorepo}/"
+    unset MOUNT_PYTHONPATH
+    unset PYTHONPATH
+    echo "MOUNT_PYTHONPATH and PYTHONPATH removed from $(basename "${envrc_target}")"
+    return 0
+  fi
+
+  local pkg
+  case "$1" in
+    zdm)       pkg="zenable_data_model" ;;
+    procs)     pkg="zenable_processors" ;;
+    monorepo)  pkg="zenable_monorepo" ;;
+    o11y)      pkg="zenable_o11y" ;;
+    utils)     pkg="zenable_utils" ;;
+    *)
+      echo "Usage: mpy <zdm|procs|monorepo|o11y|utils|off>"
+      return 1
+      ;;
+  esac
+
+  local pythonpath="\$(git rev-parse --show-toplevel)/packages/${pkg}/src"
+
+  if grep -q '^export MOUNT_PYTHONPATH=' "${envrc_target}"; then
+    sed -i '' "s|^export MOUNT_PYTHONPATH=.*|export MOUNT_PYTHONPATH=true|" "${envrc_target}"
+  else
+    echo 'export MOUNT_PYTHONPATH=true' >> "${envrc_target}"
+  fi
+
+  if grep -q '^export PYTHONPATH=' "${envrc_target}"; then
+    sed -i '' "s|^export PYTHONPATH=.*|export PYTHONPATH=\"${pythonpath}\"|" "${envrc_target}"
+  else
+    echo "export PYTHONPATH=\"${pythonpath}\"" >> "${envrc_target}"
+  fi
+
+  direnv allow "${monorepo}/"
+  echo "PYTHONPATH set to ${pkg}/src in $(basename "${envrc_target}")"
+}
 
 ## Configure things
 # OS
