@@ -163,7 +163,7 @@ function mpy() {
       ;;
   esac
 
-  local pythonpath="\$(git rev-parse --show-toplevel)/packages/${pkg}/src"
+  local pythonpath="$(git rev-parse --show-toplevel)/packages/${pkg}/src"
 
   if grep -q '^export MOUNT_PYTHONPATH=' "${envrc_target}"; then
     sed -i '' "s|^export MOUNT_PYTHONPATH=.*|export MOUNT_PYTHONPATH=true|" "${envrc_target}"
