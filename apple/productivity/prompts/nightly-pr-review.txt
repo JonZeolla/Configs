@@ -1,0 +1,29 @@
+Review all open PRs on next-gen-governance and find scenarios where a service and a package are being updated in the same PR (the "service PR"). Ensure there is already a separate PR (the "package-only PR") linked in the service PR's description that contains all (but only) the service PR's package changes.
+
+If the package-only PR doesn't exist:
+1. Create a new branch from main with only the package change(s) from the service branch
+2. Open a PR following the repo's PR template, noting that testing was done in the service PR, with a brief description of what/why based on the service PR description
+3. Update the service PR to have the "blocked" label and add a line like "Depends on #1234" in the description
+
+If both branches already exist, keep them in sync:
+- If the service branch has more recent package changes than the package-only branch, overwrite the package-only branch with the package changes from the service branch
+- If the package-only branch has package changes that are newer than those same files on the service branch, port those package changes back into the service branch
+
+To be clear: the package-only branch has ONLY package changes. The service branch has ALL changes (packages + services + migrations + infra + scripts + etc.). That is expected and correct.
+
+After creating or syncing, mirror labels from the service PR to its package-only PR:
+- If the service PR has the "gastown" label, add "gastown" to the package-only PR
+- If the service PR has the "paused" label, add "paused" to the package-only PR
+- If the service PR no longer has these labels, remove them from the package-only PR
+
+After syncing, address PR feedback on each package-only PR:
+1. Check out the package-only branch
+2. Run `./scripts/dump-unresolved-comments.sh <PR_NUMBER>` to get unresolved comment threads
+3. Skip any comment threads where a commit hash already appears in the thread replies (feedback was already addressed)
+4. Ignore resolved threads entirely (only act on unresolved ones)
+5. For each remaining unresolved thread, determine if code changes are needed:
+   - If YES: make the change, commit, push, then mark the thread as addressed using `./scripts/mark-addressed.sh <PR_NUMBER> <file> <line> $(git rev-parse HEAD)`
+   - If NO: reply with a custom comment using `./scripts/mark-addressed.sh <PR_NUMBER> <file> <line> --comment "explanation"`
+6. After addressing all feedback, ensure tests pass for each affected package by cd-ing into the package directory and running `task test`
+7. Then cd into the git root and run `task policy` to ensure policy as code (CI) passes
+8. Fix any test or policy failures, commit, and push using `gacp "fix: address feedback and fix tests"`. ALWAYS use `gacp`, NEVER use `git push` directly. NEVER FORCE PUSH.

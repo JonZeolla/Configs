@@ -81,6 +81,10 @@ mkdir -p ~/src/seiso ~/Documents/seiso
 wget -O ~/Documents/seiso/seiso-enso.png https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/seiso-enso.png
 wget -O ~/src/seiso/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.seisogitconfig
 
+# prompts
+mkdir -p ~/prompts
+cp -R "$(dirname "$0")/prompts/"* ~/prompts/
+
 # other
 mkdir -p ~/bin ~/etc ~/src/testing
 wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
