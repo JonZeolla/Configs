@@ -11,7 +11,13 @@ If both branches already exist, keep them in sync:
 
 To be clear: the package-only branch has ONLY package changes. The service branch has ALL changes (packages + services + migrations + infra + scripts + etc.). That is expected and correct.
 
-After creating or syncing, mirror labels from the service PR to its package-only PR:
+After creating or syncing, mirror both the draft/ready status and labels from the service PR to its package-only PR:
+
+Draft/ready status:
+- If the service PR is a draft, convert the package-only PR to draft via `gh pr ready --undo <PR_NUMBER>`
+- If the service PR is ready for review, mark the package-only PR ready via `gh pr ready <PR_NUMBER>`
+
+Labels:
 - If the service PR has the "gastown" label, add "gastown" to the package-only PR
 - If the service PR has the "paused" label, add "paused" to the package-only PR
 - If the service PR no longer has these labels, remove them from the package-only PR
