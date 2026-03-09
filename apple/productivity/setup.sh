@@ -86,7 +86,7 @@ mkdir -p ~/prompts
 cp -R "$(dirname "$0")/prompts/"* ~/prompts/
 
 # other
-mkdir -p ~/bin ~/etc ~/src/testing
+mkdir -p ~/bin ~/etc ~/logs ~/src/testing
 wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
 
 # k8s
