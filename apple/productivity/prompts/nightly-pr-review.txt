@@ -1,4 +1,4 @@
-Review all open PRs on next-gen-governance and find scenarios where a service and a package are being updated in the same PR (the "service PR"). Ensure there is already a separate PR (the "package-only PR") linked in the service PR's description that contains all (but only) the service PR's package changes.
+Review all open PRs on next-gen-governance and find scenarios where a service and a package are being updated in the same PR (the "service PR"). Ignore the ui_frontend service entirely — changes to ui_frontend and packages in the same PR are unrelated and should NOT trigger package-only PR creation. Ensure there is already a separate PR (the "package-only PR") linked in the service PR's description that contains all (but only) the service PR's package changes.
 
 If the package-only PR doesn't exist:
 1. Create a new branch from main with only the package change(s) from the service branch
@@ -9,7 +9,7 @@ If both branches already exist, keep them in sync:
 - If the service branch has more recent package changes than the package-only branch, overwrite the package-only branch with the package changes from the service branch
 - If the package-only branch has package changes that are newer than those same files on the service branch, port those package changes back into the service branch
 
-To be clear: the package-only branch has ONLY package changes. The service branch has ALL changes (packages + services + migrations + infra + scripts + etc.). That is expected and correct.
+To be clear: the package-only branch has ONLY package changes. The service branch has ALL changes (packages + services + migrations + infra + scripts + docs + etc.). That is expected and correct. Non-package changes (infra, docs, scripts, migrations, service code, etc.) must NEVER be copied to the package-only branch — they always stay exclusively on the service PR.
 
 After creating or syncing, mirror both the draft/ready status and labels from the service PR to its package-only PR:
 
