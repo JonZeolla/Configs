@@ -276,7 +276,7 @@ function openworktree() {
     if [[ -d "${dir}" ]]; then
       echo "Worktree directory already exists, navigating to: ${dir}"
       cd "${dir}"
-      claude -c
+      claude -c || claude
       return 0
     fi
 
@@ -295,7 +295,7 @@ function openworktree() {
       return 1
     fi
     cd "${dir}"
-    claude -c
+    claude -c || claude
   else
     echo "Usage: openworktree <existing-branch-name>"
   fi
