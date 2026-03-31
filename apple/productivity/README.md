@@ -21,6 +21,10 @@
 1.  Setup the github CLI via `gh auth login && gh extension install actions/gh-actions-cache`.
 1.  Open the App Store and install purchased/desirable apps under "Purchased" (Countdown Timer Plus, ...)
 1.  Set appropriate Security & Privacy settings under System Settings > Privacy & Security > Privacy.
+1.  Grant permissions for the MINI_KEYBOARD remapper (`~/Applications/BikingKeyboardRemap.app`):
+    1.  System Settings > Privacy & Security > **Accessibility** > "+" > navigate to `~/Applications/BikingKeyboardRemap.app`
+    1.  Restart the agent: `launchctl stop local.biking-keyboard-remap`
+    1.  Type a few keys on main keyboard first to register it, then MINI_KEYBOARD A/B map to Space/Enter
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Little Snitch

@@ -88,6 +88,16 @@ cp -R "$(dirname "$0")/prompts/"* ~/prompts/
 # other
 mkdir -p ~/bin ~/etc ~/logs ~/src/testing
 wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
+# MINI_KEYBOARD per-device key remap (A->Space, B->Enter)
+mkdir -p ~/Applications/BikingKeyboardRemap.app/Contents/MacOS
+wget -O /tmp/biking-keyboard-remap.swift https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/biking-keyboard-remap.swift
+swiftc -framework IOKit -framework CoreGraphics -o ~/Applications/BikingKeyboardRemap.app/Contents/MacOS/biking-keyboard-remap /tmp/biking-keyboard-remap.swift
+rm /tmp/biking-keyboard-remap.swift
+wget -O ~/Applications/BikingKeyboardRemap.app/Contents/Info.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/plist/BikingKeyboardRemap.Info.plist
+codesign -s - ~/Applications/BikingKeyboardRemap.app
+mkdir -p ~/Library/LaunchAgents
+wget -O ~/Library/LaunchAgents/local.biking-keyboard-remap.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/plist/local.biking-keyboard-remap.plist
+launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 
 # k8s
 k krew install starboard
