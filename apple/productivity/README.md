@@ -45,10 +45,21 @@
 1.  Restore the following from backup (if applicable):
     1.  ~/.ssh/
         - Add any configs to mapping usernames and keys to hostnames.
-        - Add any git-related configs, such as:
+        - Add any git-related configs, such as the following. Note this works in combination with configs in .gitconfig:
         ```
         Host github.com
           Hostname github.com
           User git
-          IdentityFile ~/.ssh/changeme
+          IdentityFile ~/.ssh/changeme-github
+          IdentitiesOnly yes
+        Host gitlab-zenable-demo
+          Hostname gitlab.com
+          User git
+          IdentityFile ~/.ssh/changeme-gitlab-demo
+          IdentitiesOnly yes
+        Host gitlab.com
+          Hostname gitlab.com
+          User git
+          IdentityFile ~/.ssh/changeme-gitlab
+          IdentitiesOnly yes
         ```
