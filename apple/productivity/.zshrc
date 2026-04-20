@@ -258,15 +258,23 @@ function checkout() {
   fi
 }
 function worktree() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: worktree <new-worktree-and-branch-name>"
+    return 1
+  fi
   branch="$1"
   dir="$(git_root)/../${branch}"
-  if [[ $# -eq 1 ]]; then
-    git worktree add "${dir}" main -b "${branch}"
-    cd "${dir}"
-    claude
-  else
-    echo "Usage: worktree <new-worktree-and-branch-name>"
+  if [[ -d "${dir}" ]] \
+    || git show-ref --verify --quiet "refs/heads/${branch}" \
+    || git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+    suffix="$(date +'%B-%d' | tr '[:upper:]' '[:lower:]')"
+    branch="${branch}-${suffix}"
+    dir="$(git_root)/../${branch}"
+    echo "Branch or directory already exists, using: ${branch}"
   fi
+  git worktree add "${dir}" main -b "${branch}"
+  cd "${dir}"
+  claude
 }
 function openworktree() {
   branch="$1"
@@ -361,7 +369,6 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 alias t="task"
 alias ask="task"
 alias taks="task"
-alias tr="task redeploy"
 # Autocomplete
 autoload -U compinit; compinit
 autoload -U +X bashcompinit && bashcompinit
