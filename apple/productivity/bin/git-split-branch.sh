@@ -691,6 +691,10 @@ process_branches() {
 
         # Commit changes in worktree
         commit_in_worktree "$worktree_path" "$branch" files
+
+        # Show PR link as early as possible
+        echo -e "  ${GREEN}✓${NC} Branch ${CYAN}$branch${NC} ready"
+        echo -e "    PR link: ${BLUE}$(generate_pr_link "$branch")${NC}"
     done
 }
 
@@ -752,7 +756,7 @@ show_final_report() {
 
         # Push current branch first
         echo -e "  Pushing ${CYAN}$current_branch${NC}..."
-        if git push -u origin "$current_branch" 2>&1; then
+        if git push -u origin "$current_branch" >/dev/null 2>&1; then
             echo -e "  ${GREEN}✓${NC} Successfully pushed $current_branch"
         else
             error "Failed to push $current_branch"
@@ -761,7 +765,7 @@ show_final_report() {
         # Push created branches
         for branch in "${!created_branches_ref[@]}"; do
             echo -e "  Pushing ${CYAN}$branch${NC}..."
-            if git push -u origin "$branch" 2>&1; then
+            if git push -u origin "$branch" >/dev/null 2>&1; then
                 echo -e "  ${GREEN}✓${NC} Successfully pushed $branch"
             else
                 error "Failed to push $branch"
