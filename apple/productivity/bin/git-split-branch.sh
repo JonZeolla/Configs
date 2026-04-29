@@ -202,12 +202,28 @@ fetch_origin() {
         error "Failed to fetch from origin. Is your internet connection working?"
         exit 1
     fi
+
+    if [[ -f "$(git rev-parse --git-dir)/shallow" ]] \
+        && ! git merge-base HEAD "origin/$MAIN_BRANCH" >/dev/null 2>&1; then
+        log "Shallow clone with no merge base — unshallowing..."
+        git fetch --unshallow origin "$MAIN_BRANCH" 2>/dev/null \
+            || git fetch --deepen=1000 origin "$MAIN_BRANCH" 2>/dev/null || true
+    fi
+
+    if ! git merge-base HEAD "origin/$MAIN_BRANCH" >/dev/null 2>&1; then
+        error "No merge base between HEAD and origin/$MAIN_BRANCH after fetch."
+        exit 1
+    fi
 }
 
 # Get list of changed files compared to origin/main
 get_changed_files() {
-    # Get files that have changes (both staged and unstaged)
-    git diff --name-only "origin/$MAIN_BRANCH"...HEAD | sort -u
+    local out
+    if ! out=$(git diff --name-only "origin/$MAIN_BRANCH"...HEAD 2>&1); then
+        error "git diff failed: $out"
+        exit 1
+    fi
+    printf '%s\n' "$out" | sort -u
 }
 
 # Get the diff for a specific file
