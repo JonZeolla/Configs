@@ -532,8 +532,8 @@ MOCK
     [ ! -d "$WORKTREE_BASE" ]
 }
 
-# Test: cleanup does NOT happen automatically on script failure (no EXIT trap)
-@test "cleanup does NOT run automatically when script fails with error" {
+# Test: cleanup happens automatically on script failure (EXIT trap)
+@test "cleanup runs automatically when script fails with error" {
     cd "$TEST_DIR"
 
     # Create some changed files
@@ -566,39 +566,31 @@ MOCK
         }
         export -f git
 
-        # Create input that will cause the script to fail
-        # We'll trigger a failure by causing an error in branch configuration
+        # Trigger a failure path: only invalid branch names → 'No additional branches'
         {
             echo 'invalid branch name with spaces'
             echo 'invalid branch name with spaces'
             echo 'invalid branch name with spaces'
             echo 'invalid branch name with spaces'
             echo 'invalid branch name with spaces'
-            echo ''  # This will cause 'No additional branches' error
+            echo ''
         } | '$SCRIPT_PATH' 2>&1 || exit_code=\$?
 
         echo \"Exit code: \${exit_code:-0}\"
 
-        # Check if cleanup did NOT run (no EXIT trap)
         if [[ -d \"\$WORKTREE_BASE\" ]]; then
-            echo \"SUCCESS: Worktree directory still exists - no automatic cleanup on error\"
+            echo \"ERROR: Worktree directory still exists - EXIT trap did not run\"
             ls -la \"\$WORKTREE_BASE\" 2>&1 || true
         else
-            echo \"ERROR: Directory was removed but there's no EXIT trap for cleanup\"
+            echo \"SUCCESS: Worktree directory was removed by EXIT trap on error\"
         fi
     "
 
     echo "Full output:"
     echo "$output"
 
-    # The script should have failed but cleanup should NOT run (no EXIT trap)
-    [[ "$output" =~ "SUCCESS: Worktree directory still exists" ]]
-
-    # The directory should still exist
-    [ -d "$test_worktree_dir" ]
-
-    # Clean up after test
-    rm -rf "$test_worktree_dir"
+    [[ "$output" =~ "SUCCESS: Worktree directory was removed by EXIT trap on error" ]]
+    [ ! -d "$test_worktree_dir" ]
 }
 
 # Test: cleanup happens on interrupt
@@ -979,8 +971,8 @@ MOCK
     [[ "$output" =~ "Already at the first file, cannot go back" ]]
 }
 
-# Test: Cleanup happens when user says yes
-@test "cleanup runs when user confirms cleanup prompt" {
+# Test: Cleanup runs automatically at end of successful split (no prompt)
+@test "cleanup runs automatically after successful split" {
     cd "$TEST_DIR"
 
     # Create test worktree directory
@@ -1022,30 +1014,26 @@ MOCK
             echo '2'             # Assign file1 to new branch
             echo 'y'             # Proceed with splitting
             echo 'test commit'   # Commit message
-            echo 'n'             # Don't push branches
-            echo 'y'             # YES to cleanup prompt
+            echo 'n'             # Don't create revert commits
         } | '$SCRIPT_PATH' 2>&1
 
-        # Check if cleanup ran
+        # Cleanup should always run via EXIT trap
         if [[ -d \"\$WORKTREE_BASE\" ]]; then
-            echo \"ERROR: Worktree directory still exists after user said yes to cleanup\"
+            echo \"ERROR: Worktree directory still exists after split\"
         else
-            echo \"SUCCESS: Cleanup ran after user confirmation\"
+            echo \"SUCCESS: Cleanup ran automatically\"
         fi
     "
 
     echo "Full output:"
     echo "$output"
 
-    # Should see success message
-    [[ "$output" =~ "SUCCESS: Cleanup ran after user confirmation" ]] || [[ "$output" =~ "Cleaning up worktrees" ]]
-
-    # Directory should not exist
+    [[ "$output" =~ "SUCCESS: Cleanup ran automatically" ]] || [[ "$output" =~ "Cleaning up worktrees" ]]
     [ ! -d "$test_worktree_dir" ]
 }
 
-# Test: Cleanup only happens when user confirms (no EXIT trap)
-@test "cleanup only runs when user confirms cleanup prompt" {
+# Test: Cleanup runs even when user declines push (no prompt)
+@test "cleanup runs automatically even when push is declined" {
     cd "$TEST_DIR"
 
     # Create test worktree directory
@@ -1087,29 +1075,22 @@ MOCK
             echo '2'             # Assign file1 to new branch
             echo 'y'             # Proceed with splitting
             echo 'test commit'   # Commit message
-            echo 'n'             # Don't push branches
-            echo 'n'             # NO to cleanup prompt
+            echo 'n'             # Don't create revert commits
         } | '$SCRIPT_PATH' 2>&1
 
-        # Check if cleanup did NOT run (user said no)
+        # Cleanup should always run via EXIT trap, even with declined push
         if [[ -d \"\$WORKTREE_BASE\" ]]; then
-            echo \"SUCCESS: Worktree directory still exists - user declined cleanup\"
+            echo \"ERROR: Worktree directory still exists - EXIT trap did not run\"
         else
-            echo \"ERROR: Directory was removed but user said no to cleanup\"
+            echo \"SUCCESS: Cleanup ran via EXIT trap\"
         fi
     "
 
     echo "Full output:"
     echo "$output"
 
-    # Should see that cleanup did NOT run (user declined)
-    [[ "$output" =~ "SUCCESS: Worktree directory still exists - user declined cleanup" ]]
-
-    # Directory should still exist
-    [ -d "$test_worktree_dir" ]
-
-    # Clean up after test
-    rm -rf "$test_worktree_dir"
+    [[ "$output" =~ "SUCCESS: Cleanup ran via EXIT trap" ]] || [[ "$output" =~ "Cleaning up worktrees" ]]
+    [ ! -d "$test_worktree_dir" ]
 }
 
 # Test: Current branch is pushed when user confirms push
@@ -1286,31 +1267,29 @@ MOCK
     [[ ! "$output" =~ "Would you like to clean up the temporary worktrees?" ]]
 }
 
-# Test: Cleanup prompt appears when branches are not pushed
-@test "cleanup prompt appears when user declines push" {
+# Test: No cleanup prompt is shown — cleanup is always automatic
+@test "no cleanup prompt is shown to the user" {
     cd "$TEST_DIR"
 
-    # Create test worktree directory
-    test_worktree_dir="$TEST_DIR/test-worktrees-nopush-$$"
+    test_worktree_dir="$TEST_DIR/test-worktrees-noprompt-$$"
 
     run bash -c "
         cd '$TEST_DIR'
         export WORKTREE_BASE='$test_worktree_dir'
 
-        # Create file1.txt in the repo
         echo 'file content' > file1.txt
         git add file1.txt
         git commit -m 'Add file1'
 
-        # Set up mock origin/main reference
         git update-ref refs/remotes/origin/main HEAD~1
 
-        # Mock git to avoid network calls
         git() {
             if [[ \"\$1\" == \"fetch\" ]]; then
                 return 0
             elif [[ \"\$1\" == \"diff\" ]] && [[ \"\$2\" == \"--name-only\" ]] && [[ \"\$3\" == \"origin/main...HEAD\" ]]; then
                 echo \"file1.txt\"
+                return 0
+            elif [[ \"\$1\" == \"push\" ]]; then
                 return 0
             else
                 command git \"\$@\"
@@ -1318,30 +1297,22 @@ MOCK
         }
         export -f git
 
-        # Simulate user input - decline push, decline cleanup
         {
-            echo 'new-branch'    # Create one new branch
-            echo ''              # No more branches
-            echo '2'             # Assign file1 to new branch
-            echo 'y'             # Proceed with splitting
-            echo 'test commit'   # Commit message
-            echo 'n'             # NO to push branches
-            echo 'n'             # NO to cleanup
+            echo 'new-branch'
+            echo ''
+            echo '2'
+            echo 'y'
+            echo 'test commit'
+            echo 'n'
         } | '$SCRIPT_PATH' 2>&1
     "
 
     echo "Full output:"
     echo "$output"
 
-    # Should NOT see push messages since we declined
-    [[ ! "$output" =~ "Pushing branches to origin" ]]
-
-    # Should see that worktrees were preserved (meaning cleanup prompt was shown and declined)
-    [[ "$output" =~ "Worktrees preserved at:" ]]
-    [[ "$output" =~ "You can manually clean them up later" ]]
-
-    # Clean up
-    rm -rf "$test_worktree_dir"
+    [[ ! "$output" =~ "Would you like to clean up the temporary worktrees?" ]]
+    [[ ! "$output" =~ "Worktrees preserved at:" ]]
+    [ ! -d "$test_worktree_dir" ]
 }
 
 # Test: Multiple undos work correctly
