@@ -34,8 +34,9 @@ on-mode-changed = []
 #   2 | DELL S2725QS
 #   3 | LG HDR 4K
 [workspace-to-monitor-force-assignment]
-10 = 'LG Ultra HD'  # Ghostty, Slack → leftmost LG
-11 = 'LG HDR 4K'    # TextEdit → rightmost LG
+10 = 'LG Ultra HD'    # Ghostty, Slack → leftmost LG
+12 = 'DELL S2725QS'   # Fathom → middle DELL
+11 = 'LG HDR 4K'      # TextEdit → rightmost LG
 
 [key-mapping]
     preset = 'qwerty'
@@ -170,3 +171,7 @@ run = 'move-node-to-workspace 10'
 [[on-window-detected]]
 if.app-id = 'com.apple.TextEdit'
 run = 'move-node-to-workspace 11'
+
+[[on-window-detected]]
+if.app-id = 'video.fathom.electron'
+run = 'move-node-to-workspace 12'
