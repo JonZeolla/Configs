@@ -1,4 +1,11 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Cache brew shellenv (Ruby fork is ~1s; sourcing the cache is ~5ms)
+_brew_env="${HOME}/.cache/brew-shellenv.zsh"
+if [[ ! -s $_brew_env || /opt/homebrew/bin/brew -nt $_brew_env ]]; then
+  [[ -d "${HOME}/.cache" ]] || mkdir -p "${HOME}/.cache"
+  /opt/homebrew/bin/brew shellenv > $_brew_env
+fi
+source $_brew_env
+unset _brew_env
 
 export TERM="xterm-256color"
 # Update $? to account for the rightmost non-zero failure in a pipeline
@@ -16,7 +23,7 @@ export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/loc
 
 # Go
 export GOPATH="${HOME}/go"
-export GOROOT="$(brew --prefix golang)/libexec"
+export GOROOT="/opt/homebrew/opt/go/libexec"
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
 # Python
@@ -68,6 +75,7 @@ plugins=(
   vscode
 )
 
+ZSH_DISABLE_COMPFIX=true   # skip compaudit (~0.2s)
 source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
@@ -114,7 +122,6 @@ SPACESHIP_PROMPT_ORDER=(
   char
 )
 
-alias uz='UV_NO_CACHE=1 uvx --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp'
 # Short for local zenable
 alias lzenable='pushd $(git_root)/packages/zenable && task install && popd && zenable'
 export monorepo="TODO_change_your_zshrc"
@@ -322,7 +329,7 @@ alias t="task"
 alias ask="task"
 alias taks="task"
 # Autocomplete
-autoload -U compinit; compinit
+autoload -U compinit; compinit -C
 autoload -U +X bashcompinit && bashcompinit
 
 ## Functions
