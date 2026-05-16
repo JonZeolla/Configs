@@ -177,7 +177,6 @@ function greptf() {
 
 # Python
 alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
-alias upgradepipx='pipx upgrade-all'
 
 # k8s
 alias kctx="kubectx"
@@ -201,7 +200,7 @@ function claude() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
   trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
+  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Monitor,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
   trap - EXIT INT
 }
 function checkout() {
@@ -321,7 +320,7 @@ alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spa
 alias upgradelazynvim='nvim --headless "+Lazy update" +qa'
 alias upgradenvimconfig='upgradelazynvim ; nvim --headless "+MasonUpdate" +qa'
 alias upgradetmux='~/.tmux/plugins/tpm/bin/update_plugins all'
-alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradepipx; upgradegoss"
+alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradegoss"
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 # common task typo / shortener
