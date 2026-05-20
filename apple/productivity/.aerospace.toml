@@ -23,8 +23,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 automatically-unhide-macos-hidden-apps = false
 
-# Persistent workspaces: 1-5 for general use, 10-12 for app-assigned workspaces
-persistent-workspaces = ["1", "2", "3", "4", "5", "10", "11", "12"]
+# Persistent workspaces: 1-5 for general use, 10-13 for app-assigned workspaces
+persistent-workspaces = ["1", "2", "3", "4", "5", "10", "11", "12", "13"]
 
 on-mode-changed = []
 
@@ -32,11 +32,13 @@ on-mode-changed = []
 # Monitor names from `aerospace list-monitors`:
 #   1 | LG Ultra HD
 #   2 | DELL S2725QS
-#   3 | LG HDR 4K
+#   3 | Elgato Prom.
+#   4 | LG HDR 4K
 [workspace-to-monitor-force-assignment]
 10 = 'LG Ultra HD'    # Ghostty, Slack → leftmost LG
-12 = 'DELL S2725QS'   # Fathom → middle DELL
+12 = 'DELL S2725QS'   # middle DELL (free)
 11 = 'LG HDR 4K'      # TextEdit → rightmost LG
+13 = 'Elgato Prom.'   # Video conferencing & meeting tools → Elgato Prompter
 
 [key-mapping]
     preset = 'qwerty'
@@ -174,4 +176,8 @@ run = 'move-node-to-workspace 11'
 
 [[on-window-detected]]
 if.app-id = 'video.fathom.electron'
-run = 'move-node-to-workspace 12'
+run = 'move-node-to-workspace 13'
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = 'move-node-to-workspace 13'
