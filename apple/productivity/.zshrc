@@ -150,7 +150,7 @@ alias sha1="openssl sha1"
 alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
-alias brewupgrade='bubo ; brew upgrade --cask ; brew upgrade ; brew cleanup'
+alias brewupgrade='bubo ; brew upgrade --cask --yes ; brew upgrade --yes ; brew cleanup'
 function copy() {
   if [[ $# -gt 0 ]]; then
     pbcopy < <(cat "$@")
