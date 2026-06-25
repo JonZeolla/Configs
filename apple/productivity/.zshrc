@@ -203,6 +203,13 @@ function claude() {
   command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Monitor,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
   trap - EXIT INT
 }
+function codex() {
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
+  command /opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox "$@"
+  trap - EXIT INT
+}
 function checkout() {
   if [[ $# -eq 1 ]]; then
     git checkout main
