@@ -105,6 +105,15 @@ launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 # k8s
 k krew install starboard
 
+## Setup Claude Code status line
+mkdir -p ~/.claude
+wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
+chmod 0755 ~/.claude/statusline.sh
+# Point settings.json at the status line (create the file if it does not exist yet)
+[ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0}' \
+  ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
+
 ## Start some things up
 open /Applications/LaunchBar.app
 open /Applications/Micro\ Snitch.app
