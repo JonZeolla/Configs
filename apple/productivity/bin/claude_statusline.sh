@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Claude Code status line. Managed in jonzeolla/configs; setup.sh installs it to ~/.claude/statusline.sh.
-# Renders: [Model] dir  branch  <clickable PR #N | no PR>  ctx N%  $cost
+# Renders: [Model] dir  branch  ctx N%  $cost  <#N https://... | no PR>
+#
+# The PR is printed as the bare PR URL (not an OSC 8 hyperlink). tmux/terminals
+# don't reliably honor OSC 8, but they DO auto-detect a raw https URL and make it
+# cmd+clickable. Printing real text also means no hidden escape bytes inflate the
+# line width. It lives LAST so its length never displaces the core fields.
 #
 # gh is network-bound, so the PR lookup is cached per repo+branch and refreshed
 # in the background — the status line reads whatever the last refresh left and
@@ -41,10 +46,10 @@ if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 
   if [ -f "$cache" ]; then
     if [ -s "$cache" ]; then
-      num="$(cut -f1 "$cache")"
       url="$(cut -f2 "$cache")"
-      # OSC 8 hyperlink: ESC ] 8 ;; URL ST  label  ESC ] 8 ;; ST
-      pr="$(printf '\033]8;;%s\033\\PR #%s\033]8;;\033\\' "$url" "$num")"
+      # Bare URL as plain text so the terminal auto-links it (cmd+click). No
+      # "#N" prefix — the number is already the tail of the URL.
+      pr="$url"
     else
       pr="no PR"
     fi
@@ -57,5 +62,5 @@ cost_fmt="$(printf '%.2f' "$cost" 2>/dev/null || echo 0.00)"
 
 line="[$model] $dir"
 [ -n "$branch" ] && line="$line  $branch"
-line="$line  $pr  ctx ${ctx}%  \$$cost_fmt"
+line="$line  ctx ${ctx}%  \$$cost_fmt  $pr"
 printf '%s\n' "$line"
