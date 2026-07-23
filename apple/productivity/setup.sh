@@ -114,6 +114,12 @@ chmod 0755 ~/.claude/statusline.sh
 jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0}' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
+## Setup Codex status line
+mkdir -p ~/.codex
+wget -O ~/.codex/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/codex_statusline.sh
+chmod 0755 ~/.codex/statusline.sh
+~/.codex/statusline.sh
+
 ## Start some things up
 open /Applications/LaunchBar.app
 open /Applications/Micro\ Snitch.app
