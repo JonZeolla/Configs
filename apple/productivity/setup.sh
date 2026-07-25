@@ -16,8 +16,10 @@ defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldir
 sudo fdesetup enable
 # Enable the 'locate' command
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-# Disable sleep
-sudo pmset -b disablesleep 1
+# Battery settings
+sudo pmset -b disablesleep 0 sleep 20
+# Charger settings
+sudo pmset -c displaysleep 10 sleep 0
 # Allow brew-installed zsh and bash (ARM only)
 echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
 echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells
