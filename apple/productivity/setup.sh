@@ -17,9 +17,9 @@ sudo fdesetup enable
 # Enable the 'locate' command
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 # Battery settings
-sudo pmset -b disablesleep 0 sleep 20
+sudo pmset -b disablesleep 0 displaysleep 20 sleep 20
 # Charger settings
-sudo pmset -c displaysleep 10 sleep 0
+sudo pmset -c disablesleep 1 displaysleep 10 sleep 0
 # Allow brew-installed zsh and bash (ARM only)
 echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
 echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells
