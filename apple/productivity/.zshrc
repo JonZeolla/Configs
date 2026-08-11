@@ -298,8 +298,25 @@ alias goonline="cp ~/.gitconfig.online ~/.gitconfig"
 # Docker
 alias dps="docker ps"
 alias docker-cleanup="docker system df; docker container prune ; docker builder prune -f; docker image prune -a --filter 'until=168h'; docker system df"
-alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker image prune -a --filter 'until=168h'
- -f ; docker image prune -a; docker system df"
+# Superset of docker-cleanup: drops the 168h age filter and clears the cache of
+# every docker-container builder. Those keep their cache in a named volume that
+# `docker builder prune` never reaches, so they need a per-builder pass; the
+# docker-driver builders are skipped because they share the daemon cache already
+# pruned above, and pruning one bound to another context just errors.
+# The volume prune is deliberately not -a: anonymous volumes are cruft, but named
+# ones are local database data (pgvector, postgres) and must survive.
+docker-cleanup-more() {
+  docker system df
+  docker container prune -f
+  docker image prune -a -f
+  docker builder prune -af
+  local builder
+  for builder in $(docker buildx ls | tail -n +2 | grep -v '\\_' | awk '$2=="docker-container"{sub(/\*$/,"",$1); print $1}'); do
+    docker buildx prune -af --builder "$builder"
+  done
+  docker volume prune -f
+  docker system df
+}
 
 # tmux
 alias tl="tmux ls"
