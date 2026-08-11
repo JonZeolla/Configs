@@ -297,8 +297,9 @@ alias goonline="cp ~/.gitconfig.online ~/.gitconfig"
 
 # Docker
 alias dps="docker ps"
-alias docker-cleanup="docker system df; docker container prune ; docker builder prune -f; docker image prune; docker system df"
-alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
+alias docker-cleanup="docker system df; docker container prune ; docker builder prune -f; docker image prune -a --filter 'until=168h'; docker system df"
+alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker image prune -a --filter 'until=168h'
+ -f ; docker image prune -a; docker system df"
 
 # tmux
 alias tl="tmux ls"
