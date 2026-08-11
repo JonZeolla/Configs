@@ -24,7 +24,8 @@
 1.  Grant permissions for the MINI_KEYBOARD remapper (`~/Applications/BikingKeyboardRemap.app`):
     1.  System Settings > Privacy & Security > **Accessibility** > "+" > navigate to `~/Applications/BikingKeyboardRemap.app`
     1.  Restart the agent: `launchctl stop local.biking-keyboard-remap`
-    1.  Type a few keys on main keyboard first to register it, then MINI_KEYBOARD A/B map to Space/Enter
+    1.  MINI_KEYBOARD A/B map to Space/Enter; all other keyboards pass through untouched
+    1.  After rebuilding/re-signing the app, re-grant Accessibility (toggle it off and on) — the ad-hoc signature's hash changes each build, invalidating the old grant
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Little Snitch
