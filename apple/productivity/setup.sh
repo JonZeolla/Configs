@@ -120,8 +120,12 @@ jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", comma
 mkdir -p ~/.claude/skills
 cp -R "$(dirname "$0")/skills/"* ~/.claude/skills/
 
-## Setup Codex status line
+## Setup Codex
 mkdir -p ~/.codex
+touch ~/.codex/config.toml
+yq -i -p=toml -o=toml '.agents.max_concurrent_threads_per_session = 10' ~/.codex/config.toml
+codex mcp remove chrome-devtools >/dev/null 2>&1 || true
+codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest -u http://localhost:9222
 wget -O ~/.codex/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/codex_statusline.sh
 chmod 0755 ~/.codex/statusline.sh
 ~/.codex/statusline.sh
