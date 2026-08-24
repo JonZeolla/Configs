@@ -31,7 +31,7 @@ export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 # Rust
-export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
+export PATH="${HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434

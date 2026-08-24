@@ -71,6 +71,12 @@ mkdir "${HOME}/go"
 mkdir -p ~/src/zenable
 wget -O ~/src/zenable/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.zenablegitconfig
 curl -fsSL https://cli.zenable.app/install.sh | bash
+# Dogwood reference CLI, for checking generated Dogwood guardrails locally.
+# Source-only on purpose: the crate sets publish = false, and upstream ships no
+# releases and no brew formula, so there is nothing to install from. --force
+# because the crate version is pinned at 1.0.0 forever, so without it cargo
+# reports "already installed" and never picks up a newer default-branch commit.
+cargo install --git https://github.com/dogwood-policy/dogwood --force amzn-dogwood-cli
 # Configure spaceship
 mkdir -p ~/.zsh/zenable-spaceship-section
 wget -O ~/.zsh/zenable-spaceship-section/zenable.plugin.zsh https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/zenable.plugin.zsh
@@ -107,13 +113,13 @@ launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 # k8s
 k krew install starboard
 
-## Setup Claude Code status line
+## Setup Claude Code status line and output style
 mkdir -p ~/.claude
 wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
 chmod 0755 ~/.claude/statusline.sh
 # Point settings.json at the status line (create the file if it does not exist yet)
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0}' \
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise"' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
 ## Setup Claude Code skills
@@ -169,6 +175,23 @@ nvim --headless "+Lazy sync" +qa
 
 ## Install AI helpers
 go install github.com/dlorenc/multiclaude/cmd/multiclaude@latest
+
+## Setup SidePulse (LED agent status for Claude + Codex)
+# Hooks append JSONL per provider; a single writer reduces across all concurrent
+# agents by priority (blocked > waiting > tool-running > working > done) and
+# writes LEDS.LED on the mounted device.
+git clone https://github.com/inteliwear/sidepulse ~/src/inteliwear/sidepulse
+~/src/inteliwear/sidepulse/scripts/install-user.sh
+# sidepulse probes /Applications/Codex.app first, which is a stale 0.142 build here.
+# Point it at the Homebrew CLI so `hooks/list` returns trusted hashes -- without
+# them Codex silently refuses to run the hooks.
+export CODEX_CLI_PATH=/opt/homebrew/bin/codex
+sidepulse agent-monitor install claude
+sidepulse agent-monitor install codex
+# Status-bar app mirrors aggregate state to the LEDs; eject guard keeps the
+# SidePulse Pro SD reader mounted across sleep.
+sidepulse setup claude --sd-eject-guard-scope user
+sidepulse agent-monitor doctor
 
 ## Setup goss/dgoss
 # Pending https://github.com/goss-org/goss/issues/1030
