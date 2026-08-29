@@ -191,7 +191,57 @@ alias sha1="openssl sha1"
 alias thetime="date +\"%T\""
 alias thedate="date +\"%Y-%m-%d\""
 alias headers="curl -I"
-alias brewupgrade='bubo ; brew upgrade --cask ; brew upgrade ; brew cleanup'
+# launchd jobs whose ProgramArguments live inside a Homebrew keg. `brew cleanup`
+# deletes that keg out from under the running process; the process survives on
+# open inodes but can no longer resolve any not-yet-imported module, so it stays
+# up while silently failing every code path it hadn't already executed.
+# These must be restarted between `brew upgrade` and `brew cleanup`.
+typeset -ga BREW_BACKED_SERVICES=(
+  ai.hermes.gateway
+  ai.hermes.triprunner
+)
+
+# Move brew-backed services onto the newly installed kegs. Runs BEFORE
+# `brew cleanup` so the old keg still exists if a restart needs to fall back.
+function reconcilebrewservices() {
+  local svc rc=0
+  # hermes pins its keg version into the plist, so the plist must be
+  # regenerated against the new version or launchd cannot respawn the gateway.
+  if command -v hermes >/dev/null 2>&1; then
+    hermes gateway install || rc=1
+  fi
+  for svc in $BREW_BACKED_SERVICES; do
+    launchctl print "gui/${UID}/${svc}" &>/dev/null || continue
+    print "  restarting ${svc}"
+    launchctl kickstart -k "gui/${UID}/${svc}" || rc=1
+  done
+  return $rc
+}
+
+# A launchd job pointing at a path that no longer exists is a latent outage:
+# KeepAlive cannot respawn it, so it dies permanently at the next restart or
+# reboot while `launchctl list` still shows it healthy.
+function auditlaunchagents() {
+  local dir=${1:-~/Library/LaunchAgents} plist label p rc=0
+  for plist in ${~dir}/*.plist(N); do
+    label=${${plist:t}:r}
+    for p in ${(f)"$(grep -oE '/opt/homebrew/(Cellar|opt)/[^<\"[:space:]:]+' $plist 2>/dev/null | sort -u)"}; do
+      [[ -z $p || -e $p ]] && continue
+      print -P "%F{red}BROKEN%f ${label}: ${p}"
+      rc=1
+    done
+  done
+  (( rc )) || print -P "%F{green}All LaunchAgent paths resolve.%f"
+  return $rc
+}
+
+function brewupgrade() {
+  bubo
+  brew upgrade --cask
+  brew upgrade
+  reconcilebrewservices   # restart onto the new kegs while the old ones still exist
+  brew cleanup            # only now is deleting the old kegs safe
+}
 function copy() {
   if [[ $# -gt 0 ]]; then
     pbcopy < <(cat "$@")
@@ -217,8 +267,26 @@ function greptf() {
 }
 
 # Python
-alias pip3upgrade="pip3 list --outdated --format=json | jq -r '.[] | \"\(.name)=\(.latest_version)\"' | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
-alias upgradepipx='pipx upgrade-all'
+alias upgradeuvtools='uv tool upgrade --all'
+
+# Ad-hoc Python scripting lives in a uv-managed venv rather than brew's shared
+# site-packages: brew owns the formula-managed packages there, and pip3 is
+# PEP 668 externally-managed so it refuses to write to it anyway.
+export SCRIPTING_VENV="${HOME}/.venvs/scripting"
+export SCRIPTING_REQS="${HOME}/.venvs/scripting-requirements.txt"
+alias scripting="source ${SCRIPTING_VENV}/bin/activate"
+function upgradescriptingvenv() {
+  [[ -d $SCRIPTING_VENV && -f $SCRIPTING_REQS ]] || return 0
+  uv pip install --python "${SCRIPTING_VENV}/bin/python" --upgrade -r "$SCRIPTING_REQS"
+}
+
+# What is still installed in brew's shared site-packages, for migration to uv.
+function pipglobalaudit() {
+  print -P "%BPackages in brew's shared site-packages (migrate to 'uv tool install'):%b"
+  pip3 list --outdated --format=json 2>/dev/null \
+    | jq -r '.[] | "  \(.name) \(.version) -> \(.latest_version)"'
+  print -P "\n%F{yellow}Do NOT bulk 'pip3 install -U' these -- brew owns some of them.%f"
+}
 
 # k8s
 alias kctx="kubectx"
@@ -336,13 +404,23 @@ alias pwsh="docker pull microsoft/powershell:latest && docker run -it -v $(pwd):
 
 # goss/dgoss
 export GOSS_PATH=~/bin/goss
+# -f makes curl fail on HTTP errors instead of writing the error body to the
+# output file; staging in a tmpdir keeps a failed run from destroying a working
+# binary.
 function upgradegoss() {
-  curl -L https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o ~/bin/dgoss
-  chmod 0755 ~/bin/dgoss
-  latest_release=$(curl https://api.github.com/repos/goss-org/goss/releases/latest | jq -r '.tag_name' | sed 's_^v__')
-  # Assumes arm64
-  curl -L "https://github.com/goss-org/goss/releases/download/v${latest_release}/goss-linux-arm64" -o ~/bin/goss
-  chmod 0755 ~/bin/goss
+  local rel ver tmp rc
+  rel=$(curl -fsSL https://api.github.com/repos/goss-org/goss/releases/latest | jq -r .tag_name) || return 1
+  [[ -n $rel && $rel != null ]] || { print -u2 "upgradegoss: could not resolve latest release"; return 1 }
+  ver=${rel#v}
+  tmp=$(mktemp -d) || return 1
+  curl -fsSL "https://github.com/goss-org/goss/releases/download/${rel}/goss_${ver}_darwin_$(uname -m).tar.gz" \
+    | tar -xzf - -C "$tmp" goss || { rm -rf "$tmp"; return 1 }
+  install -m 0755 "$tmp/goss" ~/bin/goss || { rm -rf "$tmp"; return 1 }
+  curl -fsSL https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss -o "$tmp/dgoss" \
+    && install -m 0755 "$tmp/dgoss" ~/bin/dgoss
+  rc=$?
+  rm -rf "$tmp"
+  return $rc
 }
 
 # Other
@@ -350,11 +428,54 @@ export COWPATH="/usr/local/Cellar/cowsay/*/share/cows"
 alias happiness="while true; do fortune -n 1 | cowsay -f \`find $COWPATH -type f | sort -R | head -n1\` | lolcat -a -s 100; sleep 2; done"
 alias asciicast2gif='docker run --rm -v "$PWD:/data" asciinema/asciicast2gif'
 alias testssl="docker run -t --rm mvance/testssl"
-alias upgradespaceship='pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && git pull && popd'
-alias upgradelazynvim='nvim --headless "+Lazy update" +qa'
-alias upgradenvimconfig='upgradelazynvim ; nvim --headless "+MasonUpdate" +qa'
-alias upgradetmux='~/.tmux/plugins/tpm/bin/update_plugins all'
-alias upgradeallthethings="brewupgrade; omz update; kkrewupgrade; pip3upgrade; upgradenvimconfig; upgradetmux; upgradespaceship; upgradepipx; upgradegoss"
+# These are functions rather than aliases because upgradeallthethings invokes
+# them via "$@", and alias expansion does not apply to expanded words.
+function upgradespaceship() {
+  pushd "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt" && git pull && popd
+}
+function upgradelazynvim()  { nvim --headless "+Lazy update" +qa }
+function upgradenvimconfig() {
+  upgradelazynvim && nvim --headless "+MasonUpdate" +qa
+}
+function upgradetmux()      { ~/.tmux/plugins/tpm/bin/update_plugins all }
+function upgradekrew()      { kubectl krew update && kubectl krew upgrade }
+
+# Run one upgrade step, recording success/failure instead of letting it scroll
+# past unnoticed. Always returns 0 so a failed step does not abort the run.
+function _uatt_run() {
+  local name=$1; shift
+  print -P "\n%F{blue}%B==> ${name}%b%f"
+  "$@"; local rc=$?
+  if (( rc )); then
+    _UATT_FAIL+=("${name} (exit ${rc})")
+    print -P "%F{red}%B!! ${name} failed (exit ${rc})%b%f"
+  else
+    _UATT_OK+=("${name}")
+  fi
+  return 0
+}
+
+# Each step reports pass/fail and the run ends with a summary, so a step that
+# breaks is visible rather than scrolling past. The closing launchd audit catches
+# a service left pointing at a deleted keg before the next reboot does.
+function upgradeallthethings() {
+  local -a _UATT_OK _UATT_FAIL
+  _uatt_run "homebrew"      brewupgrade
+  _uatt_run "oh-my-zsh"     omz update
+  _uatt_run "krew"          upgradekrew
+  _uatt_run "uv tools"      upgradeuvtools
+  _uatt_run "scripting venv" upgradescriptingvenv
+  _uatt_run "neovim"        upgradenvimconfig
+  _uatt_run "tmux plugins"  upgradetmux
+  _uatt_run "spaceship"     upgradespaceship
+  _uatt_run "goss"          upgradegoss
+  _uatt_run "launchd audit" auditlaunchagents
+
+  print -P "\n%B── upgrade summary ──%b"
+  (( $#_UATT_OK ))   && print -P "%F{green}ok:%f     ${(j:, :)_UATT_OK}"
+  (( $#_UATT_FAIL )) && { print -P "%F{red}%Bfailed:%b%f ${(j:, :)_UATT_FAIL}"; return 1 }
+  print -P "%F{green}All steps succeeded.%f"
+}
 alias mastertomain="git branch -m master main && git push -u origin main && git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && echo Successfully migrated from master to main"
 alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/Default/Favicons"'
 # common task typo / shortener
