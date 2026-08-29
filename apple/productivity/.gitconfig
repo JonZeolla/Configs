@@ -51,3 +51,5 @@
   forceSignAnnotated = true
 [fetch]
   tags = true
+[url "git@gitlab-zenable-demo:zenable-demo/"]
+	insteadOf = git@gitlab.com:zenable-demo/

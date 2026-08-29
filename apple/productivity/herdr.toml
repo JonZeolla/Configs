@@ -1,0 +1,67 @@
+# herdr configuration
+# Installed to ~/.config/herdr/config.toml
+# Keybindings mirror tmux.conf as closely as herdr's action set allows.
+# Validate with `herdr config check`, apply with `herdr server reload-config`.
+
+[terminal]
+# Inherit the source pane's directory for new panes/tabs/workspaces
+new_cwd = "follow"
+
+[keys]
+# tmux: set -g prefix ^j
+prefix = "ctrl+j"
+
+# tmux: bind ^j last-window
+# herdr has no last-tab action and reserves prefix+prefix (it sends a literal
+# prefix), so the back-and-forth toggle lands on prefix+tab instead
+last_pane = "prefix+tab"
+cycle_pane_next = ""
+cycle_pane_previous = "prefix+shift+tab"
+
+# tmux: bind v split-window -h / bind s split-window -v
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
+# prefix+s is the split above, so settings moves off it
+settings = "prefix+shift+s"
+
+# tmux: bind-key r command-prompt "rename-window %%"
+rename_tab = "prefix+r"
+# prefix+r is rename above, so resize mode moves off it
+resize_mode = "prefix+ctrl+r"
+
+# tmux: hjkl pane traversal
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Tabs (tmux windows)
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+close_tab = "prefix+shift+x"
+# tmux: set -g base-index 1
+switch_tab = "prefix+1..9"
+
+# Workspaces have no tmux equivalent; keep the herdr defaults explicit
+workspace_picker = "prefix+w"
+new_workspace = "prefix+shift+n"
+switch_workspace = "prefix+shift+1..9"
+
+detach = "prefix+q"
+zoom = "prefix+z"
+close_pane = "prefix+x"
+toggle_sidebar = "prefix+b"
+help = "prefix+?"
+
+[ui]
+# Group the agent sidebar by space rather than the attention queue
+agent_panel_sort = "spaces"
+# tmux: set -g mouse on
+mouse_capture = true
+# tmux: set -g set-clipboard on
+copy_on_select = true
+
+[advanced]
+# tmux: set -g history-limit 1000000
+scrollback_limit_bytes = 100000000

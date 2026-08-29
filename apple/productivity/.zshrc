@@ -1,4 +1,11 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Cache brew shellenv (Ruby fork is ~1s; sourcing the cache is ~5ms)
+_brew_env="${HOME}/.cache/brew-shellenv.zsh"
+if [[ ! -s $_brew_env || /opt/homebrew/bin/brew -nt $_brew_env ]]; then
+  [[ -d "${HOME}/.cache" ]] || mkdir -p "${HOME}/.cache"
+  /opt/homebrew/bin/brew shellenv > $_brew_env
+fi
+source $_brew_env
+unset _brew_env
 
 export TERM="xterm-256color"
 # Update $? to account for the rightmost non-zero failure in a pipeline
@@ -16,7 +23,7 @@ export PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:${HOME}/.rd/bin:/usr/loc
 
 # Go
 export GOPATH="${HOME}/go"
-export GOROOT="$(brew --prefix golang)/libexec"
+export GOROOT="/opt/homebrew/opt/go/libexec"
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
 # Python
@@ -24,7 +31,7 @@ export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 # Rust
-export PATH="${RYE_HOME}/.cargo/bin:${PATH}"
+export PATH="${HOME}/.cargo/bin:${PATH}"
 
 ## AI stuff
 export OLLAMA_API_BASE=http://127.0.0.1:11434
@@ -68,6 +75,7 @@ plugins=(
   vscode
 )
 
+ZSH_DISABLE_COMPFIX=true   # skip compaudit (~0.2s)
 source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
@@ -114,7 +122,6 @@ SPACESHIP_PROMPT_ORDER=(
   char
 )
 
-alias uz='UV_NO_CACHE=1 uvx --from "$(git rev-parse --show-toplevel)/packages/zenable_mcp" zenable-mcp'
 # Short for local zenable
 alias lzenable='pushd $(git_root)/packages/zenable && task install && popd && zenable'
 export monorepo="TODO_change_your_zshrc"
@@ -131,54 +138,6 @@ function setcontainer() {
 function setsandbox() {
   ln -sf "${monorepo}/../.envrc.sandbox" "${monorepo}/../.envrc"
   direnv allow "${monorepo}/"
-}
-function mpy() {
-  local envrc_target
-  envrc_target="$(readlink -f "${monorepo}/../.envrc")"
-  if [[ ! -f "${envrc_target}" ]]; then
-    echo "Error: could not resolve .envrc symlink target"
-    return 1
-  fi
-
-  if [[ "$1" == "off" ]]; then
-    sed -i '' '/^export MOUNT_PYTHONPATH=/d' "${envrc_target}"
-    sed -i '' '/^export PYTHONPATH=/d' "${envrc_target}"
-    direnv allow "${monorepo}/"
-    unset MOUNT_PYTHONPATH
-    unset PYTHONPATH
-    echo "MOUNT_PYTHONPATH and PYTHONPATH removed from $(basename "${envrc_target}")"
-    return 0
-  fi
-
-  local pkg
-  case "$1" in
-    zdm)       pkg="zenable_data_model" ;;
-    procs)     pkg="zenable_processors" ;;
-    monorepo)  pkg="zenable_monorepo" ;;
-    o11y)      pkg="zenable_o11y" ;;
-    utils)     pkg="zenable_utils" ;;
-    *)
-      echo "Usage: mpy <zdm|procs|monorepo|o11y|utils|off>"
-      return 1
-      ;;
-  esac
-
-  local pythonpath="$(git rev-parse --show-toplevel)/packages/${pkg}/src"
-
-  if grep -q '^export MOUNT_PYTHONPATH=' "${envrc_target}"; then
-    sed -i '' "s|^export MOUNT_PYTHONPATH=.*|export MOUNT_PYTHONPATH=true|" "${envrc_target}"
-  else
-    echo 'export MOUNT_PYTHONPATH=true' >> "${envrc_target}"
-  fi
-
-  if grep -q '^export PYTHONPATH=' "${envrc_target}"; then
-    sed -i '' "s|^export PYTHONPATH=.*|export PYTHONPATH=\"${pythonpath}\"|" "${envrc_target}"
-  else
-    echo "export PYTHONPATH=\"${pythonpath}\"" >> "${envrc_target}"
-  fi
-
-  direnv allow "${monorepo}/"
-  echo "PYTHONPATH set to ${pkg}/src in $(basename "${envrc_target}")"
 }
 
 ## Configure things
@@ -237,8 +196,8 @@ function auditlaunchagents() {
 
 function brewupgrade() {
   bubo
-  brew upgrade --cask
-  brew upgrade
+  brew upgrade --cask --yes
+  brew upgrade --yes
   reconcilebrewservices   # restart onto the new kegs while the old ones still exist
   brew cleanup            # only now is deleting the old kegs safe
 }
@@ -310,7 +269,14 @@ function claude() {
   local prev_dir=$(pwd)
   cd "$(git_root)" || return
   trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
+  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Monitor,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
+  trap - EXIT INT
+}
+function codex() {
+  local prev_dir=$(pwd)
+  cd "$(git_root)" || return
+  trap 'cd "$prev_dir"' EXIT INT
+  command /opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox "$@"
   trap - EXIT INT
 }
 function checkout() {
@@ -326,15 +292,23 @@ function checkout() {
   fi
 }
 function worktree() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: worktree <new-worktree-and-branch-name>"
+    return 1
+  fi
   branch="$1"
   dir="$(git_root)/../${branch}"
-  if [[ $# -eq 1 ]]; then
-    git worktree add "${dir}" main -b "${branch}"
-    cd "${dir}"
-    claude
-  else
-    echo "Usage: worktree <new-worktree-and-branch-name>"
+  if [[ -d "${dir}" ]] \
+    || git show-ref --verify --quiet "refs/heads/${branch}" \
+    || git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+    suffix="$(date +'%B-%d' | tr '[:upper:]' '[:lower:]')"
+    branch="${branch}-${suffix}"
+    dir="$(git_root)/../${branch}"
+    echo "Branch or directory already exists, using: ${branch}"
   fi
+  git worktree add "${dir}" main -b "${branch}"
+  cd "${dir}"
+  claude
 }
 function openworktree() {
   branch="$1"
@@ -344,7 +318,7 @@ function openworktree() {
     if [[ -d "${dir}" ]]; then
       echo "Worktree directory already exists, navigating to: ${dir}"
       cd "${dir}"
-      claude -c
+      claude -c || claude
       return 0
     fi
 
@@ -363,7 +337,7 @@ function openworktree() {
       return 1
     fi
     cd "${dir}"
-    claude -c
+    claude -c || claude
   else
     echo "Usage: openworktree <existing-branch-name>"
   fi
@@ -392,8 +366,26 @@ alias goonline="cp ~/.gitconfig.online ~/.gitconfig"
 
 # Docker
 alias dps="docker ps"
-alias docker-cleanup="docker system df; docker container prune ; docker builder prune -f; docker image prune; docker system df"
-alias docker-cleanup-more="docker system df; docker container rm \$(docker ps -a -q) ; docker builder prune -f; docker image prune -a; docker system df"
+alias docker-cleanup="docker system df; docker container prune ; docker builder prune -f; docker image prune -a --filter 'until=168h'; docker system df"
+# Superset of docker-cleanup: drops the 168h age filter and clears the cache of
+# every docker-container builder. Those keep their cache in a named volume that
+# `docker builder prune` never reaches, so they need a per-builder pass; the
+# docker-driver builders are skipped because they share the daemon cache already
+# pruned above, and pruning one bound to another context just errors.
+# The volume prune is deliberately not -a: anonymous volumes are cruft, but named
+# ones are local database data (pgvector, postgres) and must survive.
+docker-cleanup-more() {
+  docker system df
+  docker container prune -f
+  docker image prune -a -f
+  docker builder prune -af
+  local builder
+  for builder in $(docker buildx ls | tail -n +2 | grep -v '\\_' | awk '$2=="docker-container"{sub(/\*$/,"",$1); print $1}'); do
+    docker buildx prune -af --builder "$builder"
+  done
+  docker volume prune -f
+  docker system df
+}
 
 # tmux
 alias tl="tmux ls"
@@ -482,9 +474,8 @@ alias chromermfavicons='rm -rf "$HOME/Library/Application Support/Google/Chrome/
 alias t="task"
 alias ask="task"
 alias taks="task"
-alias tr="task redeploy"
 # Autocomplete
-autoload -U compinit; compinit
+autoload -U compinit; compinit -C
 autoload -U +X bashcompinit && bashcompinit
 
 ## Functions

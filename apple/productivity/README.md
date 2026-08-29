@@ -21,6 +21,11 @@
 1.  Setup the github CLI via `gh auth login && gh extension install actions/gh-actions-cache`.
 1.  Open the App Store and install purchased/desirable apps under "Purchased" (Countdown Timer Plus, ...)
 1.  Set appropriate Security & Privacy settings under System Settings > Privacy & Security > Privacy.
+1.  Grant permissions for the MINI_KEYBOARD remapper (`~/Applications/BikingKeyboardRemap.app`):
+    1.  System Settings > Privacy & Security > **Accessibility** > "+" > navigate to `~/Applications/BikingKeyboardRemap.app`
+    1.  Restart the agent: `launchctl stop local.biking-keyboard-remap`
+    1.  MINI_KEYBOARD A/B map to Space/Enter; all other keyboards pass through untouched
+    1.  After rebuilding/re-signing the app, re-grant Accessibility (toggle it off and on) — the ad-hoc signature's hash changes each build, invalidating the old grant
 1.  Open the following apps and ensure they open at login:
     1.  Micro Snitch
     1.  Little Snitch
@@ -41,10 +46,21 @@
 1.  Restore the following from backup (if applicable):
     1.  ~/.ssh/
         - Add any configs to mapping usernames and keys to hostnames.
-        - Add any git-related configs, such as:
+        - Add any git-related configs, such as the following. Note this works in combination with configs in .gitconfig:
         ```
         Host github.com
           Hostname github.com
           User git
-          IdentityFile ~/.ssh/changeme
+          IdentityFile ~/.ssh/changeme-github
+          IdentitiesOnly yes
+        Host gitlab-zenable-demo
+          Hostname gitlab.com
+          User git
+          IdentityFile ~/.ssh/changeme-gitlab-demo
+          IdentitiesOnly yes
+        Host gitlab.com
+          Hostname gitlab.com
+          User git
+          IdentityFile ~/.ssh/changeme-gitlab
+          IdentitiesOnly yes
         ```

@@ -13,6 +13,19 @@ set -euo pipefail
 # Script configuration - define early for cleanup
 # Allow overriding from environment for testing
 WORKTREE_BASE="${WORKTREE_BASE:-/tmp/git-split-worktrees}"
+# Original repo dir is captured in main() so prune always runs in the source repo,
+# not whichever worktree we may have cd'd into.
+ORIGINAL_REPO_DIR="${ORIGINAL_REPO_DIR:-}"
+
+# Prune stale worktree registrations from the original repo (handles the case where
+# a previous run's worktree dir was removed but git's metadata still claims the branch).
+prune_original_repo() {
+    if [[ -n "${ORIGINAL_REPO_DIR:-}" ]]; then
+        git -C "$ORIGINAL_REPO_DIR" worktree prune 2>/dev/null || true
+    else
+        git worktree prune 2>/dev/null || true
+    fi
+}
 
 # Clean up worktrees function - define early for trap
 cleanup_worktrees() {
@@ -23,9 +36,11 @@ cleanup_worktrees() {
         else
             printf "Cleaning up worktrees...\n" >&2
         fi
-        git worktree prune 2>/dev/null || true
+        prune_original_repo
         rm -rf "$WORKTREE_BASE" 2>/dev/null || true
     fi
+    # Final prune to drop any registrations whose dirs we just removed.
+    prune_original_repo
 }
 
 # Handle interruption gracefully - define early for trap
@@ -202,12 +217,28 @@ fetch_origin() {
         error "Failed to fetch from origin. Is your internet connection working?"
         exit 1
     fi
+
+    if [[ -f "$(git rev-parse --git-dir)/shallow" ]] \
+        && ! git merge-base HEAD "origin/$MAIN_BRANCH" >/dev/null 2>&1; then
+        log "Shallow clone with no merge base — unshallowing..."
+        git fetch --unshallow origin "$MAIN_BRANCH" 2>/dev/null \
+            || git fetch --deepen=1000 origin "$MAIN_BRANCH" 2>/dev/null || true
+    fi
+
+    if ! git merge-base HEAD "origin/$MAIN_BRANCH" >/dev/null 2>&1; then
+        error "No merge base between HEAD and origin/$MAIN_BRANCH after fetch."
+        exit 1
+    fi
 }
 
 # Get list of changed files compared to origin/main
 get_changed_files() {
-    # Get files that have changes (both staged and unstaged)
-    git diff --name-only "origin/$MAIN_BRANCH"...HEAD | sort -u
+    local out
+    if ! out=$(git diff --name-only "origin/$MAIN_BRANCH"...HEAD 2>&1); then
+        error "git diff failed: $out"
+        exit 1
+    fi
+    printf '%s\n' "$out" | sort -u
 }
 
 # Get the diff for a specific file
@@ -221,9 +252,25 @@ create_worktree() {
     local branch_name="$1"
     local worktree_path="$WORKTREE_BASE/$branch_name"
 
-    # Remove worktree if it already exists
+    # Drop stale registrations so a leftover entry from a prior run doesn't block
+    # `git worktree add` with "already used by worktree at ...".
+    prune_original_repo
+
+    # Remove worktree if it already exists on disk
     if [[ -d "$worktree_path" ]]; then
         git worktree remove --force "$worktree_path" 2>/dev/null || true
+    fi
+
+    # If the branch is still claimed by a (now stale) worktree path, force-remove that path
+    local stale_path
+    stale_path=$(git -C "${ORIGINAL_REPO_DIR:-.}" worktree list --porcelain 2>/dev/null \
+        | awk -v b="refs/heads/$branch_name" '
+            /^worktree / { wt = substr($0, 10) }
+            $0 == "branch " b { print wt; exit }
+        ')
+    if [[ -n "$stale_path" ]]; then
+        git -C "${ORIGINAL_REPO_DIR:-.}" worktree remove --force "$stale_path" 2>/dev/null || true
+        prune_original_repo
     fi
 
     # Create new worktree from origin/main
@@ -691,6 +738,10 @@ process_branches() {
 
         # Commit changes in worktree
         commit_in_worktree "$worktree_path" "$branch" files
+
+        # Show PR link as early as possible
+        echo -e "  ${GREEN}✓${NC} Branch ${CYAN}$branch${NC} ready"
+        echo -e "    PR link: ${BLUE}$(generate_pr_link "$branch")${NC}"
     done
 }
 
@@ -752,7 +803,7 @@ show_final_report() {
 
         # Push current branch first
         echo -e "  Pushing ${CYAN}$current_branch${NC}..."
-        if git push -u origin "$current_branch" 2>&1; then
+        if git push -u origin "$current_branch" >/dev/null 2>&1; then
             echo -e "  ${GREEN}✓${NC} Successfully pushed $current_branch"
         else
             error "Failed to push $current_branch"
@@ -761,7 +812,7 @@ show_final_report() {
         # Push created branches
         for branch in "${!created_branches_ref[@]}"; do
             echo -e "  Pushing ${CYAN}$branch${NC}..."
-            if git push -u origin "$branch" 2>&1; then
+            if git push -u origin "$branch" >/dev/null 2>&1; then
                 echo -e "  ${GREEN}✓${NC} Successfully pushed $branch"
             else
                 error "Failed to push $branch"
@@ -789,6 +840,15 @@ main() {
     # Initial checks
     check_git_repo
     check_not_on_main
+
+    # Capture the source repo so prune always targets it, even after we cd into worktrees.
+    ORIGINAL_REPO_DIR=$(git rev-parse --show-toplevel)
+
+    # Always clean up worktrees on exit (success, failure, or interrupt).
+    trap cleanup_worktrees EXIT
+
+    # Drop any stale worktree registrations from previous runs of this script.
+    prune_original_repo
 
     local current_branch
     current_branch=$(get_current_branch)
@@ -860,20 +920,9 @@ main() {
         info "Skipping revert commits on current branch"
     fi
 
-    # Final report (this will handle pushing and may prune worktrees)
+    # Final report (handles pushing). Cleanup runs unconditionally via the EXIT trap.
     local worktrees_pruned=false
     show_final_report "$current_branch" branch_files created_branches worktrees_pruned
-
-    # Ask user if they want to clean up (only if not already pruned)
-    if [[ "$worktrees_pruned" != "true" ]]; then
-        echo
-        if confirm_prompt "Would you like to clean up the temporary worktrees?"; then
-            cleanup_worktrees
-        else
-            info "Worktrees preserved at: $WORKTREE_BASE"
-            info "You can manually clean them up later with: rm -rf $WORKTREE_BASE"
-        fi
-    fi
 }
 
 

@@ -16,6 +16,10 @@ defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldir
 sudo fdesetup enable
 # Enable the 'locate' command
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+# Battery settings
+sudo pmset -b disablesleep 0 displaysleep 20 sleep 20
+# Charger settings
+sudo pmset -c disablesleep 1 displaysleep 10 sleep 0
 # Allow brew-installed zsh and bash (ARM only)
 echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
 echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells
@@ -24,8 +28,9 @@ xcode-select --install
 ## Install some basics
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # terraform is no longer updated via brew, so not installing it here
-brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu lolcat fortune go-task yq ansible gnu-tar kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config sigstore/tap/gitsign-credential-cache quarto screenflow gh elgato-stream-deck obs ffmpeg krisp ruff ripgrep tmux ollama uv k3d cursor grip pv rsync golangci-lint beekeeper-studio rust dive ngrok bats adobe-acrobat-reader claude-code eslint mcp-publisher ast-grep gastown openclaw-cli signal-cli mole
-brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal discord google-drive logitech-presentation rancher docker chromedriver spotify obsbot-webcam ghostty descript microsoft-powerpoint microsoft-word microsoft-excel sublime-text fujitsu-scansnap-home beyond-compare codex cursor-cli nikitabobko/tap/aerospace
+brew install go git git-lfs wget nmap swig cmake openssl jq neovim sha3sum opentofu lolcat fortune go-task yq ansible gnu-tar kubectl kubectx krew shellcheck grype syft age trivy bash zsh tree dos2unix goreleaser bison watch coreutils grep hadolint asciinema graphviz libtool libextractor libxml2 libxmlsec1 cosign crane act logitech-options direnv helm gitsign colordiff pkg-config quarto screenflow gh obs ffmpeg krisp ruff ripgrep tmux ollama uv k3d cursor grip pv rsync golangci-lint beekeeper-studio rust dive ngrok bats adobe-acrobat-reader claude-code eslint mcp-publisher ast-grep gastown openclaw-cli mole tofu-ls modem-dev/tap/hunk telegram jsign osslsigncode beads block-goose-cli herdr git-xet hf
+brew install --cask google-chrome slack firefox the-unarchiver keycastr visual-studio-code little-snitch micro-snitch raycast xquartz keka signal discord google-drive logitech-presentation rancher docker spotify obsbot-webcam ghostty descript microsoft-powerpoint microsoft-word microsoft-excel sublime-text fujitsu-scansnap-home beyond-compare codex cursor-cli nikitabobko/tap/aerospace tailscale-app elgato-camera-hub block-goose
+
 # At the moment this is the only supported way to install amp code
 curl -fsSL https://ampcode.com/install.sh | bash
 
@@ -66,6 +71,12 @@ mkdir "${HOME}/go"
 mkdir -p ~/src/zenable
 wget -O ~/src/zenable/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.zenablegitconfig
 curl -fsSL https://cli.zenable.app/install.sh | bash
+# Dogwood reference CLI, for checking generated Dogwood guardrails locally.
+# Source-only on purpose: the crate sets publish = false, and upstream ships no
+# releases and no brew formula, so there is nothing to install from. --force
+# because the crate version is pinned at 1.0.0 forever, so without it cargo
+# reports "already installed" and never picks up a newer default-branch commit.
+cargo install --git https://github.com/dogwood-policy/dogwood --force amzn-dogwood-cli
 # Configure spaceship
 mkdir -p ~/.zsh/zenable-spaceship-section
 wget -O ~/.zsh/zenable-spaceship-section/zenable.plugin.zsh https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/zenable.plugin.zsh
@@ -88,9 +99,42 @@ cp -R "$(dirname "$0")/prompts/"* ~/prompts/
 # other
 mkdir -p ~/bin ~/etc ~/logs ~/src/testing
 wget -O ~/bin/new-desktop https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/new-desktop
+# MINI_KEYBOARD per-device key remap (A->Space, B->Enter)
+mkdir -p ~/Applications/BikingKeyboardRemap.app/Contents/MacOS
+wget -O /tmp/biking-keyboard-remap.swift https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/biking-keyboard-remap.swift
+swiftc -framework IOKit -framework CoreGraphics -o ~/Applications/BikingKeyboardRemap.app/Contents/MacOS/biking-keyboard-remap /tmp/biking-keyboard-remap.swift
+rm /tmp/biking-keyboard-remap.swift
+wget -O ~/Applications/BikingKeyboardRemap.app/Contents/Info.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/plist/BikingKeyboardRemap.Info.plist
+codesign -s - ~/Applications/BikingKeyboardRemap.app
+mkdir -p ~/Library/LaunchAgents
+wget -O ~/Library/LaunchAgents/local.biking-keyboard-remap.plist https://raw.githubusercontent.com/jonzeolla/configs/main/apple/plist/local.biking-keyboard-remap.plist
+launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 
 # k8s
 k krew install starboard
+
+## Setup Claude Code status line and output style
+mkdir -p ~/.claude
+wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
+chmod 0755 ~/.claude/statusline.sh
+# Point settings.json at the status line (create the file if it does not exist yet)
+[ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise"' \
+  ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
+
+## Setup Claude Code skills
+mkdir -p ~/.claude/skills
+cp -R "$(dirname "$0")/skills/"* ~/.claude/skills/
+
+## Setup Codex
+mkdir -p ~/.codex
+touch ~/.codex/config.toml
+yq -i -p=toml -o=toml '.agents.max_concurrent_threads_per_session = 10' ~/.codex/config.toml
+codex mcp remove chrome-devtools >/dev/null 2>&1 || true
+codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest -u http://localhost:9222
+wget -O ~/.codex/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/codex_statusline.sh
+chmod 0755 ~/.codex/statusline.sh
+~/.codex/statusline.sh
 
 ## Start some things up
 open /Applications/LaunchBar.app
@@ -107,6 +151,11 @@ mkdir -p ~/.config/tmux/ ~/.tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 wget -O ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/tmux.conf
 wget -O ~/bin/tmux_status.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/tmux_status.sh
+
+## Setup herdr
+mkdir -p ~/.config/herdr
+wget -O ~/.config/herdr/config.toml https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/herdr.toml
+herdr config check
 
 ## Setup AeroSpace
 wget -O ~/.aerospace.toml https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.aerospace.toml
@@ -126,6 +175,23 @@ nvim --headless "+Lazy sync" +qa
 
 ## Install AI helpers
 go install github.com/dlorenc/multiclaude/cmd/multiclaude@latest
+
+## Setup SidePulse (LED agent status for Claude + Codex)
+# Hooks append JSONL per provider; a single writer reduces across all concurrent
+# agents by priority (blocked > waiting > tool-running > working > done) and
+# writes LEDS.LED on the mounted device.
+git clone https://github.com/inteliwear/sidepulse ~/src/inteliwear/sidepulse
+~/src/inteliwear/sidepulse/scripts/install-user.sh
+# sidepulse probes /Applications/Codex.app first, which is a stale 0.142 build here.
+# Point it at the Homebrew CLI so `hooks/list` returns trusted hashes -- without
+# them Codex silently refuses to run the hooks.
+export CODEX_CLI_PATH=/opt/homebrew/bin/codex
+sidepulse agent-monitor install claude
+sidepulse agent-monitor install codex
+# Status-bar app mirrors aggregate state to the LEDs; eject guard keeps the
+# SidePulse Pro SD reader mounted across sleep.
+sidepulse setup claude --sd-eject-guard-scope user
+sidepulse agent-monitor doctor
 
 ## Setup goss/dgoss
 # Pending https://github.com/goss-org/goss/issues/1030
