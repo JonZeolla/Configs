@@ -113,13 +113,14 @@ launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 # k8s
 k krew install starboard
 
-## Setup Claude Code status line and output style
+## Setup Claude Code status line, output style, and git attribution
 mkdir -p ~/.claude
 wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
 chmod 0755 ~/.claude/statusline.sh
-# Point settings.json at the status line (create the file if it does not exist yet)
+# Point settings.json at the status line (create the file if it does not exist yet).
+# Empty attribution strings turn off the Co-Authored-By / "Generated with" trailers.
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise"' \
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""}' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
 ## Setup Claude Code skills
@@ -178,13 +179,16 @@ go install github.com/dlorenc/multiclaude/cmd/multiclaude@latest
 
 ## Setup SidePulse (LED agent status for Claude + Codex)
 # Hooks append JSONL per provider; a single writer reduces across all concurrent
-# agents by priority (blocked > waiting > tool-running > working > done) and
-# writes LEDS.LED on the mounted device.
+# agents by priority (blocked > waiting > long-task > tool-running > working >
+# done) and writes LEDS.LED on the mounted device. The daemon owns that file, so
+# anything else writing it is a second writer racing the reduce.
 git clone https://github.com/inteliwear/sidepulse ~/src/inteliwear/sidepulse
 ~/src/inteliwear/sidepulse/scripts/install-user.sh
-# sidepulse probes /Applications/Codex.app first, which is a stale 0.142 build here.
-# Point it at the Homebrew CLI so `hooks/list` returns trusted hashes -- without
-# them Codex silently refuses to run the hooks.
+# Note: e2e-led-states (e3a52a8) exists only in my clone.
+# sidepulse probes /Applications/{ChatGPT,Codex}.app before `which codex`. If either
+# desktop app is installed its bundled CLI may be older than the Homebrew cask, and a
+# stale one makes the `hooks/list` trust handshake return nothing -- the install still
+# reports success but Codex silently refuses to run the hooks. Pin it to be safe.
 export CODEX_CLI_PATH=/opt/homebrew/bin/codex
 sidepulse agent-monitor install claude
 sidepulse agent-monitor install codex
