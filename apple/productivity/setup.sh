@@ -37,6 +37,9 @@ curl -fsSL https://ampcode.com/install.sh | bash
 # Packages useful to have on the host; project dependencies should be in a Pipfile.lock, requirements.txt, poetry.lock, etc.
 pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pytest-cov coverage virtualenv yamllint bandit scandir lxml cookiecutter pre-commit gitpython pyyaml flynt refurb pyre gql aider-chat
 brew install fd # for the linux-cultist/venv-selector.nvim plugin
+# Language servers for Claude Code's LSP plugins (installed below); the plugins only declare the command, never install it.
+# clangd and sourcekit-lsp come with the Xcode command line tools.
+brew install pyright typescript-language-server typescript gopls rust-analyzer
 uv tool install compliance-trestle
 uv tool install aws-sam-cli
 uv tool install tox
@@ -120,8 +123,13 @@ chmod 0755 ~/.claude/statusline.sh
 # Point settings.json at the status line (create the file if it does not exist yet).
 # Empty attribution strings turn off the Co-Authored-By / "Generated with" trailers.
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""}' \
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1"' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
+
+## Setup Claude Code code intelligence (LSP); binaries come from brew and Xcode above
+for plugin in pyright-lsp typescript-lsp gopls-lsp rust-analyzer-lsp clangd-lsp swift-lsp; do
+  claude plugin install "${plugin}@claude-plugins-official"
+done
 
 ## Setup Claude Code skills
 mkdir -p ~/.claude/skills
