@@ -4,18 +4,16 @@
 
 Remaps MINI_KEYBOARD A/B to Space/Enter via a CGEvent tap, classifying each keystroke's sender (CGEvent field 87, an IORegistry entry ID) by the vendor/product IDs of the HID service that sent it. Built and installed by `../setup.sh` as `~/Applications/BikingKeyboardRemap.app`, launched by `../../plist/local.biking-keyboard-remap.plist`.
 
-### Known bug: USB connection is not remapped (unfixed as of 2026-09-24)
+### Device identities
 
-The device reports a different identity per transport:
+The device reports a different identity per transport, and the script matches both (`targetDevices`):
 
 | Transport | VID:PID | Product name |
 | --- | --- | --- |
 | Bluetooth LE | `0x05ac:0x022c` | `MINI_KEYBOARD` |
 | USB (cable or 2.4GHz receiver) | `0x1189:0x8840` | `USB Composite Device` |
 
-The script only matches the Bluetooth identity (`targetVendorID`/`targetProductID`), so over USB, A/B pass through unmapped. Commit `fccccc0` introduced this when it replaced the old key-based heuristic with exact ID matching.
-
-Fix (tried and reverted, untested end to end): match a set of (VID, PID) pairs covering both identities.
+While the 2.4GHz receiver is plugged in, keys arrive over USB even though Bluetooth shows the keyboard as "Connected". On 2026-09-25, matching only the Bluetooth identity left A/B unmapped in exactly that state.
 
 ### Accessibility permission
 

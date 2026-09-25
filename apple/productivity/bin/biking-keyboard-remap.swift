@@ -3,9 +3,15 @@ import IOKit
 import IOKit.hid
 import CoreGraphics
 
-// MINI_KEYBOARD identification
-let targetVendorID = 0x5ac
-let targetProductID = 0x22c
+// MINI_KEYBOARD identification: (VendorID, ProductID) per transport
+struct DeviceID: Hashable {
+    let vendor: Int
+    let product: Int
+}
+let targetDevices: Set<DeviceID> = [
+    DeviceID(vendor: 0x5ac, product: 0x22c), // Bluetooth LE
+    DeviceID(vendor: 0x1189, product: 0x8840), // USB (cable or 2.4GHz receiver)
+]
 
 // macOS virtual keycode remapping
 // A (VK 0) -> Space (VK 49)
@@ -42,8 +48,9 @@ func senderIsTarget(_ senderID: Int64) -> Bool {
             service, kIOServicePlane, key as CFString, kCFAllocatorDefault, searchOptions
         ) as? Int
     }
-    return property(kIOHIDVendorIDKey) == targetVendorID
-        && property(kIOHIDProductIDKey) == targetProductID
+    guard let vendor = property(kIOHIDVendorIDKey),
+          let product = property(kIOHIDProductIDKey) else { return false }
+    return targetDevices.contains(DeviceID(vendor: vendor, product: product))
 }
 
 func eventTapCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, userInfo: UnsafeMutableRawPointer?) -> Unmanaged<CGEvent>? {
@@ -111,5 +118,9 @@ let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
 CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
 CGEvent.tapEnable(tap: tap, enable: true)
 
-print("Listening... remapping only devices matching VID \(String(format: "0x%x", targetVendorID)) PID \(String(format: "0x%x", targetProductID))")
+let targetDescription = targetDevices
+    .map { String(format: "0x%x:0x%x", $0.vendor, $0.product) }
+    .sorted()
+    .joined(separator: ", ")
+print("Listening... remapping only devices matching \(targetDescription)")
 CFRunLoopRun()
