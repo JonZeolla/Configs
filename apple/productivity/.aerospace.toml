@@ -1,3 +1,7 @@
+# Only one app's windows showing per screen? Turn off Stage Manager.
+# Windows split oddly (nested halves, some side-by-side, some stacked)?
+# alt-shift-semicolon, then r: flattens to one level, then alt-slash flips row/column.
+
 config-version = 2
 
 after-startup-command = []
