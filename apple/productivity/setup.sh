@@ -138,7 +138,7 @@ cp -R "$(dirname "$0")/skills/"* ~/.claude/skills/
 ## Setup Codex
 mkdir -p ~/.codex
 touch ~/.codex/config.toml
-yq -i -p=toml -o=toml '.agents.max_concurrent_threads_per_session = 10' ~/.codex/config.toml
+yq -i -p=toml -o=toml '.agents.max_concurrent_threads_per_session = 10 | .sandbox_mode = "workspace-write" | .approval_policy = "on-request" | .sandbox_workspace_write.network_access = true' ~/.codex/config.toml
 codex mcp remove chrome-devtools >/dev/null 2>&1 || true
 codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest -u http://localhost:9222
 wget -O ~/.codex/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/codex_statusline.sh
