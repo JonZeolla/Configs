@@ -39,7 +39,7 @@ pip3 install bcrypt pylint termcolor flake8 defusedxml validators mypy black pyt
 brew install fd # for the linux-cultist/venv-selector.nvim plugin
 # Language servers for Claude Code's LSP plugins (installed below); the plugins only declare the command, never install it.
 # clangd and sourcekit-lsp come with the Xcode command line tools.
-brew install pyright typescript-language-server typescript gopls rust-analyzer
+brew install pyright typescript-language-server typescript gopls -analyzer
 uv tool install compliance-trestle
 uv tool install aws-sam-cli
 uv tool install tox
