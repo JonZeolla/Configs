@@ -116,14 +116,17 @@ launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 # k8s
 k krew install starboard
 
-## Setup Claude Code status line, output style, git attribution, 1h subagent prompt cache TTL, and 600k auto-compact window
+## Setup Claude Code status line, output style, git attribution, 1h subagent prompt cache TTL, 600k auto-compact window, and permission denies
 mkdir -p ~/.claude
 wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
 chmod 0755 ~/.claude/statusline.sh
 # Point settings.json at the status line (create the file if it does not exist yet).
 # Empty attribution strings turn off the Co-Authored-By / "Generated with" trailers.
+# The deny list is merged into whatever is already there, so re-running never drops a local entry.
+# Resolving GitHub review threads, merging PRs, and AWS login/config stay with me, never the agent.
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000' \
+jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000
+  | .permissions.deny = ((.permissions.deny // []) + ["Bash(rm -rf *)", "Bash(*resolveReviewThread*)", "Bash(aws sso login*)", "Bash(aws configure*)", "Bash(*pr merge*)"] | unique)' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
 ## Setup Claude Code code intelligence (LSP); binaries come from brew and Xcode above
