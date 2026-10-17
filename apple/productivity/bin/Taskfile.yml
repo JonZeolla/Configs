@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  unit-test:
+    desc: Test agent command denies and hook setup
+    cmds:
+      - bats tests/test-deny-commands.bats
+  test:
+    desc: Run all script tests
+    cmds:
+      - bats tests/
