@@ -12,6 +12,7 @@
     ```
 1.  Run `~/src/jonzeolla/apple/productivity/setup.sh`
     1.  This script is not tested, and is almost guaranteed fail. Use it at your own risk. Consider reviewing and running the contents manually line-by-line.
+    1.  Restart Codex and use `/hooks` to review and trust `~/bin/deny_commands.sh`. Its patterns also populate Claude's deny list; existing Claude denies and Codex hooks are preserved. [Codex hook documentation](https://learn.chatgpt.com/docs/hooks).
     1.  Install Sauce Code Pro from [Nerd fonts](https://www.nerdfonts.com/) (The Source Code Pro equivalent) and setup Warp to use it
     1.  Update "${HOME}/.oh-my-zsh/plugins/git/" to add `--tags --force` to `ggpull`
     1.  Run `uv` and finish the setup.

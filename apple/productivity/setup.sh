@@ -116,6 +116,11 @@ launchctl load ~/Library/LaunchAgents/local.biking-keyboard-remap.plist
 # k8s
 k krew install starboard
 
+## Setup shared agent deny policy
+wget -O ~/bin/deny_commands.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/deny_commands.sh || exit 1
+chmod 0755 ~/bin/deny_commands.sh
+agent_deny_list="$(~/bin/deny_commands.sh --claude-deny-list)" || exit 1
+
 ## Setup Claude Code status line, output style, git attribution, 1h subagent prompt cache TTL, 600k auto-compact window, and permission denies
 mkdir -p ~/.claude
 wget -O ~/.claude/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/claude_statusline.sh
@@ -125,8 +130,8 @@ chmod 0755 ~/.claude/statusline.sh
 # The deny list is merged into whatever is already there, so re-running never drops a local entry.
 # Resolving GitHub review threads, merging PRs, and AWS login/config stay with me, never the agent.
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000
-  | .permissions.deny = ((.permissions.deny // []) + ["Bash(rm -rf *)", "Bash(*resolveReviewThread*)", "Bash(aws sso login*)", "Bash(aws configure*)", "Bash(*pr merge*)"] | unique)' \
+jq --arg cmd "$HOME/.claude/statusline.sh" --argjson deny "$agent_deny_list" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000
+  | .permissions.deny = ((.permissions.deny // []) + $deny | unique)' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
 ## Setup Claude Code code intelligence (LSP); binaries come from brew and Xcode above
@@ -142,6 +147,11 @@ cp -R "$(dirname "$0")/skills/"* ~/.claude/skills/
 mkdir -p ~/.codex
 touch ~/.codex/config.toml
 yq -i -p=toml -o=toml '.agents.max_concurrent_threads_per_session = 10 | .sandbox_mode = "workspace-write" | .approval_policy = "on-request" | .sandbox_workspace_write.network_access = true' ~/.codex/config.toml
+deny_hook_command="\"$HOME/bin/deny_commands.sh\"" \
+  yq -i -p=toml -o=toml '.features.hooks = true
+    | .hooks.PreToolUse = ((.hooks.PreToolUse // []) + [{"matcher": "^Bash$", "hooks": [{"type": "command", "command": strenv(deny_hook_command)}]}] | unique)' ~/.codex/config.toml
+echo 'Codex: restart, then use /hooks to review and trust ~/bin/deny_commands.sh.'
+
 codex mcp remove chrome-devtools >/dev/null 2>&1 || true
 codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest -u http://localhost:9222
 wget -O ~/.codex/statusline.sh https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/bin/codex_statusline.sh
