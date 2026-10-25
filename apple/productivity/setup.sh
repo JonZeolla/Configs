@@ -216,6 +216,15 @@ sidepulse agent-monitor install codex
 # Status-bar app mirrors aggregate state to the LEDs; eject guard keeps the
 # SidePulse Pro SD reader mounted across sleep.
 sidepulse setup claude --sd-eject-guard-scope user
+# Closed lid with no external display ignores caffeinate; only pmset disablesleep
+# keeps agents running, and the helper lets the daemon toggle it without a prompt.
+sudo "$(command -v sidepulse)" status-bar install-sleep-helper
+# Turquoise blink on lid close. SidePulse caps lid animations at 10s.
+~/.local/share/sidepulse/venv/bin/python3 -I -c "
+from sidepulse.settings import load_settings, save_settings, LID_ANIMATION_CLOSED
+save_settings(load_settings().with_closed_lid_system_override(True).with_lid_animation(
+    LID_ANIMATION_CLOSED, program='#3EDCE8 400ms\noff 400ms\nrepeat', duration_seconds=10))"
+launchctl kickstart -k "gui/$(id -u)/io.sidepulse.agentstatus"
 sidepulse agent-monitor doctor
 
 ## Setup goss/dgoss
