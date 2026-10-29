@@ -168,6 +168,9 @@ wget -O ~/.gitconfig https://raw.githubusercontent.com/JonZeolla/Configs/main/ap
 wget -O ~/.gitconfig.offline https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig.offline
 wget -O ~/.gitconfig.online https://raw.githubusercontent.com/JonZeolla/Configs/main/apple/productivity/.gitconfig.online
 
+## Setup gh extensions
+gh extension install github/gh-actions-lock
+
 ## Setup tmux
 mkdir -p ~/.config/tmux/ ~/.tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
