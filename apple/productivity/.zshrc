@@ -258,26 +258,25 @@ alias kkrewupgrade="k krew update && k krew upgrade"
 function debug-chrome() {
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir="$HOME/.config/google-chrome"
 }
+# Subshells so the cd can't leak into the caller and the tool's exit status survives.
 function claudedefault() {
-  local prev_dir=$(pwd)
-  cd "$(git_root)" || return
-  trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude "$@"
-  trap - EXIT INT
+  (
+    cd "$(git_root)" || exit
+    command /opt/homebrew/bin/claude "$@"
+  )
 }
+# --allowedTools= because the space form is variadic and swallows a positional prompt.
 function claude() {
-  local prev_dir=$(pwd)
-  cd "$(git_root)" || return
-  trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/claude --verbose --allowedTools 'Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Monitor,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
-  trap - EXIT INT
+  (
+    cd "$(git_root)" || exit
+    command /opt/homebrew/bin/claude --verbose --allowedTools='Bash,Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task,Monitor,WebSearch,WebFetch,mcp__chrome-devtools,mcp__zenable' "$@"
+  )
 }
 function codex() {
-  local prev_dir=$(pwd)
-  cd "$(git_root)" || return
-  trap 'cd "$prev_dir"' EXIT INT
-  command /opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox "$@"
-  trap - EXIT INT
+  (
+    cd "$(git_root)" || exit
+    command /opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox "$@"
+  )
 }
 function checkout() {
   if [[ $# -eq 1 ]]; then

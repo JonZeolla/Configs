@@ -198,9 +198,6 @@ echo "Interactively login to copilot"
 nvim "+Copilot auth" +qa
 nvim --headless "+Lazy sync" +qa
 
-## Install AI helpers
-go install github.com/dlorenc/multiclaude/cmd/multiclaude@latest
-
 ## Setup SidePulse (LED agent status for Claude + Codex)
 # Hooks append JSONL per provider; a single writer reduces across all concurrent
 # agents by priority (blocked > waiting > long-task > tool-running > working >
