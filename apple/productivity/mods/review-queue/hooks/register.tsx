@@ -17,8 +17,14 @@ const RISK_TONE: Record<string, string> = {
 }
 
 const LIST = ['gh', 'pr', 'list', '--search']
+const MENTIONS = 'mentions:@me sort:created-asc'
+// Asks me (or a team of mine) for a review. Code owner requests are routine,
+// so these wait with the rest and not under Requested.
+const OWED = 'review-requested:@me sort:created-asc'
 
 type GhPr = Pick<Pr, 'number' | 'title' | 'url' | 'createdAt'> & {
+  // APPROVED, CHANGES_REQUESTED, REVIEW_REQUIRED, or '' when no rule asks for a review.
+  reviewDecision: string
   author: { login: string }
   labels: { name: string }[]
 }
@@ -46,16 +52,24 @@ export const register: Register = on => {
         // every PR would cost far more of the API budget per poll.
         // A PR that names me is requested whatever its labels, reviews or
         // draft state, so its search carries none of QUERY's filters.
-        const fields = ['--json', 'number,title,url,author,createdAt,labels']
-        const [ready, mine] = await Promise.all([
-          $.process.run([...LIST, QUERY, ...fields]),
-          $.process.run([...LIST, 'mentions:@me sort:created-asc', ...fields]),
-        ])
-        if (ready.exitCode === 0 && mine.exitCode === 0) {
-          const requested = JSON.parse(mine.stdout) as GhPr[]
-          const asked = new Set(requested.map(pr => pr.number))
-          const rest = (JSON.parse(ready.stdout) as GhPr[]).filter(pr => !asked.has(pr.number))
-          found = [...requested, ...rest].map(pr => ({
+        const fields = ['--json', 'number,title,url,author,createdAt,labels,reviewDecision']
+        const runs = await Promise.all(
+          [MENTIONS, QUERY, OWED].map(query => $.process.run([...LIST, query, ...fields])),
+        )
+        if (runs.every(run => run.exitCode === 0)) {
+          const [mine = [], ...ready] = runs.map(run => JSON.parse(run.stdout) as GhPr[])
+          // A PR that names me stays even when approved. Any other approved PR
+          // can merge without me, so it leaves the list; one that still needs
+          // its code owner stays REVIEW_REQUIRED and is kept.
+          const asked = new Set(mine.map(pr => pr.number))
+          const rest = new Map(
+            ready
+              .flat()
+              .filter(pr => pr.reviewDecision !== 'APPROVED' && !asked.has(pr.number))
+              .map(pr => [pr.number, pr]),
+          )
+          const oldestFirst = [...rest.values()].sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+          found = [...mine, ...oldestFirst].map(pr => ({
             isRequested: asked.has(pr.number),
             number: pr.number,
             title: pr.title,

@@ -32,13 +32,25 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   const clock = mock.clock(on, { now: 3 * 24 * 60 * 60 * 1000 })
   const opened: string[] = []
   // #9 is a draft outside the review filter: only the mention search returns it.
-  let requested = JSON.stringify([{ ...PR, number: 9, labels: [] }, { ...PR, number: 8, labels: [] }])
+  // #10 names me, so it is listed even though it is approved.
+  let requested = JSON.stringify([
+    { ...PR, number: 9, labels: [] },
+    { ...PR, number: 8, labels: [] },
+    { ...PR, number: 10, reviewDecision: 'APPROVED' },
+  ])
+  // #11 has an approval but still needs me as its code owner, so it waits with
+  // the ready ones; #12 is approved and is not listed.
+  let owned = JSON.stringify([
+    { ...PR, number: 11, reviewDecision: 'REVIEW_REQUIRED' },
+    { ...PR, number: 12, reviewDecision: 'APPROVED' },
+  ])
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('process.run', (_, e) => {
     if (e.argv[0] !== 'open') {
-      return e.argv[4] === 'mentions:@me sort:created-asc'
-        ? ran(0, requested)
-        : ran(0, JSON.stringify([PR, { ...PR, number: 8, labels: [] }]))
+      if (e.argv[4] === 'mentions:@me sort:created-asc') return ran(0, requested)
+      if (e.argv[4] === 'review-requested:@me sort:created-asc') return ran(0, owned)
+
+      return ran(0, JSON.stringify([PR, { ...PR, number: 8, labels: [] }]))
     }
     opened.push(e.argv[1]!)
 
@@ -59,7 +71,7 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   // #9 and #8 name me, so they lead under a highlighted Requested, and #8 is listed once.
   expect((await ui.find({ type: 'Text', text: /Requested/ }))?.props.inverse).toBe(true)
   const rows = (await ui.findAll({ type: 'Button' })).map(button => button.key)
-  expect(rows).toEqual(['reviews', 'pr-9', 'pr-8', 'pr-7', 'all'])
+  expect(rows).toEqual(['reviews', 'pr-9', 'pr-8', 'pr-10', 'pr-7', 'pr-11', 'all'])
   // 80 columns leave 58 for the title; the columns left of it keep their width.
   const long = await ui.find({ type: 'Button', key: 'pr-7' })
   expect(String(long?.props.label).length).toBe(58)
@@ -72,6 +84,7 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   ])
 
   requested = '[]'
+  owned = '[]'
   await clock.advance(5 * 60 * 1000)
   expect((await ui.find({ type: 'Text', text: /Requested/ }))?.text).toBe('Requested: None')
   await ui.unmount()
