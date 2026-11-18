@@ -8,9 +8,9 @@ const BAND = {
     hasSurvey: false,
     isCollapsed: false,
     isWorking: false,
-    maxRows: 6,
+    maxRows: 10,
     bodyColumns: 80,
-    scroll: { offset: 0, bodyRows: 6 },
+    scroll: { offset: 0, bodyRows: 10 },
     view: {},
   },
 } as const
@@ -31,11 +31,12 @@ const PR = {
 test('with PRs waiting the button is highlighted and a press lists them', async ($, on) => {
   const clock = mock.clock(on, { now: 3 * 24 * 60 * 60 * 1000 })
   const opened: string[] = []
-  let requested = '[{"number":8}]'
+  // #9 is a draft outside the review filter: only the mention search returns it.
+  let requested = JSON.stringify([{ ...PR, number: 9, labels: [] }, { ...PR, number: 8, labels: [] }])
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('process.run', (_, e) => {
     if (e.argv[0] !== 'open') {
-      return e.argv[4]!.endsWith('mentions:@me')
+      return e.argv[4] === 'mentions:@me sort:created-asc'
         ? ran(0, requested)
         : ran(0, JSON.stringify([PR, { ...PR, number: 8, labels: [] }]))
     }
@@ -55,10 +56,10 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   expect((await ui.find({ type: 'Text', text: /octo/ }))?.text).toBe('  3d octo')
   expect((await ui.find({ type: 'Text', text: /high/ }))?.props.color).toBe('error')
   expect(await ui.find({ type: 'Text', text: /no risk yet/ })).toBeDefined()
-  // #8 names me, so it leads under a highlighted Requested, ahead of the older #7.
+  // #9 and #8 name me, so they lead under a highlighted Requested, and #8 is listed once.
   expect((await ui.find({ type: 'Text', text: /Requested/ }))?.props.inverse).toBe(true)
   const rows = (await ui.findAll({ type: 'Button' })).map(button => button.key)
-  expect(rows).toEqual(['reviews', 'pr-8', 'pr-7', 'all'])
+  expect(rows).toEqual(['reviews', 'pr-9', 'pr-8', 'pr-7', 'all'])
   // 80 columns leave 58 for the title; the columns left of it keep their width.
   const long = await ui.find({ type: 'Button', key: 'pr-7' })
   expect(String(long?.props.label).length).toBe(58)

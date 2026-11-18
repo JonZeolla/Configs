@@ -44,14 +44,19 @@ export const register: Register = on => {
       try {
         // The search index knows who a PR mentions; reading every comment of
         // every PR would cost far more of the API budget per poll.
-        const [all, mine] = await Promise.all([
-          $.process.run([...LIST, QUERY, '--json', 'number,title,url,author,createdAt,labels']),
-          $.process.run([...LIST, `${QUERY} mentions:@me`, '--json', 'number']),
+        // A PR that names me is requested whatever its labels, reviews or
+        // draft state, so its search carries none of QUERY's filters.
+        const fields = ['--json', 'number,title,url,author,createdAt,labels']
+        const [ready, mine] = await Promise.all([
+          $.process.run([...LIST, QUERY, ...fields]),
+          $.process.run([...LIST, 'mentions:@me sort:created-asc', ...fields]),
         ])
-        if (all.exitCode === 0 && mine.exitCode === 0) {
-          const requested = new Set((JSON.parse(mine.stdout) as GhPr[]).map(pr => pr.number))
-          found = (JSON.parse(all.stdout) as GhPr[]).map(pr => ({
-            isRequested: requested.has(pr.number),
+        if (ready.exitCode === 0 && mine.exitCode === 0) {
+          const requested = JSON.parse(mine.stdout) as GhPr[]
+          const asked = new Set(requested.map(pr => pr.number))
+          const rest = (JSON.parse(ready.stdout) as GhPr[]).filter(pr => !asked.has(pr.number))
+          found = [...requested, ...rest].map(pr => ({
+            isRequested: asked.has(pr.number),
             number: pr.number,
             title: pr.title,
             url: pr.url,
