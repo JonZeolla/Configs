@@ -130,7 +130,7 @@ chmod 0755 ~/.claude/statusline.sh
 # The deny list is merged into whatever is already there, so re-running never drops a local entry.
 # Resolving GitHub review threads, merging PRs, and AWS login/config stay with me, never the agent.
 [ -f ~/.claude/settings.json ] || echo '{}' >~/.claude/settings.json
-jq --arg cmd "$HOME/.claude/statusline.sh" --argjson deny "$agent_deny_list" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000
+jq --arg cmd "$HOME/.claude/statusline.sh" --argjson deny "$agent_deny_list" '.statusLine = {type:"command", command:$cmd, padding:0} | .outputStyle = "Concise" | .attribution = {commit:"", pr:""} | .env.ENABLE_LSP_TOOL = "1" | .env.CLAUDE_CODE_PLUGIN_DIRS = "~/.claude/mods/review-queue" | .subagentPromptCacheTtl = "1h" | .autoCompactWindow = 600000
   | .permissions.deny = ((.permissions.deny // []) + $deny | unique)' \
   ~/.claude/settings.json >~/.claude/settings.json.tmp && mv ~/.claude/settings.json.tmp ~/.claude/settings.json
 
@@ -142,6 +142,10 @@ done
 ## Setup Claude Code skills
 mkdir -p ~/.claude/skills
 cp -R "$(dirname "$0")/skills/"* ~/.claude/skills/
+
+## Setup Claude Code mods; settings.json above names each one in CLAUDE_CODE_PLUGIN_DIRS
+mkdir -p ~/.claude/mods
+cp -R "$(dirname "$0")/mods/"* ~/.claude/mods/
 
 ## Setup Codex
 mkdir -p ~/.codex
