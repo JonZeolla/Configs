@@ -176,7 +176,7 @@ run = 'move-node-to-workspace 10'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.TextEdit'
-run = 'move-node-to-workspace 11'
+run = ['layout tiling', 'move-node-to-workspace 11']
 
 [[on-window-detected]]
 if.app-id = 'video.fathom.electron'
