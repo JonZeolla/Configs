@@ -5,7 +5,7 @@ import type { Pr } from '../types'
 
 // gh pr list adds is:open is:pr itself; the web page needs them spelled.
 const QUERY =
-  '-label:"Automatic update" -label:blocked -label:paused -author:@me review:none draft:false sort:created-asc'
+  '-label:"Automatic update" -label:blocked -label:paused -label:"zenable/risk:low" -author:@me review:none draft:false sort:created-asc'
 const PERIOD_MS = 5 * 60 * 1000
 const RISK_LABEL = 'zenable/risk:'
 const NO_RISK = 'no risk yet'
@@ -17,10 +17,13 @@ const RISK_TONE: Record<string, string> = {
 }
 
 const LIST = ['gh', 'pr', 'list', '--search']
-const MENTIONS = 'mentions:@me sort:created-asc'
 // Asks me (or a team of mine) for a review. Code owner requests are routine,
-// so these wait with the rest and not under Requested.
-const OWED = 'review-requested:@me sort:created-asc'
+// so these wait with the rest, under the same filters, and not under Requested.
+const OWED = QUERY.replace('review:none', 'review-requested:@me')
+// `mentions:` misses a mention made in a review comment on the diff; the text
+// search finds it. It takes a login, as @me is not expanded inside a phrase.
+const mentions = (login: string) => `"@${login}" in:body,comments -author:@me sort:created-asc`
+const WHOAMI = ['gh', 'api', 'user', '--jq', '.login']
 
 type GhPr = Pick<Pr, 'number' | 'title' | 'url' | 'createdAt'> & {
   // APPROVED, CHANGES_REQUESTED, REVIEW_REQUIRED, or '' when no rule asks for a review.
@@ -45,18 +48,22 @@ export const register: Register = on => {
 
     // shortcut: asks only about the repo the session runs in; switch to
     // `gh search prs --owner` when reviews in other repos matter.
+    let login = ''
     const poll = async () => {
       let found: Pr[] | null = null
       try {
-        // The search index knows who a PR mentions; reading every comment of
+        // The search index knows whom a PR names; reading every comment of
         // every PR would cost far more of the API budget per poll.
         // A PR that names me is requested whatever its labels, reviews or
         // draft state, so its search carries none of QUERY's filters.
         const fields = ['--json', 'number,title,url,author,createdAt,labels,reviewDecision']
-        const runs = await Promise.all(
-          [MENTIONS, QUERY, OWED].map(query => $.process.run([...LIST, query, ...fields])),
-        )
-        if (runs.every(run => run.exitCode === 0)) {
+        login ||= await $.process.run(WHOAMI).then(run => (run.exitCode === 0 ? run.stdout.trim() : ''))
+        const runs = login
+          ? await Promise.all(
+              [mentions(login), QUERY, OWED].map(query => $.process.run([...LIST, query, ...fields])),
+            )
+          : []
+        if (runs.length > 0 && runs.every(run => run.exitCode === 0)) {
           const [mine = [], ...ready] = runs.map(run => JSON.parse(run.stdout) as GhPr[])
           // A PR that names me stays even when approved. Any other approved PR
           // can merge without me, so it leaves the list; one that still needs

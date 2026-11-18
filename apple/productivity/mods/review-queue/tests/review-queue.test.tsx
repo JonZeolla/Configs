@@ -47,8 +47,9 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('process.run', (_, e) => {
     if (e.argv[0] !== 'open') {
-      if (e.argv[4] === 'mentions:@me sort:created-asc') return ran(0, requested)
-      if (e.argv[4] === 'review-requested:@me sort:created-asc') return ran(0, owned)
+      if (e.argv[1] === 'api') return ran(0, 'me\n')
+      if (e.argv[4] === '"@me" in:body,comments -author:@me sort:created-asc') return ran(0, requested)
+      if (e.argv[4]?.includes('review-requested:@me')) return ran(0, owned)
 
       return ran(0, JSON.stringify([PR, { ...PR, number: 8, labels: [] }]))
     }
@@ -80,7 +81,7 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   await ui.press({ key: 'all' })
   expect(opened).toEqual([
     'https://github.com/acme/app/pull/7',
-    'https://github.com/acme/app/pulls?q=is%3Aopen%20is%3Apr%20-label%3A%22Automatic%20update%22%20-label%3Ablocked%20-label%3Apaused%20-author%3A%40me%20review%3Anone%20draft%3Afalse%20sort%3Acreated-asc',
+    'https://github.com/acme/app/pulls?q=is%3Aopen%20is%3Apr%20-label%3A%22Automatic%20update%22%20-label%3Ablocked%20-label%3Apaused%20-label%3A%22zenable%2Frisk%3Alow%22%20-author%3A%40me%20review%3Anone%20draft%3Afalse%20sort%3Acreated-asc',
   ])
 
   requested = '[]'
