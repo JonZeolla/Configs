@@ -37,7 +37,23 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
     { ...PR, number: 9, labels: [] },
     { ...PR, number: 8, labels: [] },
     { ...PR, number: 10, reviewDecision: 'APPROVED' },
+    { ...PR, number: 13, labels: [] },
   ])
+  // #13 names me only in a review thread that is resolved, so it is not listed.
+  const quiet = { body: '', comments: { nodes: [] }, reviews: { nodes: [] }, reviewThreads: { nodes: [] } }
+  const thread = (isResolved: boolean) => ({
+    nodes: [{ isResolved, comments: { nodes: [{ body: '@Me what do you think?' }] } }],
+  })
+  const texts = JSON.stringify({
+    data: {
+      repository: {
+        p9: { ...quiet, body: 'cc @me' },
+        p8: { ...quiet, comments: { nodes: [{ body: '@me please look' }] } },
+        p10: { ...quiet, reviewThreads: thread(false) },
+        p13: { ...quiet, reviewThreads: thread(true) },
+      },
+    },
+  })
   // #11 has an approval but still needs me as its code owner, so it waits with
   // the ready ones; #12 is approved and is not listed.
   let owned = JSON.stringify([
@@ -47,7 +63,7 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('process.run', (_, e) => {
     if (e.argv[0] !== 'open') {
-      if (e.argv[1] === 'api') return ran(0, 'me\n')
+      if (e.argv[1] === 'api') return ran(0, e.argv[2] === 'graphql' ? texts : 'me\n')
       if (e.argv[4] === '"@me" in:body,comments -author:@me sort:created-asc') return ran(0, requested)
       if (e.argv[4]?.includes('review-requested:@me')) return ran(0, owned)
 

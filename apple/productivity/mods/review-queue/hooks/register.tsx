@@ -24,6 +24,16 @@ const OWED = QUERY.replace('review:none', 'review-requested:@me')
 // search finds it. It takes a login, as @me is not expanded inside a phrase.
 const mentions = (login: string) => `"@${login}" in:body,comments -author:@me sort:created-asc`
 const WHOAMI = ['gh', 'api', 'user', '--jq', '.login']
+// What can name me in a PR. Only a review thread can be resolved.
+const TEXTS =
+  'body comments(last:50){nodes{body}} reviews(last:50){nodes{body}} reviewThreads(last:50){nodes{isResolved comments(first:20){nodes{body}}}}'
+
+type Texts = {
+  body: string
+  comments: { nodes: { body: string }[] }
+  reviews: { nodes: { body: string }[] }
+  reviewThreads: { nodes: { isResolved: boolean; comments: { nodes: { body: string }[] } }[] }
+}
 
 type GhPr = Pick<Pr, 'number' | 'title' | 'url' | 'createdAt'> & {
   // APPROVED, CHANGES_REQUESTED, REVIEW_REQUIRED, or '' when no rule asks for a review.
@@ -49,11 +59,40 @@ export const register: Register = on => {
     // shortcut: asks only about the repo the session runs in; switch to
     // `gh search prs --owner` when reviews in other repos matter.
     let login = ''
+    // The PRs that still name me: in the description, a comment, a review, or
+    // a review thread nobody resolved. A failed read throws, so the poll
+    // reports unknown.
+    const unresolved = async (prs: GhPr[]) => {
+      const [, owner, name] = prs[0]?.url.match(/\/([^/]+)\/([^/]+)\/pull\/\d+$/) ?? []
+      if (!owner || !name) return []
+      const each = prs.map(pr => `p${pr.number}:pullRequest(number:${pr.number}){${TEXTS}}`).join(' ')
+      const read = await $.process.run([
+        'gh',
+        'api',
+        'graphql',
+        '-f',
+        `query={repository(owner:"${owner}",name:"${name}"){${each}}}`,
+      ])
+      if (read.exitCode !== 0) throw new Error(read.stderr)
+      const texts = (JSON.parse(read.stdout) as { data: { repository: Record<string, Texts | null> } }).data
+        .repository
+      const me = `@${login.toLowerCase()}`
+      const names = (nodes: { body: string }[]) => nodes.some(node => node.body.toLowerCase().includes(me))
+      return prs.filter(pr => {
+        const text = texts[`p${pr.number}`]
+        if (!text) return false
+        return (
+          names([text, ...text.comments.nodes, ...text.reviews.nodes]) ||
+          text.reviewThreads.nodes.some(thread => !thread.isResolved && names(thread.comments.nodes))
+        )
+      })
+    }
     const poll = async () => {
       let found: Pr[] | null = null
       try {
         // The search index knows whom a PR names; reading every comment of
-        // every PR would cost far more of the API budget per poll.
+        // every PR would cost far more of the API budget per poll. Only the
+        // few PRs it returns are read, to drop a mention in a resolved thread.
         // A PR that names me is requested whatever its labels, reviews or
         // draft state, so its search carries none of QUERY's filters.
         const fields = ['--json', 'number,title,url,author,createdAt,labels,reviewDecision']
@@ -64,7 +103,8 @@ export const register: Register = on => {
             )
           : []
         if (runs.length > 0 && runs.every(run => run.exitCode === 0)) {
-          const [mine = [], ...ready] = runs.map(run => JSON.parse(run.stdout) as GhPr[])
+          const [named = [], ...ready] = runs.map(run => JSON.parse(run.stdout) as GhPr[])
+          const mine = await unresolved(named)
           // A PR that names me stays even when approved. Any other approved PR
           // can merge without me, so it leaves the list; one that still needs
           // its code owner stays REVIEW_REQUIRED and is kept.
