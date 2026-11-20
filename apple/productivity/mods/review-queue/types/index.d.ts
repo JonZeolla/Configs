@@ -10,9 +10,20 @@ export type Pr = {
   isRequested: boolean
 }
 
-// waiting is null when gh could not answer: unknown, never a false "none".
+// My own PRs, up for review and not blocked.
+export type Mine = {
+  // Checks pass, and approved or low risk.
+  ready: Pr[]
+  // A check failed.
+  broken: Pr[]
+}
+
+// The list that is open under the buttons.
+export type Panel = 'reviews' | 'ready' | 'broken'
+
+// waiting and mine are null when gh could not answer: unknown, never a false "none".
 declare module 'claude-code' {
   interface PluginState {
-    'review-queue': { waiting: Pr[] | null; isOpen: boolean }
+    'review-queue': { waiting: Pr[] | null; mine: Mine | null; panel: Panel | null }
   }
 }

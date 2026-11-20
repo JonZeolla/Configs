@@ -60,10 +60,43 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
     { ...PR, number: 11, reviewDecision: 'REVIEW_REQUIRED' },
     { ...PR, number: 12, reviewDecision: 'APPROVED' },
   ])
+  // My own PRs. #20 is approved and green: ready. #21 is low risk and green, so
+  // it is ready with no review; its failed check is not required. #22 is green
+  // but neither approved nor low risk. #23 fails a required check: broken.
+  // #24 is low risk but still running. #25 is ready but for a conflict.
+  const mine = (number: number, more: object) => ({ ...PR, number, title: `Mine ${number}`, labels: [], ...more })
+  const low = { labels: [{ name: 'zenable/risk:low' }] }
+  const own = JSON.stringify([
+    mine(20, { reviewDecision: 'APPROVED' }),
+    mine(21, { reviewDecision: 'REVIEW_REQUIRED', ...low }),
+    mine(22, { reviewDecision: 'REVIEW_REQUIRED' }),
+    mine(23, { reviewDecision: 'APPROVED' }),
+    mine(24, low),
+    mine(25, { reviewDecision: 'APPROVED' }),
+  ])
+  const run = (conclusion: string | null, isRequired = true) => ({ __typename: 'CheckRun', conclusion, isRequired })
+  const checked = (nodes: object[], mergeable = 'MERGEABLE') => ({
+    mergeable,
+    commits: { nodes: [{ commit: { statusCheckRollup: { contexts: { nodes } } } }] },
+  })
+  const checks = JSON.stringify({
+    data: {
+      repository: {
+        p20: checked([run('SUCCESS'), { __typename: 'StatusContext', state: 'SUCCESS', isRequired: true }]),
+        p21: checked([run('SUCCESS'), run('FAILURE', false)]),
+        p22: checked([run('SUCCESS')]),
+        p23: checked([run('SUCCESS'), run('FAILURE')]),
+        p24: checked([run(null)]),
+        p25: checked([run('SUCCESS')], 'CONFLICTING'),
+      },
+    },
+  })
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('process.run', (_, e) => {
     if (e.argv[0] !== 'open') {
+      if (e.argv[4]?.includes('statusCheckRollup')) return ran(0, checks)
       if (e.argv[1] === 'api') return ran(0, e.argv[2] === 'graphql' ? texts : 'me\n')
+      if (e.argv[4]?.startsWith('author:@me')) return ran(0, own)
       if (e.argv[4] === '"@me" in:body,comments -author:@me sort:created-asc') return ran(0, requested)
       if (e.argv[4]?.includes('review-requested:@me')) return ran(0, owned)
 
@@ -88,7 +121,7 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
   // #9 and #8 name me, so they lead under a highlighted Requested, and #8 is listed once.
   expect((await ui.find({ type: 'Text', text: /Requested/ }))?.props.inverse).toBe(true)
   const rows = (await ui.findAll({ type: 'Button' })).map(button => button.key)
-  expect(rows).toEqual(['reviews', 'pr-9', 'pr-8', 'pr-10', 'pr-7', 'pr-11', 'all'])
+  expect(rows).toEqual(['reviews', 'ready', 'broken', 'pr-9', 'pr-8', 'pr-10', 'pr-7', 'pr-11', 'all'])
   // 80 columns leave 58 for the title; the columns left of it keep their width.
   const long = await ui.find({ type: 'Button', key: 'pr-7' })
   expect(String(long?.props.label).length).toBe(58)
@@ -99,6 +132,17 @@ test('with PRs waiting the button is highlighted and a press lists them', async 
     'https://github.com/acme/app/pull/7',
     'https://github.com/acme/app/pulls?q=is%3Aopen%20is%3Apr%20-label%3A%22Automatic%20update%22%20-label%3Ablocked%20-label%3Apaused%20-label%3A%22zenable%2Frisk%3Alow%22%20-author%3A%40me%20review%3Anone%20draft%3Afalse%20sort%3Acreated-asc',
   ])
+
+  const keys = async () => (await ui.findAll({ type: 'Button' })).map(button => button.key)
+  expect((await ui.find({ type: 'Text', text: /Merge Ready/ }))?.props).toMatchObject({ color: 'warning', inverse: true })
+  expect((await ui.find({ type: 'Text', text: /Broken PR/ }))?.props).toMatchObject({ color: 'error', inverse: true })
+  await ui.press({ key: 'ready' })
+  expect(await keys()).toEqual(['reviews', 'ready', 'broken', 'pr-20', 'pr-21'])
+  await ui.press({ key: 'broken' })
+  expect(await keys()).toEqual(['reviews', 'ready', 'broken', 'pr-23'])
+  await ui.press({ key: 'broken' })
+  expect(await keys()).toEqual(['reviews', 'ready', 'broken'])
+  await ui.press({ key: 'reviews' })
 
   requested = '[]'
   owned = '[]'
@@ -118,7 +162,11 @@ test('with none waiting the button is plain and a press says so', async ($, on) 
   expect((await ui.find({ type: 'Button' }))?.props.label).toBe('Reviews')
 
   await ui.press({ key: 'reviews' })
-  expect(await ui.find({ type: 'Text', text: /No PR waits/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /No PR waits for a first review/ })).toBeDefined()
+  await ui.press({ key: 'ready' })
+  expect(await ui.find({ type: 'Text', text: /waits to be merged/ })).toBeDefined()
+  await ui.press({ key: 'broken' })
+  expect(await ui.find({ type: 'Text', text: /failing CI/ })).toBeDefined()
   await ui.unmount()
 })
 
@@ -133,6 +181,9 @@ test('a gh failure reads as unknown, never as none', async ($, on) => {
   expect((await ui.find({ type: 'Button' }))?.props.label).toBe('Reviews ?')
 
   await ui.press({ key: 'reviews' })
-  expect(await ui.find({ type: 'Text', text: /gh could not list/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /gh could not list the PRs/ })).toBeDefined()
+  expect((await ui.find({ type: 'Button', key: 'ready' }))?.props.label).toBe('Merge Ready ?')
+  await ui.press({ key: 'broken' })
+  expect(await ui.find({ type: 'Text', text: /gh could not list your PRs/ })).toBeDefined()
   await ui.unmount()
 })

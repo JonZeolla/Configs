@@ -1,6 +1,6 @@
 {
   "name": "review-queue",
-  "version": "0.5.0",
-  "description": "Every 5 minutes, checks this repo for PRs that wait for a first review; a Reviews button above the prompt turns yellow and lists them",
+  "version": "0.6.0",
+  "description": "Every 5 minutes, checks this repo for PRs that wait for a first review; and for my own PRs that are ready to merge or have failing CI; Reviews, Merge Ready and Broken PR buttons above the prompt light up and list them",
   "types": "./types/index.d.ts"
 }
