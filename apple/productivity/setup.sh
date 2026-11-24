@@ -187,6 +187,9 @@ wget -O ~/.config/herdr/config.toml https://raw.githubusercontent.com/jonzeolla/
 herdr config check
 
 ## Setup AeroSpace
+# Stage Manager hides other apps' windows, which breaks AeroSpace tiling
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+killall WindowManager || true
 wget -O ~/.aerospace.toml https://raw.githubusercontent.com/jonzeolla/configs/main/apple/productivity/.aerospace.toml
 
 ## Setup neovim (LazyVim)
